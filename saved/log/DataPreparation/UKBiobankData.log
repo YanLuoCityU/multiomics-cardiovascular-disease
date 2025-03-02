@@ -1,0 +1,52 @@
+2025-02-12 10:05:27,564 - INFO - ------------------Preparing UKBiobank Datasets with different predictor sets--------------------
+
+2025-02-12 10:05:27,565 - INFO - Loading processed predictors and cardiovascular outcomes from /home/luoyan/phd_project/MultiomicsCVD/data/processed/.
+
+2025-02-12 10:06:18,173 - INFO - Merging the predictors.
+2025-02-12 10:06:18,223 - INFO - Merge demographic information and lifestyles: 502180.
+2025-02-12 10:06:18,297 - INFO - Merge with family history: 502180.
+2025-02-12 10:06:18,393 - INFO - Merge with physical measurements: 502180.
+2025-02-12 10:06:18,640 - INFO - Merge with blood count and blood biochemistry: 502180.
+2025-02-12 10:06:18,901 - INFO - Merge with medications: 502180.
+2025-02-12 10:06:19,041 - INFO - Merge with disease history: 502180.
+2025-02-12 10:06:19,320 - INFO - Merge with genomics data: 486965.
+2025-02-12 10:06:20,150 - INFO - Merge with metabolomics data: 272178.
+2025-02-12 10:06:21,272 - INFO - Merge with proteomics data: 30167.
+
+2025-02-12 10:06:21,551 - INFO - Exclude participants with pre-existing cardiovascular diseases at baseline: 26779.
+2025-02-12 10:06:22,152 - INFO - Exclude participants missing <=50% proteomics data: 24308.
+
+2025-02-12 10:06:22,152 - INFO - Combining the outcomes with the predictors.
+2025-02-12 10:06:22,910 - INFO - The incident cases of Coronary artery disease is 1794.
+2025-02-12 10:06:22,910 - INFO - The incident cases of Stroke is 583.
+2025-02-12 10:06:22,910 - INFO - The incident cases of Heart failure is 799.
+2025-02-12 10:06:22,910 - INFO - The incident cases of Atrial fibrillation is 1527.
+2025-02-12 10:06:22,910 - INFO - The incident cases of Ventricular arrhythmias is 232.
+2025-02-12 10:06:22,910 - INFO - The incident cases of Peripheral artery diseases is 321.
+2025-02-12 10:06:22,911 - INFO - The incident cases of Abdominal aortic aneurysm is 123.
+2025-02-12 10:06:22,911 - INFO - The incident cases of Vein thrombosis is 682.
+2025-02-12 10:06:22,911 - INFO - The incident cases of Cardiovascular death is 563.
+2025-02-12 10:06:22,911 - INFO - The incident cases of Arrhythmias is 1657.
+2025-02-12 10:06:22,911 - INFO - The incident cases of Major adverse cardiovascular event is 2267.
+2025-02-12 10:06:22,911 - INFO - The incident cases of Cardiovascular diseases is 4139.
+2025-02-12 10:06:22,911 - INFO - The incident cases of All cardiovascular endpoints is 4213.
+
+2025-02-12 10:06:22,913 - INFO - Spliting the dataset into K-fold training and testing sets.
+
+2025-02-12 10:06:25,748 - INFO - Spliting the training set into training and validation (10.0%) sets.
+
+2025-02-12 10:06:27,428 - INFO - Saving split datasets into /home/luoyan/phd_project/MultiomicsCVD/data/split_seed-241104.
+2025-02-12 10:06:27,428 - INFO - Processing (imputing missing values and transforming predictors) and saving data.
+2025-02-12 11:55:49,563 - INFO - Saving split datasets 10/10.
+2025-02-12 12:01:04,086 - INFO - Saving split datasets 9/10.
+2025-02-12 12:26:40,078 - INFO - Saving split datasets 8/10.
+2025-02-12 12:29:34,253 - INFO - Saving split datasets 2/10.
+2025-02-12 12:30:56,298 - INFO - Saving split datasets 7/10.
+2025-02-12 12:31:06,424 - INFO - Saving split datasets 6/10.
+2025-02-12 12:31:41,210 - INFO - Saving split datasets 4/10.
+2025-02-12 12:31:47,574 - INFO - Saving split datasets 1/10.
+2025-02-12 12:33:21,123 - INFO - Saving split datasets 3/10.
+2025-02-12 12:34:01,324 - INFO - Saving split datasets 5/10.
+2025-02-12 12:34:03,165 - INFO - Data processing and saving completed in 8855.74 seconds.
+
+2025-02-12 12:34:03,165 - INFO - ------------------All UKBiobank Datasets are prepared--------------------

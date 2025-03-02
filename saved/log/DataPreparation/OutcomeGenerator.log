@@ -1,0 +1,57 @@
+2024-08-15 15:34:32,498 - INFO - Reading data.
+2024-08-15 15:43:24,767 - INFO - Loading list of the interested diagnoses.
+2024-08-15 15:43:24,770 - INFO - Extracting the minimum date of the diagnoses.
+2024-08-15 16:16:41,325 - INFO - Pooling the results.
+2024-08-15 16:16:41,724 - INFO - Coronary artery disease: cad
+0    445238
+1     56942
+Name: count, dtype: int64
+2024-08-15 16:16:42,066 - INFO - Stroke: stroke
+0    486175
+1     16005
+Name: count, dtype: int64
+2024-08-15 16:16:42,411 - INFO - Heart failure: hf
+0    479834
+1     22346
+Name: count, dtype: int64
+2024-08-15 16:16:42,817 - INFO - Atrial fibrillation: af
+0    460182
+1     41998
+Name: count, dtype: int64
+2024-08-15 16:16:43,161 - INFO - Ventricular arrhythmias: va
+0    495406
+1      6774
+Name: count, dtype: int64
+2024-08-15 16:16:43,553 - INFO - Peripheral artery diseases: pad
+0    492035
+1     10145
+Name: count, dtype: int64
+2024-08-15 16:16:43,919 - INFO - Abdominal aortic aneurysm: aaa
+0    498915
+1      3265
+Name: count, dtype: int64
+2024-08-15 16:16:44,300 - INFO - Vein thrombosis: vt
+0    483054
+1     19126
+Name: count, dtype: int64
+2024-08-15 16:16:44,488 - INFO - Cardiovascular death: cvd_death
+0    488166
+1     14014
+Name: count, dtype: int64
+2024-08-15 16:16:44,834 - INFO - Arrhythmias: ar
+0    456946
+1     45234
+Name: count, dtype: int64
+2024-08-15 16:16:45,176 - INFO - Major adverse cardiovascular event: mace
+0    433852
+1     68328
+Name: count, dtype: int64
+2024-08-15 16:16:45,927 - INFO - Cardiovascular diseases: cvd
+0    390494
+1    111686
+Name: count, dtype: int64
+2024-08-15 16:16:46,722 - INFO - Cardiovascular endpoints with cardiovascular death: cved
+0    389361
+1    112819
+Name: count, dtype: int64
+2024-08-15 16:16:59,152 - INFO - Total time: 2546.654 seconds

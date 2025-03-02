@@ -1,0 +1,34 @@
+2024-12-16 08:43:53,440 - INFO - ------------------Preparing UKBiobank Datasets with different predictor sets--------------------
+
+2024-12-16 08:43:53,440 - INFO - Loading processed predictors and cardiovascular outcomes from /home/luoyan/phd_project/MultiomicsCVD/data/processed/.
+
+2024-12-16 08:44:44,270 - INFO - Merging the predictors.
+2024-12-16 08:44:44,319 - INFO - Merge demographic information and lifestyles: 502180.
+2024-12-16 08:44:44,395 - INFO - Merge with family history: 502180.
+2024-12-16 08:44:44,492 - INFO - Merge with physical measurements: 502180.
+2024-12-16 08:44:44,742 - INFO - Merge with blood count and blood biochemistry: 502180.
+2024-12-16 08:44:44,995 - INFO - Merge with medications: 502180.
+2024-12-16 08:44:45,166 - INFO - Merge with disease history: 502180.
+2024-12-16 08:44:45,501 - INFO - Merge with genomics data: 486965.
+2024-12-16 08:44:46,356 - INFO - Merge with metabolomics data: 272178.
+2024-12-16 08:44:47,497 - INFO - Merge with proteomics data: 30167.
+
+2024-12-16 08:44:47,773 - INFO - Exclude participants with pre-existing cardiovascular diseases at baseline: 26779.
+2024-12-16 08:44:48,383 - INFO - Exclude participants missing <=50% proteomic data: 24308.
+
+2024-12-16 08:44:48,383 - INFO - Combining the outcomes with the predictors.
+2024-12-16 08:44:49,146 - INFO - The incident cases of Coronary artery disease is 1794.
+2024-12-16 08:44:49,146 - INFO - The incident cases of Stroke is 583.
+2024-12-16 08:44:49,146 - INFO - The incident cases of Heart failure is 799.
+2024-12-16 08:44:49,146 - INFO - The incident cases of Atrial fibrillation is 1527.
+2024-12-16 08:44:49,146 - INFO - The incident cases of Ventricular arrhythmias is 232.
+2024-12-16 08:44:49,146 - INFO - The incident cases of Peripheral artery diseases is 321.
+2024-12-16 08:44:49,147 - INFO - The incident cases of Abdominal aortic aneurysm is 123.
+2024-12-16 08:44:49,147 - INFO - The incident cases of Vein thrombosis is 682.
+2024-12-16 08:44:49,147 - INFO - The incident cases of Cardiovascular death is 563.
+2024-12-16 08:44:49,147 - INFO - The incident cases of Arrhythmias is 1657.
+2024-12-16 08:44:49,147 - INFO - The incident cases of Major adverse cardiovascular event is 2267.
+2024-12-16 08:44:49,147 - INFO - The incident cases of Cardiovascular diseases is 4139.
+2024-12-16 08:44:49,147 - INFO - The incident cases of All cardiovascular endpoints is 4213.
+
+2024-12-16 08:44:49,150 - INFO - ------------------All UKBiobank Datasets are prepared--------------------

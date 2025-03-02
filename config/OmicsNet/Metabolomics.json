@@ -1,0 +1,76 @@
+{
+    "name": "OmicsNet",
+    "data_dir": "/home/luoyan/phd_project/MultiomicsCVD/data/",
+    "model_dir": "/home/luoyan/phd_project/MultiomicsCVD/saved/models/",
+    "log_dir": "/home/luoyan/phd_project/MultiomicsCVD/saved/log",
+    "results_dir": "/home/luoyan/phd_project/MultiomicsCVD/saved/results/",
+    "predictor_set": ["Metabolomics"],
+    "outcomes_list": ["cad", "stroke", "hf", "af", "va", "aaa", "pad", "vt", "cvd_death"],
+    "model": {
+      "shared_mlp_kwargs": {
+        "snn_init": false,
+        "input_dim": 168,
+        "output_dim": 32,
+        "hidden_dim": 128,
+        "n_hidden_layers": 5,
+        "activation": "nn.ELU",
+        "dropout_fn": "nn.Dropout",
+        "norm_fn": "nn.BatchNorm1d",
+        "norm_layer": "all",
+        "input_norm": false,
+        "final_norm": true,
+        "final_activation": "nn.ELU",
+        "final_dropout": true,
+        "dropout": 0.4
+      },
+      "skip_connection_mlp_kwargs": {
+        "snn_init": false,
+        "input_dim": 168,
+        "output_dim": 128,
+        "hidden_dim": 256,
+        "n_hidden_layers": 4,
+        "activation": "nn.ELU",
+        "dropout_fn": "nn.Dropout",
+        "norm_fn": "nn.BatchNorm1d",
+        "norm_layer": "all",
+        "input_norm": false,
+        "final_norm": true,
+        "final_activation": "nn.ELU",
+        "final_dropout": true,
+        "dropout": 0.7
+      },
+      "predictor_mlp_kwargs": {
+        "snn_init": false,
+        "input_dim": 168,
+        "output_dim": 1,
+        "hidden_dim": 32,
+        "n_hidden_layers": 1,
+        "activation": "nn.ELU",
+        "dropout_fn": "nn.Dropout",
+        "norm_fn": "nn.BatchNorm1d",
+        "norm_layer": "all",
+        "input_norm": false,
+        "final_norm": false,
+        "final_activation": null,
+        "final_dropout": false,
+        "dropout": 0.5
+      }
+    },
+    "data_loader": {
+      "batch_size": {
+        "train": 1024,
+        "validate": 1024,
+        "test": null
+      },
+      "shuffle": true,
+      "num_workers": 8,
+      "seed_to_split": 241104
+    },
+    "trainer": {
+      "epochs": 50,
+      "lr": 0.0027,
+      "weight_decay": 2.56e-6,
+      "early_stop": 25
+    },
+    "seed": 241128
+  }

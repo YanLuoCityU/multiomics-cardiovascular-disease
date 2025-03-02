@@ -1,0 +1,133 @@
+2025-02-15 22:17:43,010 - INFO - Nested cross validation for ASCVD algorithm.
+2025-02-15 22:17:43,010 - INFO - 
+
+2025-02-15 22:17:43,010 - INFO - Processing outcome: Major adverse cardiovascular events
+2025-02-15 22:17:43,163 - INFO - Fold 0: Incident cases: 225, Test Shape: (2431, 20), Test C-index: 0.6722690914008647
+2025-02-15 22:17:43,281 - INFO - Fold 1: Incident cases: 219, Test Shape: (2431, 20), Test C-index: 0.6946295828169669
+2025-02-15 22:17:43,399 - INFO - Fold 2: Incident cases: 237, Test Shape: (2431, 20), Test C-index: 0.7051421478474267
+2025-02-15 22:17:43,515 - INFO - Fold 3: Incident cases: 215, Test Shape: (2431, 20), Test C-index: 0.7125606840462295
+2025-02-15 22:17:43,633 - INFO - Fold 4: Incident cases: 217, Test Shape: (2431, 20), Test C-index: 0.7240610725677747
+2025-02-15 22:17:43,790 - INFO - Fold 5: Incident cases: 225, Test Shape: (2431, 20), Test C-index: 0.7050289382909152
+2025-02-15 22:17:43,908 - INFO - Fold 6: Incident cases: 238, Test Shape: (2431, 20), Test C-index: 0.6902799831737237
+2025-02-15 22:17:44,071 - INFO - Fold 7: Incident cases: 229, Test Shape: (2431, 20), Test C-index: 0.6999264406032261
+2025-02-15 22:17:44,190 - INFO - Fold 8: Incident cases: 226, Test Shape: (2430, 20), Test C-index: 0.707162402122075
+2025-02-15 22:17:44,309 - INFO - Fold 9: Incident cases: 236, Test Shape: (2430, 20), Test C-index: 0.7171568319463246
+2025-02-15 22:17:44,309 - INFO - 
+
+2025-02-15 22:17:44,309 - INFO - Processing outcome: Coronary artery diseases
+2025-02-15 22:17:44,425 - INFO - Fold 0: Incident cases: 181, Test Shape: (2431, 20), Test C-index: 0.6854304878495767
+2025-02-15 22:17:44,542 - INFO - Fold 1: Incident cases: 181, Test Shape: (2431, 20), Test C-index: 0.7056841303708246
+2025-02-15 22:17:44,662 - INFO - Fold 2: Incident cases: 183, Test Shape: (2431, 20), Test C-index: 0.7033211915524413
+2025-02-15 22:17:44,778 - INFO - Fold 3: Incident cases: 180, Test Shape: (2431, 20), Test C-index: 0.7214266414482573
+2025-02-15 22:17:44,892 - INFO - Fold 4: Incident cases: 165, Test Shape: (2431, 20), Test C-index: 0.729732722877247
+2025-02-15 22:17:45,007 - INFO - Fold 5: Incident cases: 167, Test Shape: (2431, 20), Test C-index: 0.7081181760134804
+2025-02-15 22:17:45,127 - INFO - Fold 6: Incident cases: 194, Test Shape: (2431, 20), Test C-index: 0.6769806106284014
+2025-02-15 22:17:45,245 - INFO - Fold 7: Incident cases: 180, Test Shape: (2431, 20), Test C-index: 0.7073534919477242
+2025-02-15 22:17:45,365 - INFO - Fold 8: Incident cases: 178, Test Shape: (2430, 20), Test C-index: 0.7212271537199193
+2025-02-15 22:17:45,479 - INFO - Fold 9: Incident cases: 185, Test Shape: (2430, 20), Test C-index: 0.7101363181590795
+2025-02-15 22:17:45,479 - INFO - 
+
+2025-02-15 22:17:45,479 - INFO - Processing outcome: Stroke
+2025-02-15 22:17:45,608 - INFO - Fold 0: Incident cases: 61, Test Shape: (2431, 20), Test C-index: 0.628037056458661
+2025-02-15 22:17:45,721 - INFO - Fold 1: Incident cases: 49, Test Shape: (2431, 20), Test C-index: 0.6860938291253708
+2025-02-15 22:17:45,835 - INFO - Fold 2: Incident cases: 65, Test Shape: (2431, 20), Test C-index: 0.7168677142779867
+2025-02-15 22:17:45,951 - INFO - Fold 3: Incident cases: 49, Test Shape: (2431, 20), Test C-index: 0.6776338220252301
+2025-02-15 22:17:46,068 - INFO - Fold 4: Incident cases: 60, Test Shape: (2431, 20), Test C-index: 0.6952953041378651
+2025-02-15 22:17:46,184 - INFO - Fold 5: Incident cases: 68, Test Shape: (2431, 20), Test C-index: 0.7030411914804978
+2025-02-15 22:17:46,294 - INFO - Fold 6: Incident cases: 56, Test Shape: (2431, 20), Test C-index: 0.7442495095867874
+2025-02-15 22:17:46,406 - INFO - Fold 7: Incident cases: 57, Test Shape: (2431, 20), Test C-index: 0.6808095086103385
+2025-02-15 22:17:46,555 - INFO - Fold 8: Incident cases: 60, Test Shape: (2430, 20), Test C-index: 0.643021817569694
+2025-02-15 22:17:46,668 - INFO - Fold 9: Incident cases: 58, Test Shape: (2430, 20), Test C-index: 0.7240850781090733
+2025-02-15 22:17:46,668 - INFO - 
+
+2025-02-15 22:17:46,668 - INFO - Processing outcome: Heart failure
+2025-02-15 22:17:46,812 - INFO - Fold 0: Incident cases: 78, Test Shape: (2431, 20), Test C-index: 0.7163718857051659
+2025-02-15 22:17:46,927 - INFO - Fold 1: Incident cases: 77, Test Shape: (2431, 20), Test C-index: 0.7293891205719261
+2025-02-15 22:17:47,043 - INFO - Fold 2: Incident cases: 99, Test Shape: (2431, 20), Test C-index: 0.7461126303386025
+2025-02-15 22:17:47,159 - INFO - Fold 3: Incident cases: 80, Test Shape: (2431, 20), Test C-index: 0.7220834740811704
+2025-02-15 22:17:47,307 - INFO - Fold 4: Incident cases: 70, Test Shape: (2431, 20), Test C-index: 0.7158185854582397
+2025-02-15 22:17:47,424 - INFO - Fold 5: Incident cases: 77, Test Shape: (2431, 20), Test C-index: 0.7243143017875799
+2025-02-15 22:17:47,553 - INFO - Fold 6: Incident cases: 85, Test Shape: (2431, 20), Test C-index: 0.7239938683779781
+2025-02-15 22:17:47,718 - INFO - Fold 7: Incident cases: 58, Test Shape: (2431, 20), Test C-index: 0.7299453535414528
+2025-02-15 22:17:47,888 - INFO - Fold 8: Incident cases: 96, Test Shape: (2430, 20), Test C-index: 0.7400328172136976
+2025-02-15 22:17:48,006 - INFO - Fold 9: Incident cases: 79, Test Shape: (2430, 20), Test C-index: 0.7464305821416507
+2025-02-15 22:17:48,006 - INFO - 
+
+2025-02-15 22:17:48,006 - INFO - Processing outcome: Atrial fibrillation
+2025-02-15 22:17:48,123 - INFO - Fold 0: Incident cases: 155, Test Shape: (2431, 20), Test C-index: 0.6846008944106524
+2025-02-15 22:17:48,240 - INFO - Fold 1: Incident cases: 143, Test Shape: (2431, 20), Test C-index: 0.6823497475771778
+2025-02-15 22:17:48,356 - INFO - Fold 2: Incident cases: 157, Test Shape: (2431, 20), Test C-index: 0.7099841431805783
+2025-02-15 22:17:48,515 - INFO - Fold 3: Incident cases: 150, Test Shape: (2431, 20), Test C-index: 0.692008309257181
+2025-02-15 22:17:48,631 - INFO - Fold 4: Incident cases: 154, Test Shape: (2431, 20), Test C-index: 0.718993208887249
+2025-02-15 22:17:48,747 - INFO - Fold 5: Incident cases: 177, Test Shape: (2431, 20), Test C-index: 0.7280940887171141
+2025-02-15 22:17:48,861 - INFO - Fold 6: Incident cases: 153, Test Shape: (2431, 20), Test C-index: 0.6924885902452771
+2025-02-15 22:17:48,976 - INFO - Fold 7: Incident cases: 129, Test Shape: (2431, 20), Test C-index: 0.6723105872086285
+2025-02-15 22:17:49,096 - INFO - Fold 8: Incident cases: 157, Test Shape: (2430, 20), Test C-index: 0.7103040755453145
+2025-02-15 22:17:49,217 - INFO - Fold 9: Incident cases: 152, Test Shape: (2430, 20), Test C-index: 0.7148439323901574
+2025-02-15 22:17:49,217 - INFO - 
+
+2025-02-15 22:17:49,217 - INFO - Processing outcome: Ventricular arrhythmias
+2025-02-15 22:17:49,324 - INFO - Fold 0: Incident cases: 26, Test Shape: (2431, 20), Test C-index: 0.7208584908772973
+2025-02-15 22:17:49,431 - INFO - Fold 1: Incident cases: 24, Test Shape: (2431, 20), Test C-index: 0.6622093549262644
+2025-02-15 22:17:49,538 - INFO - Fold 2: Incident cases: 22, Test Shape: (2431, 20), Test C-index: 0.7177317983199984
+2025-02-15 22:17:49,644 - INFO - Fold 3: Incident cases: 20, Test Shape: (2431, 20), Test C-index: 0.6468096879921679
+2025-02-15 22:17:49,748 - INFO - Fold 4: Incident cases: 23, Test Shape: (2431, 20), Test C-index: 0.7463631315935592
+2025-02-15 22:17:49,855 - INFO - Fold 5: Incident cases: 23, Test Shape: (2431, 20), Test C-index: 0.6614618258453875
+2025-02-15 22:17:49,965 - INFO - Fold 6: Incident cases: 23, Test Shape: (2431, 20), Test C-index: 0.6515426844430843
+2025-02-15 22:17:50,071 - INFO - Fold 7: Incident cases: 24, Test Shape: (2431, 20), Test C-index: 0.7577274589798864
+2025-02-15 22:17:50,243 - INFO - Fold 8: Incident cases: 25, Test Shape: (2430, 20), Test C-index: 0.6422872340425532
+2025-02-15 22:17:50,354 - INFO - Fold 9: Incident cases: 22, Test Shape: (2430, 20), Test C-index: 0.627185332413905
+2025-02-15 22:17:50,355 - INFO - 
+
+2025-02-15 22:17:50,355 - INFO - Processing outcome: Peripheral artery diseases
+2025-02-15 22:17:50,479 - INFO - Fold 0: Incident cases: 26, Test Shape: (2431, 20), Test C-index: 0.7199115796633226
+2025-02-15 22:17:50,595 - INFO - Fold 1: Incident cases: 33, Test Shape: (2431, 20), Test C-index: 0.7764860479772584
+2025-02-15 22:17:50,726 - INFO - Fold 2: Incident cases: 28, Test Shape: (2431, 20), Test C-index: 0.7589701675521046
+2025-02-15 22:17:50,841 - INFO - Fold 3: Incident cases: 31, Test Shape: (2431, 20), Test C-index: 0.7553052905828466
+2025-02-15 22:17:50,953 - INFO - Fold 4: Incident cases: 38, Test Shape: (2431, 20), Test C-index: 0.8234137792198565
+2025-02-15 22:17:51,070 - INFO - Fold 5: Incident cases: 37, Test Shape: (2431, 20), Test C-index: 0.8254248118521323
+2025-02-15 22:17:51,203 - INFO - Fold 6: Incident cases: 34, Test Shape: (2431, 20), Test C-index: 0.755515196159366
+2025-02-15 22:17:51,320 - INFO - Fold 7: Incident cases: 25, Test Shape: (2431, 20), Test C-index: 0.750087879640045
+2025-02-15 22:17:51,432 - INFO - Fold 8: Incident cases: 40, Test Shape: (2430, 20), Test C-index: 0.7712464355312847
+2025-02-15 22:17:51,598 - INFO - Fold 9: Incident cases: 29, Test Shape: (2430, 20), Test C-index: 0.7498185557033991
+2025-02-15 22:17:51,598 - INFO - 
+
+2025-02-15 22:17:51,598 - INFO - Processing outcome: Abdominal aortic aneurysm
+2025-02-15 22:17:51,718 - INFO - Fold 0: Incident cases: 10, Test Shape: (2431, 20), Test C-index: 0.7190915986257975
+2025-02-15 22:17:51,828 - INFO - Fold 1: Incident cases: 10, Test Shape: (2431, 20), Test C-index: 0.7134109788473066
+2025-02-15 22:17:52,001 - INFO - Fold 2: Incident cases: 13, Test Shape: (2431, 20), Test C-index: 0.8541400417031009
+2025-02-15 22:17:52,117 - INFO - Fold 3: Incident cases: 16, Test Shape: (2431, 20), Test C-index: 0.7805084514349689
+2025-02-15 22:17:52,229 - INFO - Fold 4: Incident cases: 15, Test Shape: (2431, 20), Test C-index: 0.8756586184934283
+2025-02-15 22:17:52,347 - INFO - Fold 5: Incident cases: 12, Test Shape: (2431, 20), Test C-index: 0.8478564521328033
+2025-02-15 22:17:52,464 - INFO - Fold 6: Incident cases: 17, Test Shape: (2431, 20), Test C-index: 0.7159991710274078
+2025-02-15 22:17:52,577 - INFO - Fold 7: Incident cases: 10, Test Shape: (2431, 20), Test C-index: 0.8244204018547141
+2025-02-15 22:17:52,688 - INFO - Fold 8: Incident cases: 10, Test Shape: (2430, 20), Test C-index: 0.8377435548370629
+2025-02-15 22:17:52,845 - INFO - Fold 9: Incident cases: 10, Test Shape: (2430, 20), Test C-index: 0.8520953163516845
+2025-02-15 22:17:52,845 - INFO - 
+
+2025-02-15 22:17:52,845 - INFO - Processing outcome: Vein thrombosis
+2025-02-15 22:17:52,958 - INFO - Fold 0: Incident cases: 60, Test Shape: (2431, 20), Test C-index: 0.6056209679752365
+2025-02-15 22:17:53,072 - INFO - Fold 1: Incident cases: 69, Test Shape: (2431, 20), Test C-index: 0.6133909834974292
+2025-02-15 22:17:53,207 - INFO - Fold 2: Incident cases: 74, Test Shape: (2431, 20), Test C-index: 0.6085483094228792
+2025-02-15 22:17:53,351 - INFO - Fold 3: Incident cases: 69, Test Shape: (2431, 20), Test C-index: 0.6157117743795248
+2025-02-15 22:17:53,472 - INFO - Fold 4: Incident cases: 59, Test Shape: (2431, 20), Test C-index: 0.597898602770764
+2025-02-15 22:17:53,585 - INFO - Fold 5: Incident cases: 69, Test Shape: (2431, 20), Test C-index: 0.6331471487338189
+2025-02-15 22:17:53,700 - INFO - Fold 6: Incident cases: 70, Test Shape: (2431, 20), Test C-index: 0.5602819138624325
+2025-02-15 22:17:53,830 - INFO - Fold 7: Incident cases: 62, Test Shape: (2431, 20), Test C-index: 0.6516397611194258
+2025-02-15 22:17:53,950 - INFO - Fold 8: Incident cases: 87, Test Shape: (2430, 20), Test C-index: 0.6186223144273708
+2025-02-15 22:17:54,062 - INFO - Fold 9: Incident cases: 63, Test Shape: (2430, 20), Test C-index: 0.6478738554042804
+2025-02-15 22:17:54,062 - INFO - 
+
+2025-02-15 22:17:54,062 - INFO - Processing outcome: Cardiovascular death
+2025-02-15 22:17:54,178 - INFO - Fold 0: Incident cases: 59, Test Shape: (2431, 20), Test C-index: 0.7556333142288317
+2025-02-15 22:17:54,292 - INFO - Fold 1: Incident cases: 64, Test Shape: (2431, 20), Test C-index: 0.7460365045944477
+2025-02-15 22:17:54,404 - INFO - Fold 2: Incident cases: 67, Test Shape: (2431, 20), Test C-index: 0.7732674308549795
+2025-02-15 22:17:54,514 - INFO - Fold 3: Incident cases: 50, Test Shape: (2431, 20), Test C-index: 0.7948050131972242
+2025-02-15 22:17:54,625 - INFO - Fold 4: Incident cases: 55, Test Shape: (2431, 20), Test C-index: 0.7766201545359462
+2025-02-15 22:17:54,734 - INFO - Fold 5: Incident cases: 56, Test Shape: (2431, 20), Test C-index: 0.7508843967150979
+2025-02-15 22:17:54,845 - INFO - Fold 6: Incident cases: 51, Test Shape: (2431, 20), Test C-index: 0.7501410137369074
+2025-02-15 22:17:54,956 - INFO - Fold 7: Incident cases: 55, Test Shape: (2431, 20), Test C-index: 0.7098142402701959
+2025-02-15 22:17:55,068 - INFO - Fold 8: Incident cases: 61, Test Shape: (2430, 20), Test C-index: 0.7600532936820488
+2025-02-15 22:17:55,195 - INFO - Fold 9: Incident cases: 45, Test Shape: (2430, 20), Test C-index: 0.822162933427153
+2025-02-15 22:17:55,203 - INFO - Nested cross validation for ASCVD algorithm completed in 12.19 seconds.
+

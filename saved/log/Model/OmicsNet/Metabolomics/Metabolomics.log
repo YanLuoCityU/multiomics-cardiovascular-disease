@@ -1,0 +1,950 @@
+2025-02-12 13:18:09,474 - INFO - Processing fold: 0/9
+2025-02-12 13:18:09,474 - INFO - Loading training, validation, and testing datasets from /home/luoyan/phd_project/MultiomicsCVD/data/split_seed-241104/.
+2025-02-12 13:18:10,014 - INFO - The number of clinical features in the train data: 28.
+2025-02-12 13:18:10,014 - INFO - The number of genetic features in the train data: 8.
+2025-02-12 13:18:10,014 - INFO - The number of metabolites in the train data: 168.
+2025-02-12 13:18:10,014 - INFO - The number of proteins in the train data: 2920.
+2025-02-12 13:18:10,343 - INFO - The number of clinical features in the val data: 28.
+2025-02-12 13:18:10,344 - INFO - The number of genetic features in the val data: 8.
+2025-02-12 13:18:10,344 - INFO - The number of metabolites in the val data: 168.
+2025-02-12 13:18:10,344 - INFO - The number of proteins in the val data: 2920.
+2025-02-12 13:18:10,528 - INFO - The number of clinical features in the test data: 28.
+2025-02-12 13:18:10,529 - INFO - The number of genetic features in the test data: 8.
+2025-02-12 13:18:10,529 - INFO - The number of metabolites in the test data: 168.
+2025-02-12 13:18:10,529 - INFO - The number of proteins in the test data: 2920.
+2025-02-12 13:18:10,570 - INFO - Columns order in y_*: ['cad', 'stroke', 'hf', 'af', 'va', 'aaa', 'pad', 'vt', 'cvd_death'].
+2025-02-12 13:18:10,570 - INFO - The number of samples in the training dataset: 19689.
+2025-02-12 13:18:10,570 - INFO - The number of samples in the validation dataset: 2188.
+2025-02-12 13:18:10,570 - INFO - The number of samples in the testing dataset: 2431.
+
+2025-02-12 13:18:11,454 - INFO - Fold 0: First test batch EIDs: 
+tensor([[1002627],
+        [1006647],
+        [1007634],
+        ...,
+        [6021783],
+        [6022298],
+        [6023582]], dtype=torch.int32)
+2025-02-12 13:18:16,618 - INFO - ------------------Start training-----------------------
+2025-02-12 13:18:24,875 - INFO - Saving model at epoch 1 with the best validation C-index 0.5768814687699098.
+2025-02-12 13:18:33,760 - INFO - Saving model at epoch 2 with the best validation C-index 0.577396644998328.
+2025-02-12 13:18:40,490 - INFO - Epoch 3 Fold 0: Average training loss = 0.34785214364528655, Validation loss = 0.2575037082036336,
+     Training c-index = 0.565980510008029, Validation c-index = 0.5563754683169415, Testing c-index = 0.5825807707101202
+2025-02-12 13:18:54,476 - INFO - Saving model at epoch 5 with the best validation C-index 0.5848500336025003.
+2025-02-12 13:19:02,094 - INFO - Saving model at epoch 6 with the best validation C-index 0.5873403013029797.
+2025-02-12 13:19:02,111 - INFO - Epoch 6 Fold 0: Average training loss = 0.20214953199028968, Validation loss = 0.1388692855834961,
+     Training c-index = 0.6140518711261558, Validation c-index = 0.5873403013029797, Testing c-index = 0.6041896230540014
+2025-02-12 13:19:09,416 - INFO - Saving model at epoch 7 with the best validation C-index 0.5883031896998457.
+2025-02-12 13:19:22,948 - INFO - Epoch 9 Fold 0: Average training loss = 0.1685584731400013, Validation loss = 0.11948630958795547,
+     Training c-index = 0.6175621062656175, Validation c-index = 0.5786295400454035, Testing c-index = 0.6147004775608678
+2025-02-12 13:19:37,241 - INFO - Saving model at epoch 11 with the best validation C-index 0.592287773515901.
+2025-02-12 13:19:44,091 - INFO - Epoch 12 Fold 0: Average training loss = 0.15306382328271867, Validation loss = 0.11744425445795059,
+     Training c-index = 0.6456951385252666, Validation c-index = 0.5901081544389197, Testing c-index = 0.6269222932530089
+2025-02-12 13:19:51,648 - INFO - Saving model at epoch 13 with the best validation C-index 0.5980393090356204.
+2025-02-12 13:19:59,121 - INFO - Saving model at epoch 14 with the best validation C-index 0.6076465383355854.
+2025-02-12 13:20:06,236 - INFO - Epoch 15 Fold 0: Average training loss = 0.14953133687376977, Validation loss = 0.1180230180422465,
+     Training c-index = 0.6578613755930751, Validation c-index = 0.6048355999716518, Testing c-index = 0.6469449724714461
+2025-02-12 13:20:13,512 - INFO - Saving model at epoch 16 with the best validation C-index 0.6123971461589526.
+2025-02-12 13:20:20,776 - INFO - Saving model at epoch 17 with the best validation C-index 0.6240894539039097.
+2025-02-12 13:20:27,544 - INFO - Epoch 18 Fold 0: Average training loss = 0.14417216330766677, Validation loss = 0.12562730660041174,
+     Training c-index = 0.6698099955778675, Validation c-index = 0.6176680973266245, Testing c-index = 0.6585687565030326
+2025-02-12 13:20:47,424 - INFO - Epoch 21 Fold 0: Average training loss = 0.14111511893570422, Validation loss = 0.12994487831989923,
+     Training c-index = 0.6798714270701149, Validation c-index = 0.6131929750542222, Testing c-index = 0.6737481109859863
+2025-02-12 13:21:01,355 - INFO - Saving model at epoch 23 with the best validation C-index 0.625256191464721.
+2025-02-12 13:21:08,273 - INFO - Epoch 24 Fold 0: Average training loss = 0.1365117110311985, Validation loss = 0.11909224341313045,
+     Training c-index = 0.6837079218452453, Validation c-index = 0.6244643056249308, Testing c-index = 0.671585057484609
+2025-02-12 13:21:15,791 - INFO - Saving model at epoch 25 with the best validation C-index 0.6264941647189425.
+2025-02-12 13:21:30,167 - INFO - Saving model at epoch 27 with the best validation C-index 0.6277176388906762.
+2025-02-12 13:21:30,182 - INFO - Epoch 27 Fold 0: Average training loss = 0.13622033670544625, Validation loss = 0.12307190398375194,
+     Training c-index = 0.6790364621184088, Validation c-index = 0.6277176388906762, Testing c-index = 0.6624957616472672
+2025-02-12 13:21:38,344 - INFO - Saving model at epoch 28 with the best validation C-index 0.6325540506888732.
+2025-02-12 13:21:53,579 - INFO - Saving model at epoch 30 with the best validation C-index 0.6343195552083096.
+2025-02-12 13:21:53,594 - INFO - Epoch 30 Fold 0: Average training loss = 0.1357438363134861, Validation loss = 0.11892839521169662,
+     Training c-index = 0.6891483910695493, Validation c-index = 0.6343195552083096, Testing c-index = 0.6644387536412584
+2025-02-12 13:22:08,398 - INFO - Saving model at epoch 32 with the best validation C-index 0.6348259551891003.
+2025-02-12 13:22:16,467 - INFO - Saving model at epoch 33 with the best validation C-index 0.6354127631699117.
+2025-02-12 13:22:16,477 - INFO - Epoch 33 Fold 0: Average training loss = 0.13235613480210304, Validation loss = 0.11900756011406581,
+     Training c-index = 0.6933321824793666, Validation c-index = 0.6354127631699117, Testing c-index = 0.6736616906783897
+2025-02-12 13:22:24,600 - INFO - Saving model at epoch 34 with the best validation C-index 0.6395774377338286.
+2025-02-12 13:22:40,134 - INFO - Epoch 36 Fold 0: Average training loss = 0.1314923271536827, Validation loss = 0.1256865734855334,
+     Training c-index = 0.6893184548843532, Validation c-index = 0.6341143333972123, Testing c-index = 0.670197877697336
+2025-02-12 13:23:03,152 - INFO - Epoch 39 Fold 0: Average training loss = 0.13139410354197026, Validation loss = 0.11959894249836604,
+     Training c-index = 0.6946758225111026, Validation c-index = 0.6362522172340417, Testing c-index = 0.6722791846216392
+2025-02-12 13:23:23,659 - INFO - Epoch 42 Fold 0: Average training loss = 0.13102556988596917, Validation loss = 0.11139866213003795,
+     Training c-index = 0.692474596303708, Validation c-index = 0.6231999312379232, Testing c-index = 0.6730474406861718
+2025-02-12 13:23:43,851 - INFO - Epoch 45 Fold 0: Average training loss = 0.12926933579146863, Validation loss = 0.12052338570356369,
+     Training c-index = 0.6970200621750248, Validation c-index = 0.629769785236622, Testing c-index = 0.672356392595908
+2025-02-12 13:24:04,113 - INFO - Epoch 48 Fold 0: Average training loss = 0.1284973744302988, Validation loss = 0.12150083978970845,
+     Training c-index = 0.6970482361150914, Validation c-index = 0.6338011508572452, Testing c-index = 0.6756196182899932
+2025-02-12 13:24:18,265 - INFO - ------------------Finish training---------------------
+2025-02-12 13:24:18,306 - INFO - ------------------Start testing-----------------------
+2025-02-12 13:24:19,501 - INFO - Average testing c-index across all outcomes:
+0.6770015036532215
+2025-02-12 13:24:19,514 - INFO - Testing c-index for each outcome:
+outcome       cad    stroke        hf  ...       pad      vt  cvd_death
+cindex   0.653445  0.678458  0.694467  ...  0.658459  0.6114    0.77794
+
+[1 rows x 9 columns]
+2025-02-12 13:24:20,625 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  3464279 -2.636383 -4.040062  ... -5.327385 -3.992073  -4.553283
+1  5887125 -2.694053 -4.168947  ... -6.297400 -4.520909  -4.908950
+2  3150216 -1.882641 -2.993992  ... -3.310703 -2.811160  -2.564255
+3  3041586 -2.962548 -4.217229  ... -5.357675 -4.146347  -4.733942
+4  1575782 -1.600774 -3.136007  ... -3.436579 -3.027147  -2.703745
+
+[5 rows x 10 columns]
+2025-02-12 13:24:21,695 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1002627 -2.913559 -4.122406  ... -5.355212 -4.051442  -4.665509
+1  1006647 -3.728572 -5.290442  ... -7.141545 -4.855842  -6.044636
+2  1007634 -2.643847 -3.920908  ... -4.682247 -3.765680  -4.026581
+3  1010327 -3.297099 -4.465834  ... -5.445782 -4.081324  -4.827837
+4  1013147 -3.445893 -4.446055  ... -5.787441 -3.926046  -5.007447
+
+[5 rows x 10 columns]
+2025-02-12 13:27:57,676 - INFO - Saved SHAP values for cad in fold 0
+2025-02-12 13:31:26,962 - INFO - Saved SHAP values for stroke in fold 0
+2025-02-12 13:34:58,397 - INFO - Saved SHAP values for hf in fold 0
+2025-02-12 13:38:26,695 - INFO - Saved SHAP values for af in fold 0
+2025-02-12 13:41:56,227 - INFO - Saved SHAP values for va in fold 0
+2025-02-12 13:45:26,401 - INFO - Saved SHAP values for aaa in fold 0
+2025-02-12 13:48:56,611 - INFO - Saved SHAP values for pad in fold 0
+2025-02-12 13:52:27,528 - INFO - Saved SHAP values for vt in fold 0
+2025-02-12 13:55:57,252 - INFO - Saved SHAP values for cvd_death in fold 0
+2025-02-12 13:55:57,252 - INFO - ------------------Finish testing----------------------
+
+2025-02-12 13:55:57,252 - INFO - Processing fold: 1/9
+2025-02-12 13:55:59,189 - INFO - Fold 1: First test batch EIDs: 
+tensor([[1003299],
+        [1003783],
+        [1005976],
+        ...,
+        [6013475],
+        [6016890],
+        [6022922]], dtype=torch.int32)
+2025-02-12 13:55:59,272 - INFO - ------------------Start training-----------------------
+2025-02-12 13:56:07,085 - INFO - Saving model at epoch 1 with the best validation C-index 0.5463564661219739.
+2025-02-12 13:56:14,523 - INFO - Saving model at epoch 2 with the best validation C-index 0.5591516906262447.
+2025-02-12 13:56:21,960 - INFO - Saving model at epoch 3 with the best validation C-index 0.5711743848964592.
+2025-02-12 13:56:21,973 - INFO - Epoch 3 Fold 1: Average training loss = 0.3496603682637215, Validation loss = 0.2555430630842845,
+     Training c-index = 0.5888641233668632, Validation c-index = 0.5711743848964592, Testing c-index = 0.5874527359720738
+2025-02-12 13:56:29,555 - INFO - Saving model at epoch 4 with the best validation C-index 0.5898438201919325.
+2025-02-12 13:56:43,602 - INFO - Epoch 6 Fold 1: Average training loss = 0.2026538595557213, Validation loss = 0.12310537447532018,
+     Training c-index = 0.5675527938424156, Validation c-index = 0.5827890715727723, Testing c-index = 0.561866926760884
+2025-02-12 13:56:58,121 - INFO - Saving model at epoch 8 with the best validation C-index 0.5906816973185487.
+2025-02-12 13:57:05,783 - INFO - Saving model at epoch 9 with the best validation C-index 0.5948620615381014.
+2025-02-12 13:57:05,799 - INFO - Epoch 9 Fold 1: Average training loss = 0.16741482466459273, Validation loss = 0.11478711664676666,
+     Training c-index = 0.6151731931337554, Validation c-index = 0.5948620615381014, Testing c-index = 0.5810978485953067
+2025-02-12 13:57:20,371 - INFO - Saving model at epoch 11 with the best validation C-index 0.5953534801090385.
+2025-02-12 13:57:27,415 - INFO - Epoch 12 Fold 1: Average training loss = 0.15278825536370277, Validation loss = 0.12158359338839848,
+     Training c-index = 0.6260229244363955, Validation c-index = 0.593621634555442, Testing c-index = 0.5954399067454978
+2025-02-12 13:57:49,271 - INFO - Epoch 15 Fold 1: Average training loss = 0.14724279269576074, Validation loss = 0.10320840527613957,
+     Training c-index = 0.6468202616604027, Validation c-index = 0.5903896731734457, Testing c-index = 0.6229604804811807
+2025-02-12 13:57:57,060 - INFO - Saving model at epoch 16 with the best validation C-index 0.6143272296600998.
+2025-02-12 13:58:11,154 - INFO - Epoch 18 Fold 1: Average training loss = 0.1452060915529728, Validation loss = 0.10653351992368698,
+     Training c-index = 0.6659921259323425, Validation c-index = 0.6066934541804728, Testing c-index = 0.6347275635831059
+2025-02-12 13:58:24,848 - INFO - Saving model at epoch 20 with the best validation C-index 0.615773668991592.
+2025-02-12 13:58:31,960 - INFO - Epoch 21 Fold 1: Average training loss = 0.13988041393458844, Validation loss = 0.11880982170502345,
+     Training c-index = 0.6689307861579971, Validation c-index = 0.6091707292091123, Testing c-index = 0.6367107136401037
+2025-02-12 13:58:39,220 - INFO - Saving model at epoch 22 with the best validation C-index 0.6178665071886082.
+2025-02-12 13:58:47,258 - INFO - Saving model at epoch 23 with the best validation C-index 0.6193261776148603.
+2025-02-12 13:58:54,617 - INFO - Saving model at epoch 24 with the best validation C-index 0.6229046910348756.
+2025-02-12 13:58:54,627 - INFO - Epoch 24 Fold 1: Average training loss = 0.1387425497174263, Validation loss = 0.11420490841070811,
+     Training c-index = 0.6812431112203547, Validation c-index = 0.6229046910348756, Testing c-index = 0.6364548087244949
+2025-02-12 13:59:02,249 - INFO - Saving model at epoch 25 with the best validation C-index 0.6316040633911437.
+2025-02-12 13:59:17,174 - INFO - Epoch 27 Fold 1: Average training loss = 0.13721390776336193, Validation loss = 0.1120829035838445,
+     Training c-index = 0.6834808324783948, Validation c-index = 0.6266184942895899, Testing c-index = 0.6404336142029383
+2025-02-12 13:59:41,284 - INFO - Saving model at epoch 30 with the best validation C-index 0.635453744033523.
+2025-02-12 13:59:41,294 - INFO - Epoch 30 Fold 1: Average training loss = 0.13489329293370247, Validation loss = 0.12876450518767038,
+     Training c-index = 0.6803226857878497, Validation c-index = 0.635453744033523, Testing c-index = 0.6396799190890179
+2025-02-12 13:59:49,022 - INFO - Saving model at epoch 31 with the best validation C-index 0.6437142709159538.
+2025-02-12 14:00:04,826 - INFO - Epoch 33 Fold 1: Average training loss = 0.13427104204893112, Validation loss = 0.11369705945253372,
+     Training c-index = 0.6935220944042144, Validation c-index = 0.63362054362571, Testing c-index = 0.6597465947720131
+2025-02-12 14:00:26,349 - INFO - Epoch 36 Fold 1: Average training loss = 0.13436057828366757, Validation loss = 0.1061503067612648,
+     Training c-index = 0.6872646383932453, Validation c-index = 0.6353798245590888, Testing c-index = 0.6578847738425097
+2025-02-12 14:00:40,621 - INFO - Saving model at epoch 38 with the best validation C-index 0.6442239262102104.
+2025-02-12 14:00:47,522 - INFO - Epoch 39 Fold 1: Average training loss = 0.13237992748618127, Validation loss = 0.11911661426226298,
+     Training c-index = 0.692507794870798, Validation c-index = 0.6362682867912344, Testing c-index = 0.6632089221731405
+2025-02-12 14:01:09,882 - INFO - Saving model at epoch 42 with the best validation C-index 0.6507969444711028.
+2025-02-12 14:01:09,891 - INFO - Epoch 42 Fold 1: Average training loss = 0.13076573833823205, Validation loss = 0.11790432780981064,
+     Training c-index = 0.6928522526813112, Validation c-index = 0.6507969444711028, Testing c-index = 0.6655572104026051
+2025-02-12 14:01:32,087 - INFO - Epoch 45 Fold 1: Average training loss = 0.13147768452763559, Validation loss = 0.11865110695362091,
+     Training c-index = 0.6993983294370882, Validation c-index = 0.64051625204762, Testing c-index = 0.6687484365489832
+2025-02-12 14:01:53,831 - INFO - Epoch 48 Fold 1: Average training loss = 0.13057671934366227, Validation loss = 0.11612235754728317,
+     Training c-index = 0.7009804331057011, Validation c-index = 0.6349952328680646, Testing c-index = 0.6703385961990863
+2025-02-12 14:02:08,243 - INFO - ------------------Finish training---------------------
+2025-02-12 14:02:08,290 - INFO - ------------------Start testing-----------------------
+2025-02-12 14:02:09,515 - INFO - Average testing c-index across all outcomes:
+0.6655572104026051
+2025-02-12 14:02:09,527 - INFO - Testing c-index for each outcome:
+outcome       cad    stroke        hf  ...       pad        vt  cvd_death
+cindex   0.678899  0.613488  0.702878  ...  0.694799  0.596939   0.704435
+
+[1 rows x 9 columns]
+2025-02-12 14:02:10,664 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1859599 -2.644101 -3.676040  ... -4.553251 -3.423016  -3.629476
+1  2955651 -2.623912 -3.976200  ... -5.029305 -3.742206  -4.602028
+2  5812580 -3.251262 -4.222539  ... -5.491364 -4.023067  -5.330598
+3  2969949 -2.404063 -3.825371  ... -4.410053 -3.608966  -3.819304
+4  2914715 -3.321921 -4.688799  ... -5.562197 -4.325806  -5.160060
+
+[5 rows x 10 columns]
+2025-02-12 14:02:11,734 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1003299 -2.730510 -3.534529  ... -4.861333 -3.280170  -3.780021
+1  1003783 -3.490976 -5.199609  ... -6.957678 -4.484389  -6.456233
+2  1005976 -2.269494 -3.714120  ... -4.316117 -3.619121  -3.783368
+3  1008569 -2.523520 -3.597303  ... -4.416948 -3.452307  -3.418744
+4  1010232 -2.944810 -4.027654  ... -5.114145 -3.731413  -4.074816
+
+[5 rows x 10 columns]
+2025-02-12 14:05:46,517 - INFO - Saved SHAP values for cad in fold 1
+2025-02-12 14:09:17,843 - INFO - Saved SHAP values for stroke in fold 1
+2025-02-12 14:12:50,816 - INFO - Saved SHAP values for hf in fold 1
+2025-02-12 14:16:25,386 - INFO - Saved SHAP values for af in fold 1
+2025-02-12 14:20:00,472 - INFO - Saved SHAP values for va in fold 1
+2025-02-12 14:23:36,577 - INFO - Saved SHAP values for aaa in fold 1
+2025-02-12 14:27:12,992 - INFO - Saved SHAP values for pad in fold 1
+2025-02-12 14:30:54,170 - INFO - Saved SHAP values for vt in fold 1
+2025-02-12 14:34:31,098 - INFO - Saved SHAP values for cvd_death in fold 1
+2025-02-12 14:34:31,098 - INFO - ------------------Finish testing----------------------
+
+2025-02-12 14:34:31,098 - INFO - Processing fold: 2/9
+2025-02-12 14:34:33,089 - INFO - Fold 2: First test batch EIDs: 
+tensor([[1000825],
+        [1001366],
+        [1002546],
+        ...,
+        [6012527],
+        [6015274],
+        [6016752]], dtype=torch.int32)
+2025-02-12 14:34:33,176 - INFO - ------------------Start training-----------------------
+2025-02-12 14:34:40,985 - INFO - Saving model at epoch 1 with the best validation C-index 0.5681527666224802.
+2025-02-12 14:34:56,567 - INFO - Epoch 3 Fold 2: Average training loss = 0.35788638442754744, Validation loss = 0.2747057378292084,
+     Training c-index = 0.5615075194944694, Validation c-index = 0.563968066496638, Testing c-index = 0.5765367496872296
+2025-02-12 14:35:05,123 - INFO - Saving model at epoch 4 with the best validation C-index 0.6011225703136092.
+2025-02-12 14:35:21,953 - INFO - Epoch 6 Fold 2: Average training loss = 0.2078307904303074, Validation loss = 0.14108359316984811,
+     Training c-index = 0.5563043896298495, Validation c-index = 0.5733694351588855, Testing c-index = 0.5716295811208049
+2025-02-12 14:35:38,766 - INFO - Saving model at epoch 8 with the best validation C-index 0.6021730505354016.
+2025-02-12 14:35:47,232 - INFO - Epoch 9 Fold 2: Average training loss = 0.1676832690834999, Validation loss = 0.11873285969098409,
+     Training c-index = 0.5910646221629681, Validation c-index = 0.5944948870438211, Testing c-index = 0.598170857131505
+2025-02-12 14:35:55,790 - INFO - Saving model at epoch 10 with the best validation C-index 0.6268837077388992.
+2025-02-12 14:36:03,576 - INFO - Saving model at epoch 11 with the best validation C-index 0.6406540931327988.
+2025-02-12 14:36:10,602 - INFO - Epoch 12 Fold 2: Average training loss = 0.15566882491111755, Validation loss = 0.11896221339702606,
+     Training c-index = 0.6121581522522591, Validation c-index = 0.6374173139764518, Testing c-index = 0.6261899154615097
+2025-02-12 14:36:18,291 - INFO - Saving model at epoch 13 with the best validation C-index 0.6600321793889492.
+2025-02-12 14:36:33,248 - INFO - Saving model at epoch 15 with the best validation C-index 0.665335263315098.
+2025-02-12 14:36:33,253 - INFO - Epoch 15 Fold 2: Average training loss = 0.14655188806355, Validation loss = 0.11591950058937073,
+     Training c-index = 0.6604134174057816, Validation c-index = 0.665335263315098, Testing c-index = 0.6580096866086429
+2025-02-12 14:36:56,409 - INFO - Saving model at epoch 18 with the best validation C-index 0.6667653089467152.
+2025-02-12 14:36:56,418 - INFO - Epoch 18 Fold 2: Average training loss = 0.14235687330365182, Validation loss = 0.11971979588270187,
+     Training c-index = 0.6712519871313607, Validation c-index = 0.6667653089467152, Testing c-index = 0.6651730633668854
+2025-02-12 14:37:11,061 - INFO - Saving model at epoch 20 with the best validation C-index 0.6671448353378948.
+2025-02-12 14:37:18,429 - INFO - Saving model at epoch 21 with the best validation C-index 0.6820076827546148.
+2025-02-12 14:37:18,439 - INFO - Epoch 21 Fold 2: Average training loss = 0.13952610194683074, Validation loss = 0.12741316109895706,
+     Training c-index = 0.6774485540616556, Validation c-index = 0.6820076827546148, Testing c-index = 0.6728008431251641
+2025-02-12 14:37:40,554 - INFO - Saving model at epoch 24 with the best validation C-index 0.6845179025293432.
+2025-02-12 14:37:40,565 - INFO - Epoch 24 Fold 2: Average training loss = 0.13795979917049409, Validation loss = 0.11296284447113673,
+     Training c-index = 0.6807492417854831, Validation c-index = 0.6845179025293432, Testing c-index = 0.6784364209541707
+2025-02-12 14:38:01,942 - INFO - Epoch 27 Fold 2: Average training loss = 0.13466785550117494, Validation loss = 0.12366239229838054,
+     Training c-index = 0.6811602089237085, Validation c-index = 0.6785832547570081, Testing c-index = 0.6760718926174073
+2025-02-12 14:38:23,888 - INFO - Epoch 30 Fold 2: Average training loss = 0.1343228615820408, Validation loss = 0.12786920617024103,
+     Training c-index = 0.6861769185163271, Validation c-index = 0.68232430500376, Testing c-index = 0.6794429300207039
+2025-02-12 14:38:45,522 - INFO - Epoch 33 Fold 2: Average training loss = 0.13269757181406022, Validation loss = 0.12697449078162512,
+     Training c-index = 0.685802016363422, Validation c-index = 0.6801960550450452, Testing c-index = 0.6818670027857943
+2025-02-12 14:38:52,738 - INFO - Saving model at epoch 34 with the best validation C-index 0.6912027161604132.
+2025-02-12 14:39:07,023 - INFO - Epoch 36 Fold 2: Average training loss = 0.13249184228479863, Validation loss = 0.12887248148520788,
+     Training c-index = 0.6875834716117731, Validation c-index = 0.6854522390245545, Testing c-index = 0.6812976439289168
+2025-02-12 14:39:28,723 - INFO - Epoch 39 Fold 2: Average training loss = 0.12986537031829357, Validation loss = 0.1313232829173406,
+     Training c-index = 0.6895949792101773, Validation c-index = 0.6839443727973316, Testing c-index = 0.6891173082759781
+2025-02-12 14:39:49,647 - INFO - Epoch 42 Fold 2: Average training loss = 0.1306198440492153, Validation loss = 0.10551304370164871,
+     Training c-index = 0.6861475270440762, Validation c-index = 0.6852904799887871, Testing c-index = 0.6816279097408449
+2025-02-12 14:40:12,576 - INFO - Epoch 45 Fold 2: Average training loss = 0.12873807772994042, Validation loss = 0.11877430230379105,
+     Training c-index = 0.6882644310619439, Validation c-index = 0.6674300959367684, Testing c-index = 0.6865617864666037
+2025-02-12 14:40:33,799 - INFO - Epoch 48 Fold 2: Average training loss = 0.12900152280926705, Validation loss = 0.1163044199347496,
+     Training c-index = 0.6919920907309378, Validation c-index = 0.6826671571244164, Testing c-index = 0.6910373612254488
+2025-02-12 14:40:41,303 - INFO - Saving model at epoch 49 with the best validation C-index 0.6912648554017881.
+2025-02-12 14:40:48,234 - INFO - ------------------Finish training---------------------
+2025-02-12 14:40:48,277 - INFO - ------------------Start testing-----------------------
+2025-02-12 14:40:49,463 - INFO - Average testing c-index across all outcomes:
+0.6865850585701065
+2025-02-12 14:40:49,474 - INFO - Testing c-index for each outcome:
+outcome       cad    stroke        hf  ...       pad        vt  cvd_death
+cindex   0.669768  0.660644  0.719349  ...  0.673036  0.644191   0.719963
+
+[1 rows x 9 columns]
+2025-02-12 14:40:50,672 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  5018129 -3.117626 -4.614709  ... -5.971189 -4.350804  -5.671294
+1  1850172 -1.211781 -2.723228  ... -2.617603 -2.613684  -2.077239
+2  5552650 -2.923351 -4.329736  ... -5.370254 -3.999814  -5.008297
+3  3958870 -2.324350 -3.967264  ... -4.655985 -3.721762  -4.509046
+4  1717488 -3.854187 -4.512762  ... -5.812128 -4.120941  -5.059629
+
+[5 rows x 10 columns]
+2025-02-12 14:40:51,973 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1000825 -1.855775 -3.094740  ... -3.446066 -3.050954  -3.119594
+1  1001366 -3.816888 -4.571232  ... -6.832301 -4.533849  -6.133960
+2  1002546 -3.048426 -4.247056  ... -5.101261 -4.053511  -4.766877
+3  1002898 -3.041063 -4.018649  ... -4.834916 -3.674707  -4.021721
+4  1002901 -2.198431 -3.789139  ... -4.459321 -3.532515  -4.046690
+
+[5 rows x 10 columns]
+2025-02-12 14:45:20,278 - INFO - Saved SHAP values for cad in fold 2
+2025-02-12 14:48:56,119 - INFO - Saved SHAP values for stroke in fold 2
+2025-02-12 14:52:32,220 - INFO - Saved SHAP values for hf in fold 2
+2025-02-12 14:56:06,129 - INFO - Saved SHAP values for af in fold 2
+2025-02-12 14:59:35,622 - INFO - Saved SHAP values for va in fold 2
+2025-02-12 15:03:08,721 - INFO - Saved SHAP values for aaa in fold 2
+2025-02-12 15:06:43,421 - INFO - Saved SHAP values for pad in fold 2
+2025-02-12 15:10:18,005 - INFO - Saved SHAP values for vt in fold 2
+2025-02-12 15:13:49,818 - INFO - Saved SHAP values for cvd_death in fold 2
+2025-02-12 15:13:49,818 - INFO - ------------------Finish testing----------------------
+
+2025-02-12 15:13:49,818 - INFO - Processing fold: 3/9
+2025-02-12 15:13:52,034 - INFO - Fold 3: First test batch EIDs: 
+tensor([[1002240],
+        [1006715],
+        [1008358],
+        ...,
+        [6017270],
+        [6019779],
+        [6023028]], dtype=torch.int32)
+2025-02-12 15:13:52,126 - INFO - ------------------Start training-----------------------
+2025-02-12 15:14:00,586 - INFO - Saving model at epoch 1 with the best validation C-index 0.5747317534995511.
+2025-02-12 15:14:08,216 - INFO - Saving model at epoch 2 with the best validation C-index 0.5869261329592788.
+2025-02-12 15:14:16,243 - INFO - Saving model at epoch 3 with the best validation C-index 0.6015692025881161.
+2025-02-12 15:14:16,249 - INFO - Epoch 3 Fold 3: Average training loss = 0.35193533897399903, Validation loss = 0.2700220247109731,
+     Training c-index = 0.5866296797320433, Validation c-index = 0.6015692025881161, Testing c-index = 0.5880657789920849
+2025-02-12 15:14:31,558 - INFO - Saving model at epoch 5 with the best validation C-index 0.6062851694777049.
+2025-02-12 15:14:38,855 - INFO - Epoch 6 Fold 3: Average training loss = 0.2044061005115509, Validation loss = 0.14648590981960297,
+     Training c-index = 0.5919824325083702, Validation c-index = 0.5891334331749695, Testing c-index = 0.5476736226060318
+2025-02-12 15:15:00,345 - INFO - Epoch 9 Fold 3: Average training loss = 0.16717300862073897, Validation loss = 0.1345662772655487,
+     Training c-index = 0.6003529563394623, Validation c-index = 0.5862258726516897, Testing c-index = 0.5712394947478773
+2025-02-12 15:15:22,276 - INFO - Epoch 12 Fold 3: Average training loss = 0.15372164100408553, Validation loss = 0.13798693319161734,
+     Training c-index = 0.6142673965402938, Validation c-index = 0.6032799249472733, Testing c-index = 0.5783731550843472
+2025-02-12 15:15:30,187 - INFO - Saving model at epoch 13 with the best validation C-index 0.6343680429465023.
+2025-02-12 15:15:38,588 - INFO - Saving model at epoch 14 with the best validation C-index 0.6473134246442531.
+2025-02-12 15:15:45,575 - INFO - Epoch 15 Fold 3: Average training loss = 0.1465991497039795, Validation loss = 0.12477364639441173,
+     Training c-index = 0.6553251747031454, Validation c-index = 0.6460308948505242, Testing c-index = 0.6298245636237262
+2025-02-12 15:16:07,190 - INFO - Saving model at epoch 18 with the best validation C-index 0.658789777364342.
+2025-02-12 15:16:07,200 - INFO - Epoch 18 Fold 3: Average training loss = 0.14285853505134583, Validation loss = 0.13197754323482513,
+     Training c-index = 0.6763343189293387, Validation c-index = 0.658789777364342, Testing c-index = 0.6520570306030149
+2025-02-12 15:16:29,321 - INFO - Epoch 21 Fold 3: Average training loss = 0.13832961097359658, Validation loss = 0.12642585237820944,
+     Training c-index = 0.6771997479046659, Validation c-index = 0.6548398604245634, Testing c-index = 0.6484121968526609
+2025-02-12 15:16:51,444 - INFO - Saving model at epoch 24 with the best validation C-index 0.659753130083881.
+2025-02-12 15:16:51,454 - INFO - Epoch 24 Fold 3: Average training loss = 0.1361007146537304, Validation loss = 0.1335759311914444,
+     Training c-index = 0.6832857171807043, Validation c-index = 0.659753130083881, Testing c-index = 0.6606526382357095
+2025-02-12 15:17:13,471 - INFO - Saving model at epoch 27 with the best validation C-index 0.6619242539242632.
+2025-02-12 15:17:13,487 - INFO - Epoch 27 Fold 3: Average training loss = 0.13519904650747777, Validation loss = 0.13188609977563223,
+     Training c-index = 0.6870341231521532, Validation c-index = 0.6619242539242632, Testing c-index = 0.6670419548639308
+2025-02-12 15:17:21,108 - INFO - Saving model at epoch 28 with the best validation C-index 0.6631322179489882.
+2025-02-12 15:17:35,995 - INFO - Saving model at epoch 30 with the best validation C-index 0.6648394673393245.
+2025-02-12 15:17:36,005 - INFO - Epoch 30 Fold 3: Average training loss = 0.132228659465909, Validation loss = 0.13399742543697357,
+     Training c-index = 0.6890901598856534, Validation c-index = 0.6648394673393245, Testing c-index = 0.6647724982549418
+2025-02-12 15:17:58,444 - INFO - Epoch 33 Fold 3: Average training loss = 0.1320591490715742, Validation loss = 0.13386069734891257,
+     Training c-index = 0.6911709628756955, Validation c-index = 0.6470217569277928, Testing c-index = 0.6713704903354971
+2025-02-12 15:18:14,270 - INFO - Saving model at epoch 35 with the best validation C-index 0.6682699320198139.
+2025-02-12 15:18:21,779 - INFO - Epoch 36 Fold 3: Average training loss = 0.13054998740553855, Validation loss = 0.1397949904203415,
+     Training c-index = 0.691541778343089, Validation c-index = 0.6660158483442228, Testing c-index = 0.6691811337923258
+2025-02-12 15:18:37,926 - INFO - Saving model at epoch 38 with the best validation C-index 0.6684108778767717.
+2025-02-12 15:18:45,415 - INFO - Epoch 39 Fold 3: Average training loss = 0.1297494076192379, Validation loss = 0.12815572569767633,
+     Training c-index = 0.6924134787008822, Validation c-index = 0.6609463365469281, Testing c-index = 0.6656960508144941
+2025-02-12 15:19:08,452 - INFO - Epoch 42 Fold 3: Average training loss = 0.12884183153510093, Validation loss = 0.14942506204048792,
+     Training c-index = 0.693009480560014, Validation c-index = 0.6617575179314552, Testing c-index = 0.6687172335735837
+2025-02-12 15:19:17,003 - INFO - Saving model at epoch 43 with the best validation C-index 0.6708363375179046.
+2025-02-12 15:19:33,356 - INFO - Epoch 45 Fold 3: Average training loss = 0.12947619929909707, Validation loss = 0.12658235182364783,
+     Training c-index = 0.694402778995401, Validation c-index = 0.6643530214596725, Testing c-index = 0.6691841980920407
+2025-02-12 15:19:57,456 - INFO - Epoch 48 Fold 3: Average training loss = 0.12890383191406726, Validation loss = 0.13880570232868195,
+     Training c-index = 0.6960996876761664, Validation c-index = 0.6529460205993334, Testing c-index = 0.6608653949676362
+2025-02-12 15:20:13,499 - INFO - ------------------Finish training---------------------
+2025-02-12 15:20:13,546 - INFO - ------------------Start testing-----------------------
+2025-02-12 15:20:14,714 - INFO - Average testing c-index across all outcomes:
+0.6720927241117942
+2025-02-12 15:20:14,725 - INFO - Testing c-index for each outcome:
+outcome       cad    stroke        hf  ...       pad        vt  cvd_death
+cindex   0.656274  0.656208  0.649186  ...  0.733566  0.658513    0.74719
+
+[1 rows x 9 columns]
+2025-02-12 15:20:15,871 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  4950693 -2.300940 -3.909245  ... -4.849934 -3.797503  -4.234556
+1  4588303 -2.475645 -3.127375  ... -4.002966 -3.031479  -3.032906
+2  4128593 -2.667722 -4.051835  ... -5.060279 -3.941968  -4.449392
+3  3196749 -3.577147 -4.352275  ... -5.785214 -4.143799  -4.866880
+4  3796486 -2.490340 -3.758256  ... -4.369956 -3.664781  -3.965585
+
+[5 rows x 10 columns]
+2025-02-12 15:20:16,876 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1002240 -2.069691 -3.214813  ... -3.603206 -3.092125  -2.833168
+1  1006715 -3.524292 -4.747881  ... -5.893147 -4.437088  -5.628291
+2  1008358 -2.975259 -4.087616  ... -5.617558 -3.934403  -4.665294
+3  1011416 -3.437718 -4.423837  ... -5.465913 -4.096092  -4.632671
+4  1017097 -3.114126 -3.729625  ... -4.614996 -3.524600  -3.910517
+
+[5 rows x 10 columns]
+2025-02-12 15:23:57,004 - INFO - Saved SHAP values for cad in fold 3
+2025-02-12 15:27:31,258 - INFO - Saved SHAP values for stroke in fold 3
+2025-02-12 15:31:06,305 - INFO - Saved SHAP values for hf in fold 3
+2025-02-12 15:34:40,789 - INFO - Saved SHAP values for af in fold 3
+2025-02-12 15:38:16,427 - INFO - Saved SHAP values for va in fold 3
+2025-02-12 15:41:50,018 - INFO - Saved SHAP values for aaa in fold 3
+2025-02-12 15:45:28,463 - INFO - Saved SHAP values for pad in fold 3
+2025-02-12 15:48:58,616 - INFO - Saved SHAP values for vt in fold 3
+2025-02-12 15:52:31,961 - INFO - Saved SHAP values for cvd_death in fold 3
+2025-02-12 15:52:31,961 - INFO - ------------------Finish testing----------------------
+
+2025-02-12 15:52:31,962 - INFO - Processing fold: 4/9
+2025-02-12 15:52:33,916 - INFO - Fold 4: First test batch EIDs: 
+tensor([[1000492],
+        [1000523],
+        [1002839],
+        ...,
+        [6005617],
+        [6011029],
+        [6015238]], dtype=torch.int32)
+2025-02-12 15:52:34,006 - INFO - ------------------Start training-----------------------
+2025-02-12 15:52:41,881 - INFO - Saving model at epoch 1 with the best validation C-index 0.5529988291826472.
+2025-02-12 15:52:57,449 - INFO - Epoch 3 Fold 4: Average training loss = 0.35153996497392653, Validation loss = 0.25796517729759216,
+     Training c-index = 0.5583693783545859, Validation c-index = 0.5309363725901166, Testing c-index = 0.5548826674996816
+2025-02-12 15:53:13,548 - INFO - Saving model at epoch 5 with the best validation C-index 0.5562767081283275.
+2025-02-12 15:53:21,060 - INFO - Epoch 6 Fold 4: Average training loss = 0.20270533263683319, Validation loss = 0.1374435250957807,
+     Training c-index = 0.5691918128920728, Validation c-index = 0.5526206903281454, Testing c-index = 0.5878153702781392
+2025-02-12 15:53:28,911 - INFO - Saving model at epoch 7 with the best validation C-index 0.5566816783898509.
+2025-02-12 15:53:36,954 - INFO - Saving model at epoch 8 with the best validation C-index 0.5623615544782976.
+2025-02-12 15:53:45,568 - INFO - Saving model at epoch 9 with the best validation C-index 0.5638985582182128.
+2025-02-12 15:53:45,577 - INFO - Epoch 9 Fold 4: Average training loss = 0.16800848245620728, Validation loss = 0.12929579863945642,
+     Training c-index = 0.5837130483571155, Validation c-index = 0.5638985582182128, Testing c-index = 0.5838290596431552
+2025-02-12 15:54:00,612 - INFO - Saving model at epoch 11 with the best validation C-index 0.5913232135338021.
+2025-02-12 15:54:08,108 - INFO - Epoch 12 Fold 4: Average training loss = 0.15536430925130845, Validation loss = 0.12267472594976425,
+     Training c-index = 0.6380480391566415, Validation c-index = 0.5887493988558697, Testing c-index = 0.6329470144542619
+2025-02-12 15:54:23,076 - INFO - Saving model at epoch 14 with the best validation C-index 0.605985433697025.
+2025-02-12 15:54:30,434 - INFO - Epoch 15 Fold 4: Average training loss = 0.14784400463104247, Validation loss = 0.12254296491543452,
+     Training c-index = 0.6539255737974375, Validation c-index = 0.6038961965842087, Testing c-index = 0.6458139966425682
+2025-02-12 15:54:44,878 - INFO - Saving model at epoch 17 with the best validation C-index 0.6141546939181777.
+2025-02-12 15:54:52,303 - INFO - Saving model at epoch 18 with the best validation C-index 0.6247539798675351.
+2025-02-12 15:54:52,313 - INFO - Epoch 18 Fold 4: Average training loss = 0.14680380523204803, Validation loss = 0.11404799421628316,
+     Training c-index = 0.6717967752354596, Validation c-index = 0.6247539798675351, Testing c-index = 0.6806831376234506
+2025-02-12 15:55:14,575 - INFO - Saving model at epoch 21 with the best validation C-index 0.6269317956637541.
+2025-02-12 15:55:14,592 - INFO - Epoch 21 Fold 4: Average training loss = 0.13958271071314812, Validation loss = 0.11598385622104009,
+     Training c-index = 0.6697634078580649, Validation c-index = 0.6269317956637541, Testing c-index = 0.6675436322280277
+2025-02-12 15:55:36,457 - INFO - Epoch 24 Fold 4: Average training loss = 0.13732312023639678, Validation loss = 0.1287484640876452,
+     Training c-index = 0.6796347366199781, Validation c-index = 0.6190793938760287, Testing c-index = 0.694908409226709
+2025-02-12 15:55:44,374 - INFO - Saving model at epoch 25 with the best validation C-index 0.627289817282221.
+2025-02-12 15:55:52,709 - INFO - Saving model at epoch 26 with the best validation C-index 0.6295820970295782.
+2025-02-12 15:56:00,801 - INFO - Saving model at epoch 27 with the best validation C-index 0.6322827906066442.
+2025-02-12 15:56:00,811 - INFO - Epoch 27 Fold 4: Average training loss = 0.135197863727808, Validation loss = 0.11207695056994756,
+     Training c-index = 0.6839850489168925, Validation c-index = 0.6322827906066442, Testing c-index = 0.6969002033743908
+2025-02-12 15:56:16,492 - INFO - Saving model at epoch 29 with the best validation C-index 0.6386649129395504.
+2025-02-12 15:56:24,671 - INFO - Epoch 30 Fold 4: Average training loss = 0.1355548847466707, Validation loss = 0.1069901833931605,
+     Training c-index = 0.6850915352315402, Validation c-index = 0.6346893797827402, Testing c-index = 0.6917274692903165
+2025-02-12 15:56:46,797 - INFO - Epoch 33 Fold 4: Average training loss = 0.13498062677681447, Validation loss = 0.11882010350624721,
+     Training c-index = 0.6848639036759947, Validation c-index = 0.6208056776112636, Testing c-index = 0.6962684258936523
+2025-02-12 15:57:08,458 - INFO - Epoch 36 Fold 4: Average training loss = 0.13311106190085412, Validation loss = 0.11523176729679108,
+     Training c-index = 0.6859938990053959, Validation c-index = 0.6286572354480997, Testing c-index = 0.700928071155356
+2025-02-12 15:57:30,395 - INFO - Saving model at epoch 39 with the best validation C-index 0.6433609899184326.
+2025-02-12 15:57:30,407 - INFO - Epoch 39 Fold 4: Average training loss = 0.1324071280658245, Validation loss = 0.12058386206626892,
+     Training c-index = 0.6888999404186803, Validation c-index = 0.6433609899184326, Testing c-index = 0.695899419562317
+2025-02-12 15:57:51,769 - INFO - Saving model at epoch 42 with the best validation C-index 0.6440076920554305.
+2025-02-12 15:57:51,778 - INFO - Epoch 42 Fold 4: Average training loss = 0.13119968362152576, Validation loss = 0.11919887115557988,
+     Training c-index = 0.6914528435529396, Validation c-index = 0.6440076920554305, Testing c-index = 0.7003487203792136
+2025-02-12 15:58:12,958 - INFO - Epoch 45 Fold 4: Average training loss = 0.1327688530087471, Validation loss = 0.11596281329790752,
+     Training c-index = 0.6848617579522364, Validation c-index = 0.6333605263688777, Testing c-index = 0.6955415619520262
+2025-02-12 15:58:34,297 - INFO - Epoch 48 Fold 4: Average training loss = 0.12978604584932327, Validation loss = 0.11034216980139415,
+     Training c-index = 0.6911158698621095, Validation c-index = 0.6396525774983133, Testing c-index = 0.7023876941185146
+2025-02-12 15:58:48,423 - INFO - ------------------Finish training---------------------
+2025-02-12 15:58:48,466 - INFO - ------------------Start testing-----------------------
+2025-02-12 15:58:49,747 - INFO - Average testing c-index across all outcomes:
+0.7003487203792136
+2025-02-12 15:58:49,760 - INFO - Testing c-index for each outcome:
+outcome       cad    stroke        hf  ...       pad        vt  cvd_death
+cindex   0.687827  0.649993  0.722604  ...  0.719596  0.599039   0.738505
+
+[1 rows x 9 columns]
+2025-02-12 15:58:51,069 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  3211448 -1.528586 -3.048733  ... -3.453297 -2.994956  -2.795605
+1  4097608 -1.922709 -3.394388  ... -3.780388 -3.239211  -3.133809
+2  5298811 -2.085406 -3.886564  ... -4.623641 -3.687848  -4.000875
+3  5964502 -2.345369 -3.403335  ... -4.658021 -3.409062  -3.556818
+4  1580539 -2.748060 -4.022875  ... -4.761431 -3.911594  -4.246004
+
+[5 rows x 10 columns]
+2025-02-12 15:58:52,088 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1000492 -3.340173 -4.344516  ... -5.417653 -4.248946  -5.105471
+1  1000523 -3.359807 -3.872712  ... -4.937819 -3.756601  -4.029061
+2  1002839 -2.109593 -3.743831  ... -4.484728 -3.542249  -3.876580
+3  1008057 -1.606275 -2.857103  ... -3.557479 -2.806649  -2.635652
+4  1011036 -2.098990 -3.276282  ... -3.801074 -3.171507  -3.562537
+
+[5 rows x 10 columns]
+2025-02-12 16:02:28,077 - INFO - Saved SHAP values for cad in fold 4
+2025-02-12 16:06:00,245 - INFO - Saved SHAP values for stroke in fold 4
+2025-02-12 16:09:34,254 - INFO - Saved SHAP values for hf in fold 4
+2025-02-12 16:13:09,825 - INFO - Saved SHAP values for af in fold 4
+2025-02-12 16:16:45,096 - INFO - Saved SHAP values for va in fold 4
+2025-02-12 16:20:21,944 - INFO - Saved SHAP values for aaa in fold 4
+2025-02-12 16:23:57,135 - INFO - Saved SHAP values for pad in fold 4
+2025-02-12 16:27:30,926 - INFO - Saved SHAP values for vt in fold 4
+2025-02-12 16:31:08,582 - INFO - Saved SHAP values for cvd_death in fold 4
+2025-02-12 16:31:08,582 - INFO - ------------------Finish testing----------------------
+
+2025-02-12 16:31:08,582 - INFO - Processing fold: 5/9
+2025-02-12 16:31:10,764 - INFO - Fold 5: First test batch EIDs: 
+tensor([[1001551],
+        [1003957],
+        [1014138],
+        ...,
+        [6015470],
+        [6019590],
+        [6020970]], dtype=torch.int32)
+2025-02-12 16:31:10,852 - INFO - ------------------Start training-----------------------
+2025-02-12 16:31:19,454 - INFO - Saving model at epoch 1 with the best validation C-index 0.5822172950418224.
+2025-02-12 16:31:34,282 - INFO - Epoch 3 Fold 5: Average training loss = 0.35662438422441484, Validation loss = 0.2581406037012736,
+     Training c-index = 0.5841413926863716, Validation c-index = 0.5687195924676668, Testing c-index = 0.5520722573107119
+2025-02-12 16:31:41,779 - INFO - Saving model at epoch 4 with the best validation C-index 0.591740178185393.
+2025-02-12 16:31:49,630 - INFO - Saving model at epoch 5 with the best validation C-index 0.5993694564412645.
+2025-02-12 16:31:57,613 - INFO - Epoch 6 Fold 5: Average training loss = 0.20475815385580062, Validation loss = 0.12605844934781393,
+     Training c-index = 0.5624727927721962, Validation c-index = 0.591832008770175, Testing c-index = 0.5622741464265891
+2025-02-12 16:32:20,483 - INFO - Saving model at epoch 9 with the best validation C-index 0.6173175219960861.
+2025-02-12 16:32:20,496 - INFO - Epoch 9 Fold 5: Average training loss = 0.17011226639151572, Validation loss = 0.11179074148337047,
+     Training c-index = 0.6127433917617824, Validation c-index = 0.6173175219960861, Testing c-index = 0.5874058765611121
+2025-02-12 16:32:35,887 - INFO - Saving model at epoch 11 with the best validation C-index 0.623450952776857.
+2025-02-12 16:32:43,731 - INFO - Saving model at epoch 12 with the best validation C-index 0.6308209494271722.
+2025-02-12 16:32:43,743 - INFO - Epoch 12 Fold 5: Average training loss = 0.1531643107533455, Validation loss = 0.11182288577159245,
+     Training c-index = 0.6491555888389365, Validation c-index = 0.6308209494271722, Testing c-index = 0.6290646592971858
+2025-02-12 16:32:51,599 - INFO - Saving model at epoch 13 with the best validation C-index 0.6393345585110888.
+2025-02-12 16:32:59,238 - INFO - Saving model at epoch 14 with the best validation C-index 0.6445404055541691.
+2025-02-12 16:33:06,920 - INFO - Saving model at epoch 15 with the best validation C-index 0.653589829999123.
+2025-02-12 16:33:06,930 - INFO - Epoch 15 Fold 5: Average training loss = 0.1469774290919304, Validation loss = 0.11634096503257751,
+     Training c-index = 0.6632056472066107, Validation c-index = 0.653589829999123, Testing c-index = 0.6433032992311711
+2025-02-12 16:33:14,205 - INFO - Saving model at epoch 16 with the best validation C-index 0.6633793056386728.
+2025-02-12 16:33:29,682 - INFO - Epoch 18 Fold 5: Average training loss = 0.14355262890458106, Validation loss = 0.11123514423767726,
+     Training c-index = 0.6806677497755674, Validation c-index = 0.6613097277051465, Testing c-index = 0.6555354566072285
+2025-02-12 16:33:50,819 - INFO - Epoch 21 Fold 5: Average training loss = 0.1381118357181549, Validation loss = 0.11673554281393687,
+     Training c-index = 0.68119885028236, Validation c-index = 0.6626536406556569, Testing c-index = 0.6467888981766348
+2025-02-12 16:34:05,513 - INFO - Saving model at epoch 23 with the best validation C-index 0.667835995624861.
+2025-02-12 16:34:12,794 - INFO - Epoch 24 Fold 5: Average training loss = 0.1365147229284048, Validation loss = 0.11984362204869588,
+     Training c-index = 0.680662357239604, Validation c-index = 0.6619834023305984, Testing c-index = 0.648069307503051
+2025-02-12 16:34:27,213 - INFO - Saving model at epoch 26 with the best validation C-index 0.6720561813073078.
+2025-02-12 16:34:34,659 - INFO - Epoch 27 Fold 5: Average training loss = 0.1355571698397398, Validation loss = 0.11543261011441548,
+     Training c-index = 0.6868862349406373, Validation c-index = 0.666482760005022, Testing c-index = 0.652231234551952
+2025-02-12 16:34:55,783 - INFO - Epoch 30 Fold 5: Average training loss = 0.13331792876124382, Validation loss = 0.11866111059983571,
+     Training c-index = 0.6908165563886816, Validation c-index = 0.6718329760039684, Testing c-index = 0.6606489286232605
+2025-02-12 16:35:03,112 - INFO - Saving model at epoch 31 with the best validation C-index 0.6725690778412701.
+2025-02-12 16:35:17,897 - INFO - Epoch 33 Fold 5: Average training loss = 0.13308553956449032, Validation loss = 0.12008806814750035,
+     Training c-index = 0.6915306594530487, Validation c-index = 0.6676890666882271, Testing c-index = 0.6585626630071929
+2025-02-12 16:35:26,093 - INFO - Saving model at epoch 34 with the best validation C-index 0.6779454833371482.
+2025-02-12 16:35:40,923 - INFO - Epoch 36 Fold 5: Average training loss = 0.13156096935272216, Validation loss = 0.10830355435609818,
+     Training c-index = 0.694867564323929, Validation c-index = 0.6693968213325721, Testing c-index = 0.6593812247603981
+2025-02-12 16:36:02,804 - INFO - Epoch 39 Fold 5: Average training loss = 0.13154081627726555, Validation loss = 0.11920857926209767,
+     Training c-index = 0.693711160333593, Validation c-index = 0.6699001721358168, Testing c-index = 0.6509587803842724
+2025-02-12 16:36:26,291 - INFO - Saving model at epoch 42 with the best validation C-index 0.678456545823337.
+2025-02-12 16:36:26,301 - INFO - Epoch 42 Fold 5: Average training loss = 0.12991679832339287, Validation loss = 0.12306350469589233,
+     Training c-index = 0.6970383346197127, Validation c-index = 0.678456545823337, Testing c-index = 0.6521784028945072
+2025-02-12 16:36:49,490 - INFO - Epoch 45 Fold 5: Average training loss = 0.12911674603819848, Validation loss = 0.11161325871944427,
+     Training c-index = 0.6969308009046723, Validation c-index = 0.6743821215823798, Testing c-index = 0.651244250023537
+2025-02-12 16:37:13,453 - INFO - Epoch 48 Fold 5: Average training loss = 0.1299241330474615, Validation loss = 0.11294905592997868,
+     Training c-index = 0.6962003510123344, Validation c-index = 0.6756343365775864, Testing c-index = 0.6534402007503156
+2025-02-12 16:37:27,886 - INFO - ------------------Finish training---------------------
+2025-02-12 16:37:27,933 - INFO - ------------------Start testing-----------------------
+2025-02-12 16:37:29,139 - INFO - Average testing c-index across all outcomes:
+0.6521784028945072
+2025-02-12 16:37:29,151 - INFO - Testing c-index for each outcome:
+outcome       cad    stroke        hf  ...       pad        vt  cvd_death
+cindex   0.656955  0.613882  0.645773  ...  0.754059  0.663182   0.722055
+
+[1 rows x 9 columns]
+2025-02-12 16:37:30,315 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  3086845 -2.064708 -3.172149  ... -3.887664 -3.097514  -2.714769
+1  4560723 -3.425961 -4.255605  ... -5.154307 -3.977658  -4.620832
+2  4982635 -1.766146 -3.207999  ... -3.680527 -3.077718  -3.196187
+3  1296525 -3.683265 -4.674656  ... -5.682906 -4.346454  -4.834674
+4  3264162 -3.382348 -4.696077  ... -5.474614 -4.273766  -4.858663
+
+[5 rows x 10 columns]
+2025-02-12 16:37:31,391 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1001551 -1.891348 -3.413113  ... -3.935281 -3.242530  -3.278722
+1  1003957 -2.696995 -3.908406  ... -4.348773 -3.527293  -3.618036
+2  1014138 -3.022423 -4.080648  ... -4.982819 -3.866590  -4.248283
+3  1019985 -2.920130 -4.061861  ... -5.024343 -3.831110  -4.132564
+4  1023903 -3.398854 -4.149575  ... -5.532721 -3.981295  -5.009296
+
+[5 rows x 10 columns]
+2025-02-12 16:41:10,376 - INFO - Saved SHAP values for cad in fold 5
+2025-02-12 16:44:47,593 - INFO - Saved SHAP values for stroke in fold 5
+2025-02-12 16:48:23,482 - INFO - Saved SHAP values for hf in fold 5
+2025-02-12 16:51:59,357 - INFO - Saved SHAP values for af in fold 5
+2025-02-12 16:55:32,000 - INFO - Saved SHAP values for va in fold 5
+2025-02-12 16:59:46,564 - INFO - Saved SHAP values for aaa in fold 5
+2025-02-12 17:03:39,662 - INFO - Saved SHAP values for pad in fold 5
+2025-02-12 17:07:13,913 - INFO - Saved SHAP values for vt in fold 5
+2025-02-12 17:10:51,726 - INFO - Saved SHAP values for cvd_death in fold 5
+2025-02-12 17:10:51,727 - INFO - ------------------Finish testing----------------------
+
+2025-02-12 17:10:51,727 - INFO - Processing fold: 6/9
+2025-02-12 17:10:53,968 - INFO - Fold 6: First test batch EIDs: 
+tensor([[1003845],
+        [1003966],
+        [1009060],
+        ...,
+        [6021585],
+        [6021607],
+        [6023636]], dtype=torch.int32)
+2025-02-12 17:10:54,071 - INFO - ------------------Start training-----------------------
+2025-02-12 17:11:02,867 - INFO - Saving model at epoch 1 with the best validation C-index 0.5575177192201797.
+2025-02-12 17:11:11,015 - INFO - Saving model at epoch 2 with the best validation C-index 0.5764815331538646.
+2025-02-12 17:11:18,892 - INFO - Saving model at epoch 3 with the best validation C-index 0.5885274681074972.
+2025-02-12 17:11:18,897 - INFO - Epoch 3 Fold 6: Average training loss = 0.35584654211997985, Validation loss = 0.2615987608830134,
+     Training c-index = 0.5737530737928057, Validation c-index = 0.5885274681074972, Testing c-index = 0.5611616186804721
+2025-02-12 17:11:26,679 - INFO - Saving model at epoch 4 with the best validation C-index 0.6180275026005971.
+2025-02-12 17:11:34,586 - INFO - Saving model at epoch 5 with the best validation C-index 0.6213281032934428.
+2025-02-12 17:11:42,356 - INFO - Saving model at epoch 6 with the best validation C-index 0.6227133194196984.
+2025-02-12 17:11:42,366 - INFO - Epoch 6 Fold 6: Average training loss = 0.20548930242657662, Validation loss = 0.1250244900584221,
+     Training c-index = 0.5810814617615598, Validation c-index = 0.6227133194196984, Testing c-index = 0.5552555583258294
+2025-02-12 17:11:50,151 - INFO - Saving model at epoch 7 with the best validation C-index 0.6294371846333144.
+2025-02-12 17:11:58,256 - INFO - Saving model at epoch 8 with the best validation C-index 0.6358677956857501.
+2025-02-12 17:12:05,855 - INFO - Epoch 9 Fold 6: Average training loss = 0.16930229738354682, Validation loss = 0.11592225730419159,
+     Training c-index = 0.5902773889714807, Validation c-index = 0.6248249563278723, Testing c-index = 0.5749392161529046
+2025-02-12 17:12:13,618 - INFO - Saving model at epoch 10 with the best validation C-index 0.6683207856746799.
+2025-02-12 17:12:21,323 - INFO - Saving model at epoch 11 with the best validation C-index 0.6725315839827883.
+2025-02-12 17:12:29,191 - INFO - Saving model at epoch 12 with the best validation C-index 0.6776545267996275.
+2025-02-12 17:12:29,196 - INFO - Epoch 12 Fold 6: Average training loss = 0.15733787268400193, Validation loss = 0.11319780101378758,
+     Training c-index = 0.6500112137125001, Validation c-index = 0.6776545267996275, Testing c-index = 0.6211441231919888
+2025-02-12 17:12:44,964 - INFO - Saving model at epoch 14 with the best validation C-index 0.678256348033309.
+2025-02-12 17:12:52,869 - INFO - Saving model at epoch 15 with the best validation C-index 0.6928578660775215.
+2025-02-12 17:12:52,878 - INFO - Epoch 15 Fold 6: Average training loss = 0.1483763910830021, Validation loss = 0.11808726191520691,
+     Training c-index = 0.6502092559578749, Validation c-index = 0.6928578660775215, Testing c-index = 0.6274598323242858
+2025-02-12 17:13:00,954 - INFO - Saving model at epoch 16 with the best validation C-index 0.709589009783112.
+2025-02-12 17:13:15,798 - INFO - Epoch 18 Fold 6: Average training loss = 0.14281508438289164, Validation loss = 0.11642411102851231,
+     Training c-index = 0.6621665281956349, Validation c-index = 0.6925702917931227, Testing c-index = 0.6348549372956693
+2025-02-12 17:13:38,717 - INFO - Epoch 21 Fold 6: Average training loss = 0.13974692076444625, Validation loss = 0.13025873402754465,
+     Training c-index = 0.6799134222570122, Validation c-index = 0.7043778263163415, Testing c-index = 0.648418347875205
+2025-02-12 17:13:47,180 - INFO - Saving model at epoch 22 with the best validation C-index 0.7121710858655411.
+2025-02-12 17:14:01,815 - INFO - Epoch 24 Fold 6: Average training loss = 0.13780345320701598, Validation loss = 0.1175048400958379,
+     Training c-index = 0.6849637166332154, Validation c-index = 0.7111293568167327, Testing c-index = 0.6516525739765476
+2025-02-12 17:14:24,853 - INFO - Epoch 27 Fold 6: Average training loss = 0.13590907528996468, Validation loss = 0.11550135165452957,
+     Training c-index = 0.6856580829903837, Validation c-index = 0.7085791688219264, Testing c-index = 0.6503788216430749
+2025-02-12 17:14:47,386 - INFO - Epoch 30 Fold 6: Average training loss = 0.1352574300020933, Validation loss = 0.11964526772499084,
+     Training c-index = 0.6864195787006232, Validation c-index = 0.7077024226575874, Testing c-index = 0.6492250851709374
+2025-02-12 17:15:10,540 - INFO - Epoch 33 Fold 6: Average training loss = 0.13391800820827485, Validation loss = 0.11281782637039821,
+     Training c-index = 0.6802382904575018, Validation c-index = 0.7063669860262958, Testing c-index = 0.6519013940522328
+2025-02-12 17:15:25,610 - INFO - Saving model at epoch 35 with the best validation C-index 0.713360501776819.
+2025-02-12 17:15:33,200 - INFO - Epoch 36 Fold 6: Average training loss = 0.13203772865235805, Validation loss = 0.11682718992233276,
+     Training c-index = 0.6887197998448609, Validation c-index = 0.711348539078505, Testing c-index = 0.659132692453268
+2025-02-12 17:15:55,960 - INFO - Epoch 39 Fold 6: Average training loss = 0.13034168109297753, Validation loss = 0.120597076912721,
+     Training c-index = 0.6850412690847635, Validation c-index = 0.6922095555927095, Testing c-index = 0.6491879997195159
+2025-02-12 17:16:18,135 - INFO - Epoch 42 Fold 6: Average training loss = 0.1293048545718193, Validation loss = 0.11215879768133163,
+     Training c-index = 0.6931400426109736, Validation c-index = 0.7089989943497431, Testing c-index = 0.6614250522440035
+2025-02-12 17:16:40,001 - INFO - Epoch 45 Fold 6: Average training loss = 0.13189085572957993, Validation loss = 0.11398962388436,
+     Training c-index = 0.6943715462078806, Validation c-index = 0.7100978137802492, Testing c-index = 0.6515803566924794
+2025-02-12 17:17:03,257 - INFO - Epoch 48 Fold 6: Average training loss = 0.1303105939179659, Validation loss = 0.11671570440133412,
+     Training c-index = 0.694881541262159, Validation c-index = 0.7116265093104654, Testing c-index = 0.656067811599566
+2025-02-12 17:17:18,209 - INFO - ------------------Finish training---------------------
+2025-02-12 17:17:18,252 - INFO - ------------------Start testing-----------------------
+2025-02-12 17:17:19,656 - INFO - Average testing c-index across all outcomes:
+0.6572428085939415
+2025-02-12 17:17:19,666 - INFO - Testing c-index for each outcome:
+outcome       cad    stroke       hf  ...       pad        vt  cvd_death
+cindex   0.628882  0.661425  0.69451  ...  0.650609  0.596459    0.70637
+
+[1 rows x 9 columns]
+2025-02-12 17:17:21,047 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  5000004 -2.156335 -3.646860  ... -4.472977 -3.555451  -3.850160
+1  4344412 -3.726702 -4.772038  ... -6.615060 -4.652925  -5.657398
+2  5338133 -1.689328 -3.214497  ... -3.889497 -3.062334  -2.960766
+3  5477471 -1.944577 -3.758184  ... -4.593761 -3.586882  -4.177684
+4  2928269 -2.138066 -3.670673  ... -4.521142 -3.512425  -3.905743
+
+[5 rows x 10 columns]
+2025-02-12 17:17:22,250 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1003845 -3.275048 -4.058539  ... -5.086032 -3.883991  -4.367703
+1  1003966 -2.968397 -3.842576  ... -4.663843 -3.658168  -4.002687
+2  1009060 -3.044900 -4.260033  ... -5.381077 -4.100437  -4.612165
+3  1009537 -3.012228 -4.317806  ... -5.432551 -4.149410  -4.746046
+4  1012507 -3.029184 -4.049574  ... -5.000167 -3.874610  -4.260124
+
+[5 rows x 10 columns]
+2025-02-12 17:21:05,392 - INFO - Saved SHAP values for cad in fold 6
+2025-02-12 17:24:40,813 - INFO - Saved SHAP values for stroke in fold 6
+2025-02-12 17:28:11,036 - INFO - Saved SHAP values for hf in fold 6
+2025-02-12 17:31:45,449 - INFO - Saved SHAP values for af in fold 6
+2025-02-12 17:35:21,274 - INFO - Saved SHAP values for va in fold 6
+2025-02-12 17:38:54,752 - INFO - Saved SHAP values for aaa in fold 6
+2025-02-12 17:42:27,652 - INFO - Saved SHAP values for pad in fold 6
+2025-02-12 17:46:03,322 - INFO - Saved SHAP values for vt in fold 6
+2025-02-12 17:49:38,143 - INFO - Saved SHAP values for cvd_death in fold 6
+2025-02-12 17:49:38,143 - INFO - ------------------Finish testing----------------------
+
+2025-02-12 17:49:38,143 - INFO - Processing fold: 7/9
+2025-02-12 17:49:40,575 - INFO - Fold 7: First test batch EIDs: 
+tensor([[1001660],
+        [1005857],
+        [1007074],
+        ...,
+        [6020226],
+        [6020365],
+        [6021562]], dtype=torch.int32)
+2025-02-12 17:49:40,662 - INFO - ------------------Start training-----------------------
+2025-02-12 17:49:49,855 - INFO - Saving model at epoch 1 with the best validation C-index 0.6218064313174513.
+2025-02-12 17:50:05,234 - INFO - Epoch 3 Fold 7: Average training loss = 0.35987568348646165, Validation loss = 0.26343079408009845,
+     Training c-index = 0.5556518424683139, Validation c-index = 0.577812221447356, Testing c-index = 0.5748369643467124
+2025-02-12 17:50:29,727 - INFO - Epoch 6 Fold 7: Average training loss = 0.20312049239873886, Validation loss = 0.12272721280654271,
+     Training c-index = 0.5500068966162543, Validation c-index = 0.5618832874559768, Testing c-index = 0.5422205555611352
+2025-02-12 17:50:53,692 - INFO - Epoch 9 Fold 7: Average training loss = 0.165986255556345, Validation loss = 0.11225259800752004,
+     Training c-index = 0.5791905677052414, Validation c-index = 0.5899334615953116, Testing c-index = 0.5515862807858974
+2025-02-12 17:51:09,974 - INFO - Saving model at epoch 11 with the best validation C-index 0.6255467494539226.
+2025-02-12 17:51:18,117 - INFO - Epoch 12 Fold 7: Average training loss = 0.15432956889271737, Validation loss = 0.11621326704819997,
+     Training c-index = 0.6242912868316399, Validation c-index = 0.6224573983948439, Testing c-index = 0.6107052851662583
+2025-02-12 17:51:26,267 - INFO - Saving model at epoch 13 with the best validation C-index 0.6336088724153824.
+2025-02-12 17:51:34,898 - INFO - Saving model at epoch 14 with the best validation C-index 0.6405897880156336.
+2025-02-12 17:51:42,619 - INFO - Epoch 15 Fold 7: Average training loss = 0.14849461428821087, Validation loss = 0.11253932118415833,
+     Training c-index = 0.6235122644604835, Validation c-index = 0.6058286774348909, Testing c-index = 0.6048886227262269
+2025-02-12 17:51:51,375 - INFO - Saving model at epoch 16 with the best validation C-index 0.6437058036676999.
+2025-02-12 17:52:07,409 - INFO - Saving model at epoch 18 with the best validation C-index 0.666241865678137.
+2025-02-12 17:52:07,419 - INFO - Epoch 18 Fold 7: Average training loss = 0.14461419284343718, Validation loss = 0.11377065132061641,
+     Training c-index = 0.6605600553134421, Validation c-index = 0.666241865678137, Testing c-index = 0.6552148235064681
+2025-02-12 17:52:15,775 - INFO - Saving model at epoch 19 with the best validation C-index 0.6740047299928682.
+2025-02-12 17:52:31,006 - INFO - Epoch 21 Fold 7: Average training loss = 0.1407971553504467, Validation loss = 0.11465134471654892,
+     Training c-index = 0.6579482100575631, Validation c-index = 0.6579184955778519, Testing c-index = 0.6497561944640902
+2025-02-12 17:52:46,724 - INFO - Saving model at epoch 23 with the best validation C-index 0.6755160074522396.
+2025-02-12 17:52:54,271 - INFO - Epoch 24 Fold 7: Average training loss = 0.14013260863721372, Validation loss = 0.1136510322491328,
+     Training c-index = 0.6586459315265998, Validation c-index = 0.6658935320320539, Testing c-index = 0.6523863208481586
+2025-02-12 17:53:17,539 - INFO - Saving model at epoch 27 with the best validation C-index 0.6782542595027482.
+2025-02-12 17:53:17,545 - INFO - Epoch 27 Fold 7: Average training loss = 0.13942986838519572, Validation loss = 0.10861773043870926,
+     Training c-index = 0.6736630666166047, Validation c-index = 0.6782542595027482, Testing c-index = 0.6479614857757028
+2025-02-12 17:53:25,599 - INFO - Saving model at epoch 28 with the best validation C-index 0.6823075364964537.
+2025-02-12 17:53:40,919 - INFO - Saving model at epoch 30 with the best validation C-index 0.683607883274674.
+2025-02-12 17:53:40,928 - INFO - Epoch 30 Fold 7: Average training loss = 0.13733954541385174, Validation loss = 0.11409511417150497,
+     Training c-index = 0.6826201165660873, Validation c-index = 0.683607883274674, Testing c-index = 0.6622023775517739
+2025-02-12 17:53:48,682 - INFO - Saving model at epoch 31 with the best validation C-index 0.6862040986341167.
+2025-02-12 17:54:04,320 - INFO - Saving model at epoch 33 with the best validation C-index 0.6869638912392505.
+2025-02-12 17:54:04,331 - INFO - Epoch 33 Fold 7: Average training loss = 0.13458727188408376, Validation loss = 0.10943432152271271,
+     Training c-index = 0.6798619779529147, Validation c-index = 0.6869638912392505, Testing c-index = 0.663126953970151
+2025-02-12 17:54:27,054 - INFO - Epoch 36 Fold 7: Average training loss = 0.13497397042810916, Validation loss = 0.11519997318585713,
+     Training c-index = 0.6760666984589719, Validation c-index = 0.6788394746834471, Testing c-index = 0.6396588633089363
+2025-02-12 17:54:50,461 - INFO - Epoch 39 Fold 7: Average training loss = 0.13389352448284625, Validation loss = 0.11195382475852966,
+     Training c-index = 0.6870146615253853, Validation c-index = 0.6813562675642871, Testing c-index = 0.6572573171094845
+2025-02-12 17:55:06,765 - INFO - Saving model at epoch 41 with the best validation C-index 0.6919662682985451.
+2025-02-12 17:55:14,774 - INFO - Epoch 42 Fold 7: Average training loss = 0.13401567079126836, Validation loss = 0.11805074910322826,
+     Training c-index = 0.689803371038249, Validation c-index = 0.689541122087838, Testing c-index = 0.6734213507538578
+2025-02-12 17:55:38,777 - INFO - Saving model at epoch 45 with the best validation C-index 0.6933954754353837.
+2025-02-12 17:55:38,783 - INFO - Epoch 45 Fold 7: Average training loss = 0.1318474642932415, Validation loss = 0.12007783601681392,
+     Training c-index = 0.6881991082490062, Validation c-index = 0.6933954754353837, Testing c-index = 0.6626939892026952
+2025-02-12 17:55:55,122 - INFO - Saving model at epoch 47 with the best validation C-index 0.6939382885952716.
+2025-02-12 17:56:03,149 - INFO - Saving model at epoch 48 with the best validation C-index 0.696552983049839.
+2025-02-12 17:56:03,166 - INFO - Epoch 48 Fold 7: Average training loss = 0.13247717283666133, Validation loss = 0.11227913945913315,
+     Training c-index = 0.6914934844528461, Validation c-index = 0.696552983049839, Testing c-index = 0.6660615931203623
+2025-02-12 17:56:19,694 - INFO - ------------------Finish training---------------------
+2025-02-12 17:56:19,737 - INFO - ------------------Start testing-----------------------
+2025-02-12 17:56:21,133 - INFO - Average testing c-index across all outcomes:
+0.6660615931203623
+2025-02-12 17:56:21,144 - INFO - Testing c-index for each outcome:
+outcome       cad    stroke        hf  ...       pad        vt  cvd_death
+cindex   0.685242  0.610939  0.680024  ...  0.747926  0.598509   0.751702
+
+[1 rows x 9 columns]
+2025-02-12 17:56:22,606 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  4451979 -2.201531 -3.901544  ... -4.588537 -3.648881  -4.673484
+1  3666757 -2.927317 -3.737407  ... -5.072114 -3.712933  -4.262966
+2  4430589 -2.246827 -3.475458  ... -4.191313 -3.344267  -3.359785
+3  4668231 -2.039263 -3.486885  ... -3.967083 -3.289832  -3.225969
+4  5198010 -1.969297 -3.869699  ... -3.904693 -3.149447  -3.546723
+
+[5 rows x 10 columns]
+2025-02-12 17:56:23,830 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1001660 -2.852142 -3.952535  ... -5.229110 -3.920296  -5.164114
+1  1005857 -2.537230 -3.670110  ... -4.495881 -3.472713  -3.682592
+2  1007074 -3.705118 -4.509709  ... -5.726980 -4.269158  -5.048023
+3  1008534 -2.324265 -3.928199  ... -4.378658 -3.545244  -3.856866
+4  1010404 -2.724905 -3.855325  ... -4.618823 -3.649766  -3.846326
+
+[5 rows x 10 columns]
+2025-02-12 18:00:02,877 - INFO - Saved SHAP values for cad in fold 7
+2025-02-12 18:03:39,491 - INFO - Saved SHAP values for stroke in fold 7
+2025-02-12 18:07:14,917 - INFO - Saved SHAP values for hf in fold 7
+2025-02-12 18:10:49,805 - INFO - Saved SHAP values for af in fold 7
+2025-02-12 18:14:26,782 - INFO - Saved SHAP values for va in fold 7
+2025-02-12 18:17:57,726 - INFO - Saved SHAP values for aaa in fold 7
+2025-02-12 18:21:31,145 - INFO - Saved SHAP values for pad in fold 7
+2025-02-12 18:25:07,021 - INFO - Saved SHAP values for vt in fold 7
+2025-02-12 18:28:44,453 - INFO - Saved SHAP values for cvd_death in fold 7
+2025-02-12 18:28:44,453 - INFO - ------------------Finish testing----------------------
+
+2025-02-12 18:28:44,453 - INFO - Processing fold: 8/9
+2025-02-12 18:28:46,591 - INFO - Fold 8: First test batch EIDs: 
+tensor([[1001486],
+        [1003979],
+        [1004237],
+        ...,
+        [6007753],
+        [6013637],
+        [6021596]], dtype=torch.int32)
+2025-02-12 18:28:46,673 - INFO - ------------------Start training-----------------------
+2025-02-12 18:28:55,184 - INFO - Saving model at epoch 1 with the best validation C-index 0.5839952008449203.
+2025-02-12 18:29:10,689 - INFO - Epoch 3 Fold 8: Average training loss = 0.3704975306987762, Validation loss = 0.2899872958660126,
+     Training c-index = 0.5402885749881019, Validation c-index = 0.5792825859271825, Testing c-index = 0.5309497278805829
+2025-02-12 18:29:18,587 - INFO - Saving model at epoch 4 with the best validation C-index 0.5883694188219704.
+2025-02-12 18:29:33,522 - INFO - Epoch 6 Fold 8: Average training loss = 0.2074970632791519, Validation loss = 0.15091915428638458,
+     Training c-index = 0.5702226517158623, Validation c-index = 0.5622239953499187, Testing c-index = 0.5649760565905849
+2025-02-12 18:29:56,532 - INFO - Epoch 9 Fold 8: Average training loss = 0.1684731811285019, Validation loss = 0.12550116330385208,
+     Training c-index = 0.6237116259230562, Validation c-index = 0.5825370723772527, Testing c-index = 0.6231761311815269
+2025-02-12 18:30:19,715 - INFO - Saving model at epoch 12 with the best validation C-index 0.6268843052733283.
+2025-02-12 18:30:19,727 - INFO - Epoch 12 Fold 8: Average training loss = 0.1525540292263031, Validation loss = 0.1271802857518196,
+     Training c-index = 0.6637767712260475, Validation c-index = 0.6268843052733283, Testing c-index = 0.6708362009989394
+2025-02-12 18:30:42,533 - INFO - Saving model at epoch 15 with the best validation C-index 0.6338103070482329.
+2025-02-12 18:30:42,543 - INFO - Epoch 15 Fold 8: Average training loss = 0.14397941194474698, Validation loss = 0.12776927401622137,
+     Training c-index = 0.670168566314356, Validation c-index = 0.6338103070482329, Testing c-index = 0.6741600479292617
+2025-02-12 18:30:58,360 - INFO - Saving model at epoch 17 with the best validation C-index 0.6367359888522051.
+2025-02-12 18:31:06,340 - INFO - Saving model at epoch 18 with the best validation C-index 0.6525435696485944.
+2025-02-12 18:31:06,356 - INFO - Epoch 18 Fold 8: Average training loss = 0.14102737233042717, Validation loss = 0.1461695283651352,
+     Training c-index = 0.6771150863526035, Validation c-index = 0.6525435696485944, Testing c-index = 0.6807841248284394
+2025-02-12 18:31:28,529 - INFO - Epoch 21 Fold 8: Average training loss = 0.13755644708871842, Validation loss = 0.12974834690491358,
+     Training c-index = 0.6620502560323701, Validation c-index = 0.6148559497377106, Testing c-index = 0.6738628873934319
+2025-02-12 18:31:50,745 - INFO - Epoch 24 Fold 8: Average training loss = 0.134852197393775, Validation loss = 0.1363686869541804,
+     Training c-index = 0.6786551432565612, Validation c-index = 0.6332170390897303, Testing c-index = 0.6803880203646425
+2025-02-12 18:32:07,557 - INFO - Saving model at epoch 26 with the best validation C-index 0.6545090005134869.
+2025-02-12 18:32:15,845 - INFO - Saving model at epoch 27 with the best validation C-index 0.6616029668882121.
+2025-02-12 18:32:15,861 - INFO - Epoch 27 Fold 8: Average training loss = 0.13376319855451585, Validation loss = 0.133153868218263,
+     Training c-index = 0.6854647645876251, Validation c-index = 0.6616029668882121, Testing c-index = 0.6847656282581461
+2025-02-12 18:32:38,659 - INFO - Epoch 30 Fold 8: Average training loss = 0.13201859146356582, Validation loss = 0.15131637950738272,
+     Training c-index = 0.6850646316071268, Validation c-index = 0.6407304314711367, Testing c-index = 0.6832883019372876
+2025-02-12 18:33:02,055 - INFO - Saving model at epoch 33 with the best validation C-index 0.6687741817108891.
+2025-02-12 18:33:02,065 - INFO - Epoch 33 Fold 8: Average training loss = 0.13095069564878942, Validation loss = 0.14376979569594064,
+     Training c-index = 0.6831578116193165, Validation c-index = 0.6687741817108891, Testing c-index = 0.6846616646263789
+2025-02-12 18:33:25,268 - INFO - Epoch 36 Fold 8: Average training loss = 0.13070128858089447, Validation loss = 0.12006791184345882,
+     Training c-index = 0.6864764953892588, Validation c-index = 0.6468732816513579, Testing c-index = 0.6904917213825593
+2025-02-12 18:33:47,789 - INFO - Saving model at epoch 39 with the best validation C-index 0.6724892719910648.
+2025-02-12 18:33:47,801 - INFO - Epoch 39 Fold 8: Average training loss = 0.13044672422111034, Validation loss = 0.13427607715129852,
+     Training c-index = 0.6926090878539992, Validation c-index = 0.6724892719910648, Testing c-index = 0.6932424171352021
+2025-02-12 18:34:10,952 - INFO - Epoch 42 Fold 8: Average training loss = 0.12854289822280407, Validation loss = 0.1424217720826467,
+     Training c-index = 0.6919736731631773, Validation c-index = 0.6432965249375735, Testing c-index = 0.6860251082005118
+2025-02-12 18:34:34,395 - INFO - Epoch 45 Fold 8: Average training loss = 0.12781034596264362, Validation loss = 0.12421796967585881,
+     Training c-index = 0.697444979320601, Validation c-index = 0.6516493127177146, Testing c-index = 0.6876114627398617
+2025-02-12 18:34:57,469 - INFO - Epoch 48 Fold 8: Average training loss = 0.12704164125025272, Validation loss = 0.12362641096115112,
+     Training c-index = 0.6986144920970919, Validation c-index = 0.6682803934705851, Testing c-index = 0.6885412226225149
+2025-02-12 18:35:13,158 - INFO - ------------------Finish training---------------------
+2025-02-12 18:35:13,200 - INFO - ------------------Start testing-----------------------
+2025-02-12 18:35:14,569 - INFO - Average testing c-index across all outcomes:
+0.6932424171352021
+2025-02-12 18:35:14,579 - INFO - Testing c-index for each outcome:
+outcome       cad    stroke        hf  ...      pad        vt  cvd_death
+cindex   0.688381  0.617903  0.711966  ...  0.75199  0.630015   0.751161
+
+[1 rows x 9 columns]
+2025-02-12 18:35:15,948 - INFO -        eid       cad    stroke  ...        pad         vt  cvd_death
+0  3289508 -1.707156 -3.343548  ...  -3.759527  -3.161547  -2.896864
+1  5581273 -3.709222 -9.600742  ... -21.778257 -11.441773 -11.777786
+2  5632602 -1.697497 -3.230134  ...  -3.623950  -3.171813  -2.737608
+3  2685287 -3.730542 -4.341690  ...  -5.560732  -3.947912  -4.911263
+4  2691843 -2.691392 -3.896354  ...  -4.904349  -3.744340  -4.026351
+
+[5 rows x 10 columns]
+2025-02-12 18:35:17,073 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1001486 -2.815465 -3.622078  ... -4.630118 -3.506301  -3.595991
+1  1003979 -2.359853 -3.766935  ... -4.668876 -3.493465  -3.804926
+2  1004237 -2.290459 -3.643674  ... -4.449836 -3.553003  -3.564008
+3  1005259 -4.244068 -5.239649  ... -6.573859 -4.591040  -6.381835
+4  1006277 -4.250053 -5.214008  ... -6.598646 -4.467723  -6.719180
+
+[5 rows x 10 columns]
+2025-02-12 18:38:53,022 - INFO - Saved SHAP values for cad in fold 8
+2025-02-12 18:42:31,956 - INFO - Saved SHAP values for stroke in fold 8
+2025-02-12 18:46:07,303 - INFO - Saved SHAP values for hf in fold 8
+2025-02-12 18:49:41,540 - INFO - Saved SHAP values for af in fold 8
+2025-02-12 18:53:15,319 - INFO - Saved SHAP values for va in fold 8
+2025-02-12 18:56:49,297 - INFO - Saved SHAP values for aaa in fold 8
+2025-02-12 19:00:22,620 - INFO - Saved SHAP values for pad in fold 8
+2025-02-12 19:03:59,452 - INFO - Saved SHAP values for vt in fold 8
+2025-02-12 19:07:31,239 - INFO - Saved SHAP values for cvd_death in fold 8
+2025-02-12 19:07:31,239 - INFO - ------------------Finish testing----------------------
+
+2025-02-12 19:07:31,239 - INFO - Processing fold: 9/9
+2025-02-12 19:07:33,187 - INFO - Fold 9: First test batch EIDs: 
+tensor([[1000368],
+        [1000950],
+        [1003055],
+        ...,
+        [6022027],
+        [6022766],
+        [6022829]], dtype=torch.int32)
+2025-02-12 19:07:33,294 - INFO - ------------------Start training-----------------------
+2025-02-12 19:07:41,296 - INFO - Saving model at epoch 1 with the best validation C-index 0.5411330282950034.
+2025-02-12 19:07:49,318 - INFO - Saving model at epoch 2 with the best validation C-index 0.5764733584084687.
+2025-02-12 19:07:57,575 - INFO - Saving model at epoch 3 with the best validation C-index 0.5805899113968518.
+2025-02-12 19:07:57,586 - INFO - Epoch 3 Fold 9: Average training loss = 0.3824745088815689, Validation loss = 0.29183729489644367,
+     Training c-index = 0.5784127791710579, Validation c-index = 0.5805899113968518, Testing c-index = 0.5509773959765709
+2025-02-12 19:08:06,488 - INFO - Saving model at epoch 4 with the best validation C-index 0.5824524175933702.
+2025-02-12 19:08:14,523 - INFO - Saving model at epoch 5 with the best validation C-index 0.6124717060189536.
+2025-02-12 19:08:21,993 - INFO - Epoch 6 Fold 9: Average training loss = 0.21214436888694763, Validation loss = 0.15025664865970612,
+     Training c-index = 0.5550826941601188, Validation c-index = 0.5735776559160535, Testing c-index = 0.5299016901151286
+2025-02-12 19:08:44,715 - INFO - Epoch 9 Fold 9: Average training loss = 0.16923360154032707, Validation loss = 0.14386126399040222,
+     Training c-index = 0.5793971993672774, Validation c-index = 0.6103854043481627, Testing c-index = 0.5712908142593052
+2025-02-12 19:08:52,664 - INFO - Saving model at epoch 10 with the best validation C-index 0.6182064728054261.
+2025-02-12 19:09:00,453 - INFO - Saving model at epoch 11 with the best validation C-index 0.6275370184320046.
+2025-02-12 19:09:08,579 - INFO - Saving model at epoch 12 with the best validation C-index 0.6358380862254892.
+2025-02-12 19:09:08,591 - INFO - Epoch 12 Fold 9: Average training loss = 0.15302262604236602, Validation loss = 0.12891191989183426,
+     Training c-index = 0.6172558759666781, Validation c-index = 0.6358380862254892, Testing c-index = 0.588949082067458
+2025-02-12 19:09:16,826 - INFO - Saving model at epoch 13 with the best validation C-index 0.6424131078149303.
+2025-02-12 19:09:25,112 - INFO - Saving model at epoch 14 with the best validation C-index 0.6599291229928805.
+2025-02-12 19:09:32,452 - INFO - Epoch 15 Fold 9: Average training loss = 0.14588857777416706, Validation loss = 0.13698835174242655,
+     Training c-index = 0.662430780536567, Validation c-index = 0.652724632355487, Testing c-index = 0.6391273785474542
+2025-02-12 19:09:40,301 - INFO - Saving model at epoch 16 with the best validation C-index 0.668963391680665.
+2025-02-12 19:09:55,130 - INFO - Epoch 18 Fold 9: Average training loss = 0.14271268099546433, Validation loss = 0.1253300110499064,
+     Training c-index = 0.6616458832002685, Validation c-index = 0.6618917991068066, Testing c-index = 0.6299072446282434
+2025-02-12 19:10:02,934 - INFO - Saving model at epoch 19 with the best validation C-index 0.6818504092208215.
+2025-02-12 19:10:17,531 - INFO - Epoch 21 Fold 9: Average training loss = 0.13914240188896657, Validation loss = 0.13203440606594086,
+     Training c-index = 0.6810158942919284, Validation c-index = 0.6701780773150587, Testing c-index = 0.6399194299129712
+2025-02-12 19:10:39,825 - INFO - Epoch 24 Fold 9: Average training loss = 0.13584350869059564, Validation loss = 0.1255368491013845,
+     Training c-index = 0.6821430348783069, Validation c-index = 0.6717280793039272, Testing c-index = 0.6368234336542815
+2025-02-12 19:11:02,030 - INFO - Epoch 27 Fold 9: Average training loss = 0.13344890102744103, Validation loss = 0.12474650889635086,
+     Training c-index = 0.6847939353589099, Validation c-index = 0.6805048566329985, Testing c-index = 0.6478439606073185
+2025-02-12 19:11:24,311 - INFO - Saving model at epoch 30 with the best validation C-index 0.6838503738008382.
+2025-02-12 19:11:24,321 - INFO - Epoch 30 Fold 9: Average training loss = 0.13187949135899543, Validation loss = 0.12769677489995956,
+     Training c-index = 0.6846764852661607, Validation c-index = 0.6838503738008382, Testing c-index = 0.6527136406276477
+2025-02-12 19:11:39,167 - INFO - Saving model at epoch 32 with the best validation C-index 0.6852483400866424.
+2025-02-12 19:11:46,597 - INFO - Epoch 33 Fold 9: Average training loss = 0.13173912838101387, Validation loss = 0.13746769726276398,
+     Training c-index = 0.6889835917562531, Validation c-index = 0.6807799473851079, Testing c-index = 0.6633975502432514
+2025-02-12 19:12:09,345 - INFO - Epoch 36 Fold 9: Average training loss = 0.13167399168014526, Validation loss = 0.12187955280145009,
+     Training c-index = 0.6908100825989023, Validation c-index = 0.6750953786772982, Testing c-index = 0.6476371453268399
+2025-02-12 19:12:26,394 - INFO - Saving model at epoch 38 with the best validation C-index 0.6870388625237669.
+2025-02-12 19:12:34,463 - INFO - Epoch 39 Fold 9: Average training loss = 0.13160184323787688, Validation loss = 0.1421284874280294,
+     Training c-index = 0.6881276582276553, Validation c-index = 0.6804622570728095, Testing c-index = 0.6564251332101375
+2025-02-12 19:12:56,379 - INFO - Epoch 42 Fold 9: Average training loss = 0.12996689639985562, Validation loss = 0.124298594892025,
+     Training c-index = 0.6929898155640424, Validation c-index = 0.6816705287823235, Testing c-index = 0.6423340858338036
+2025-02-12 19:13:19,164 - INFO - Epoch 45 Fold 9: Average training loss = 0.12876406349241734, Validation loss = 0.12484361976385117,
+     Training c-index = 0.6925134798840015, Validation c-index = 0.6759330515162533, Testing c-index = 0.6565528529069932
+2025-02-12 19:13:41,293 - INFO - Epoch 48 Fold 9: Average training loss = 0.12762499526143073, Validation loss = 0.1295684427022934,
+     Training c-index = 0.6967302052637687, Validation c-index = 0.6838482124690634, Testing c-index = 0.6604164969485097
+2025-02-12 19:13:56,386 - INFO - ------------------Finish training---------------------
+2025-02-12 19:13:56,431 - INFO - ------------------Start testing-----------------------
+2025-02-12 19:13:57,639 - INFO - Average testing c-index across all outcomes:
+0.657901933186245
+2025-02-12 19:13:57,650 - INFO - Testing c-index for each outcome:
+outcome       cad    stroke        hf  ...       pad        vt  cvd_death
+cindex   0.673755  0.643348  0.666851  ...  0.702492  0.611997   0.685137
+
+[1 rows x 9 columns]
+2025-02-12 19:13:58,802 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  5604736 -3.358772 -4.031412  ... -5.261404 -3.797891  -4.340672
+1  1504964 -2.550833 -4.084221  ... -4.707027 -3.728056  -4.138899
+2  2920410 -2.539870 -4.031128  ... -4.687815 -3.641704  -4.244726
+3  3604279 -3.593926 -4.691146  ... -5.969376 -4.252584  -5.242769
+4  1196509 -2.914829 -4.145560  ... -5.035338 -3.870722  -4.449772
+
+[5 rows x 10 columns]
+2025-02-12 19:14:00,070 - INFO -        eid       cad    stroke  ...       pad        vt  cvd_death
+0  1000368 -2.451538 -3.650074  ... -4.789540 -3.535583  -3.864255
+1  1000950 -1.822354 -2.987157  ... -3.637562 -2.903918  -2.597424
+2  1003055 -2.224164 -3.789169  ... -4.441767 -3.461170  -3.848565
+3  1004103 -2.317458 -3.802197  ... -4.683315 -3.508607  -3.757891
+4  1004958 -2.151068 -4.090938  ... -4.502582 -3.584970  -4.144712
+
+[5 rows x 10 columns]
+2025-02-12 19:17:37,438 - INFO - Saved SHAP values for cad in fold 9
+2025-02-12 19:21:09,995 - INFO - Saved SHAP values for stroke in fold 9
+2025-02-12 19:24:46,967 - INFO - Saved SHAP values for hf in fold 9
+2025-02-12 19:28:23,509 - INFO - Saved SHAP values for af in fold 9
+2025-02-12 19:31:58,852 - INFO - Saved SHAP values for va in fold 9
+2025-02-12 19:35:33,458 - INFO - Saved SHAP values for aaa in fold 9
+2025-02-12 19:39:08,831 - INFO - Saved SHAP values for pad in fold 9
+2025-02-12 19:42:42,527 - INFO - Saved SHAP values for vt in fold 9
+2025-02-12 19:46:17,421 - INFO - Saved SHAP values for cvd_death in fold 9
+2025-02-12 19:46:17,422 - INFO - ------------------Finish testing----------------------
+
+2025-02-12 19:46:17,422 - INFO - Total time for training and testing: 23287.95 seconds

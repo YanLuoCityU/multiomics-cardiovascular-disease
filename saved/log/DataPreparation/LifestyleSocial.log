@@ -1,0 +1,30 @@
+2024-06-21 17:13:31,016 - INFO - live_alone
+0.0    404799
+1.0     92838
+Name: count, dtype: int64
+2024-06-21 17:13:31,019 - INFO - 
+
+2024-06-21 17:13:31,065 - INFO - infreq_visit
+0.0    452425
+1.0     41832
+Name: count, dtype: int64
+2024-06-21 17:13:31,066 - INFO - 
+
+2024-06-21 17:13:31,106 - INFO - no_activity
+0.0    347341
+1.0    152006
+Name: count, dtype: int64
+2024-06-21 17:13:31,108 - INFO - 
+
+2024-06-21 17:13:31,357 - INFO - 0.0    263628
+1.0    191771
+2.0     42351
+3.0      3401
+Name: count, dtype: int64
+2024-06-21 17:13:31,381 - INFO - social_active
+1.0    455399
+0.0     45752
+Name: count, dtype: int64
+2024-06-21 17:13:31,383 - INFO - 
+
+2024-06-21 17:13:32,528 - INFO - Total time: 560.903 seconds
