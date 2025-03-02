@@ -6,9 +6,8 @@ Code for the paper "AI-based multiomics profiling for personalized prediction of
 All codes were originally processed using:
 
 - System hardware:
-  - R version 4.3.3 (2024-02-29 ucrt)
-  - Platform: x86_64-w64-mingw32/x64 (64-bit)
-  - Running under: Windows 10 x64 (build 19045)
+  - Python version 3.8.5, Linux
+  - R version 4.3.3, Windows 10 x64
 &nbsp;
 - Software:
   
