@@ -157,7 +157,7 @@ olink_assay <- read_delim(str_c(getwd(), "/data/olink_assay.dat.txt"), show_col_
 
 # Descriptive statistics
 
-## Clinical predictors
+## Supplementary Table 1: Clinical predictors
 
 ```{r}
 
@@ -323,7 +323,7 @@ rm(dat, var_need, var_name, label_list, tbl)
 
 ```
 
-## Metabolomics
+## Supplementary Table 11: Metabolomics
 
 ```{r}
 
@@ -402,13 +402,13 @@ metabolites <- nmr_info %>%
   arrange(Sub.Group, Biomarker) %>%
   left_join(summary_stats, by = c("Biomarker" = "variable"))
 
-write.csv(metabolites, "your path/results/Table/Supplemetanry Table 2_metabolomics.csv", row.names = F)
+write.csv(metabolites, "your path/results/Table/Supplemetanry Table 11_metabolomics.csv", row.names = F)
 
 rm(dat, met_list, summary_stats, subgroup_order, metabolites)
 
 ```
 
-## Proteomics
+## Supplementary Table 12: Proteomics
 
 ```{r}
 
@@ -444,7 +444,7 @@ proteins <- olink_assay %>%
   arrange(Panel, Assay) %>%
   left_join(summary_stats, by = c("Assay" = "variable"))
 
-write.csv(proteins, "your path/results/Table/Supplemetanry Table 3_proteomics.csv", row.names = F)
+write.csv(proteins, "your path/results/Table/Supplemetanry Table 12_proteomics.csv", row.names = F)
 
 rm(dat, pro_list, summary_stats, proteins)
 
@@ -453,7 +453,7 @@ rm(dat, pro_list, summary_stats, proteins)
 
 ------------------------------------------------------------------------------------
 
-# CVD event distribution + Followup information + CVD-free survival
+# Supplementary Fig.1: CVD event distribution + Followup information + CVD-free survival
 
 ## CVD event distribution
 
@@ -672,7 +672,7 @@ ggsave(str_c(getwd(), "/results/Figure/CVD_followup_survival.pdf"), plot = cvd_f
 
 ------------------------------------------------------------------------------------
 
-# Observed event rates 
+# Supplementary Fig.3: Observed event rates 
 
 ```{r}
 
@@ -870,7 +870,7 @@ ggsave(str_c(getwd(), "/results/Figure/Observed_events.png"), plot = scatter_plo
 
 ## Kaplan-Meier curve
 
-### PRS
+### Supplementary Fig.2: PRS
 
 ```{r}
 
@@ -1073,7 +1073,7 @@ ggsave(str_c(getwd(), "/results/Figure/Survival_prob.png"), plot = surv_pool, wi
 ```
 
 
-## Hazard ratio
+## Supplementary Fig.4: Hazard ratio
 
 ```{r}
 
@@ -1156,7 +1156,7 @@ ggsave(str_c(getwd(), "/results/Figure/Hazard_ratio_forest_plot.png"), plot = hr
 
 ------------------------------------------------------------------------------------
 
-# C-index comparison
+# Fig.3: C-index comparison
 
 ## C-index forest plot
 
@@ -4389,779 +4389,7 @@ ggsave(str_c(getwd(), "/results/Figure/Performance_comparison.png"), plot = fore
 
 ------------------------------------------------------------------------------------
 
-# PANEL-based vs ASCVD and SCORE2
-
-## ASCVD
-
-```{r}
-
-#### Data preparation ####
-cindex_raw <- read_csv(str_c(getwd(), "/data/CindexComparison/All/cindex_results_df.csv"), show_col_types = F)
-
-models <- c(
-  "ASCVD", "PANEL", "PANELPRS", "PANELMet", "PANELPro", 
-  "PANELPRSMet", "PANELPRSPro", "PANELMetPro", "PANELPRSMetPro")
-
-dat <- cindex_raw %>%
-  filter(outcome != "Major adverse cardiovascular events" & model %in% models) %>%
-  group_by(outcome, fold) %>% 
-  mutate(delta_cindex = cindex - cindex[model == "ASCVD"]) %>%
-  ungroup() %>%
-  group_by(outcome, model) %>%
-  summarise(
-    mean_delta_cindex = mean(delta_cindex, na.rm = TRUE),
-    delta_cindex_2_5 = quantile(delta_cindex, 0.025, na.rm = TRUE),
-    delta_cindex_97_5 = quantile(delta_cindex, 0.975, na.rm = TRUE)
-  ) %>%
-  ungroup() %>%
-  mutate(
-    model = factor(
-      model, levels = rev(models),
-      labels = rev(c("ASCVD", "PANEL", "+PRS", "+MetScore", "+ProScore", "+PRS +MetScore", "+PRS +ProScore", "+MetScore +ProScore", "+PRS +MetScore +ProScore"))),
-    model_italic = ifelse(!model %in% c("ASCVD", "PANEL"), glue("*{model}*"), glue("{model}")),
-    model_italic = factor(model_italic, levels = rev(c("ASCVD", "PANEL", "*+PRS*", "*+MetScore*", "*+ProScore*", "*+PRS +MetScore*", "*+PRS +ProScore*", "*+MetScore +ProScore*", "*+PRS +MetScore +ProScore*"))),
-    outcome = factor(
-      outcome, 
-      levels = c("Coronary artery diseases", "Stroke", "Heart failure", "Atrial fibrillation", "Ventricular arrhythmias", "Peripheral artery diseases", "Abdominal aortic aneurysm", "Vein thrombosis", "Cardiovascular death"),
-      labels = c("CAD", "Stroke", "HF", "AF", "VA", "PAD", "AAA", "VTE", "CVDeath")
-      ),
-    color = ifelse(model == "ASCVD", "white", "#F39B7FCC")
-  )
-
-#### Plotting ####
-f1_panel_ascvd <- ggplot(
-  dat %>% filter(outcome == "CAD"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_markdown(size = 12, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "CAD"
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.02, 0.09), breaks = c(0, 0.04, 0.08), labels = c("0", "0.04", "0.08")) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f2_panel_ascvd <- ggplot(
-  dat %>% filter(outcome == "Stroke"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "Stroke"
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.03, 0.11), breaks = c(0, 0.05, 0.10), labels = c("0", "0.05", "0.10")) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f3_panel_ascvd <- ggplot(
-  dat %>% filter(outcome == "HF"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "HF"
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.03, 0.11), breaks = c(0, 0.05, 0.1), labels = c("0", 0.05, "0.10")) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f4_panel_ascvd <- ggplot(
-  dat %>% filter(outcome == "AF"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "AF"
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.02, 0.11), breaks = c(0, 0.05, 0.10), labels = c("0", "0.05", "0.10")) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f5_panel_ascvd <- ggplot(
-  dat %>% filter(outcome == "VA"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "VA"
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.06, 0.09), breaks = c(-0.04, 0, 0.04, 0.08), labels = c(-0.04, "0", 0.04, 0.08)) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f6_panel_ascvd <- ggplot(
-  dat %>% filter(outcome == "PAD"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "PAD"
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.06, 0.09), breaks = c(-0.04, 0, 0.04, 0.08), labels = c(-0.04, "0", 0.04, 0.08)) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f7_panel_ascvd <- ggplot(
-  dat %>% filter(outcome == "AAA"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "AAA"
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.16, 0.18), breaks = c(-0.14, -0.07, 0, 0.07, 0.14), labels = c(-0.14, "", "0", "", 0.14)) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f8_panel_ascvd <- ggplot(
-  dat %>% filter(outcome == "VTE"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "VTE"
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.03, 0.13), breaks = c(0, 0.06, 0.12), labels = c("0", 0.06, 0.12)) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f9_panel_ascvd <- ggplot(
-  dat %>% filter(outcome == "CVDeath"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "CVDeath"
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.03, 0.13), breaks = c(0, 0.06, 0.12), labels = c("0", 0.06, 0.12)) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-
-```
-
-## SCORE2
-
-```{r}
-
-#### Data preparation ####
-cindex_raw <- read_csv(str_c(getwd(), "/data/CindexComparison/All/cindex_results_df.csv"), show_col_types = F)
-
-models <- c(
-  "SCORE2", "PANEL", "PANELPRS", "PANELMet", "PANELPro", 
-  "PANELPRSMet", "PANELPRSPro", "PANELMetPro", "PANELPRSMetPro")
-
-dat <- cindex_raw %>%
-  filter(outcome != "Major adverse cardiovascular events" & model %in% models) %>%
-  group_by(outcome, fold) %>% 
-  mutate(delta_cindex = cindex - cindex[model == "SCORE2"]) %>%
-  ungroup() %>%
-  group_by(outcome, model) %>%
-  summarise(
-    mean_delta_cindex = mean(delta_cindex, na.rm = TRUE),
-    delta_cindex_2_5 = quantile(delta_cindex, 0.025, na.rm = TRUE),
-    delta_cindex_97_5 = quantile(delta_cindex, 0.975, na.rm = TRUE)
-  ) %>%
-  ungroup() %>%
-  mutate(
-    model = factor(
-      model, levels = rev(models),
-      labels = rev(c("SCORE2", "PANEL", "+PRS", "+MetScore", "+ProScore", "+PRS +MetScore", "+PRS +ProScore", "+MetScore +ProScore", "+PRS +MetScore +ProScore"))),
-    model_italic = ifelse(!model %in% c("SCORE2", "PANEL"), glue("*{model}*"), glue("{model}")),
-    model_italic = factor(model_italic, levels = rev(c("SCORE2", "PANEL", "*+PRS*", "*+MetScore*", "*+ProScore*", "*+PRS +MetScore*", "*+PRS +ProScore*", "*+MetScore +ProScore*", "*+PRS +MetScore +ProScore*"))),
-    outcome = factor(
-      outcome, 
-      levels = c("Coronary artery diseases", "Stroke", "Heart failure", "Atrial fibrillation", "Ventricular arrhythmias", "Peripheral artery diseases", "Abdominal aortic aneurysm", "Vein thrombosis", "Cardiovascular death"),
-      labels = c("CAD", "Stroke", "HF", "AF", "VA", "PAD", "AAA", "VTE", "CVDeath")
-      ),
-    color = ifelse(model == "SCORE2", "white", "#F39B7FCC")
-  )
-
-#### Plotting ####
-f1_panel_score2 <- ggplot(
-  dat %>% filter(outcome == "CAD"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_markdown(size = 12, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.02, 0.09), breaks = c(0, 0.04, 0.08), labels = c("0", "0.04", "0.08")) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f2_panel_score2 <- ggplot(
-  dat %>% filter(outcome == "Stroke"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.03, 0.11), breaks = c(0, 0.05, 0.10), labels = c("0", "0.05", "0.10")) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f3_panel_score2 <- ggplot(
-  dat %>% filter(outcome == "HF"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.03, 0.11), breaks = c(0, 0.05, 0.1), labels = c("0", 0.05, "0.10")) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f4_panel_score2 <- ggplot(
-  dat %>% filter(outcome == "AF"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.02, 0.11), breaks = c(0, 0.05, 0.10), labels = c("0", "0.05", "0.10")) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f5_panel_score2 <- ggplot(
-  dat %>% filter(outcome == "VA"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.06, 0.09), breaks = c(-0.04, 0, 0.04, 0.08), labels = c(-0.04, "0", 0.04, 0.08)) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f6_panel_score2 <- ggplot(
-  dat %>% filter(outcome == "PAD"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.06, 0.09), breaks = c(-0.04, 0, 0.04, 0.08), labels = c(-0.04, "0", 0.04, 0.08)) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f7_panel_score2 <- ggplot(
-  dat %>% filter(outcome == "AAA"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.16, 0.18), breaks = c(-0.14, -0.07, 0, 0.07, 0.14), labels = c(-0.14, "", "0", "", 0.14)) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f8_panel_score2 <- ggplot(
-  dat %>% filter(outcome == "VTE"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.03, 0.13), breaks = c(0, 0.06, 0.12), labels = c("0", 0.06, 0.12)) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-f9_panel_score2 <- ggplot(
-  dat %>% filter(outcome == "CVDeath"), 
-  aes(x = model_italic, y = mean_delta_cindex, color = color)
-  ) +
-  geom_hline(
-    yintercept = 0,
-    color = "#D3D3D3", linetype = "dashed", linewidth = 0.75
-    ) + 
-  geom_point(size = 3, alpha = 1, shape = 15) +
-  geom_linerange(aes(ymin = delta_cindex_2_5, ymax = delta_cindex_97_5), linewidth = 1) + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 10, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_colour_identity() +
-  scale_y_continuous(expand = c(0, 0), limit = c(-0.03, 0.13), breaks = c(0, 0.06, 0.12), labels = c("0", 0.06, 0.12)) +
-  coord_flip() + 
-  annotate("text", x = 9, y = 0, size = 4, color = "black", label = "Baseline", hjust = -.1)
-
-
-```
-
-## Pool
-
-```{r}
-
-# Each column
-col1 <- wrap_elements(
- f1_panel_ascvd + f1_panel_score2 +
-    plot_layout(nrow = 2, heights = c(1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col2 <- wrap_elements(
-  f2_panel_ascvd + f2_panel_score2 +
-    plot_layout(nrow = 2, heights = c(1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col3 <- wrap_elements(
-  f3_panel_ascvd + f3_panel_score2 +
-    plot_layout(nrow = 2, heights = c(1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col4 <- wrap_elements(
-  f4_panel_ascvd + f4_panel_score2 +
-    plot_layout(nrow = 2, heights = c(1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col5 <- wrap_elements(
-  f5_panel_ascvd + f5_panel_score2 +
-    plot_layout(nrow = 2, heights = c(1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col6 <- wrap_elements(
- f6_panel_ascvd + f6_panel_score2 +
-    plot_layout(nrow = 2, heights = c(1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col7 <- wrap_elements(
-  f7_panel_ascvd + f7_panel_score2 +
-    plot_layout(nrow = 2, heights = c(1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col8 <- wrap_elements(
-  f8_panel_ascvd + f8_panel_score2 +
-    plot_layout(nrow = 2, heights = c(1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col9 <- wrap_elements(
-  f9_panel_ascvd + f9_panel_score2 +
-    plot_layout(nrow = 2, heights = c(1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-# Overall
-delta_forest_pool <- wrap_elements(
-  col1 + col2 + col3 + col4 + col5 + col6 + col7 + col8 + col9 +
-    plot_layout(ncol = 9, widths = c(1, rep(0.4, 8)))
-) + 
-  plot_annotation(
-    caption = "\u0394 C-index",
-    theme = theme(
-      plot.caption = element_markdown(size = 14, hjust = 0.5, vjust = 1, family = "Arial")
-    )
-  ) + 
-  theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-showtext_auto(enable = T)
-font_add("Arial", regular = "Arial.ttf")
-ggsave(str_c(getwd(), "/results/Figure/Performance_comparison_ASCVD_SCORE2.pdf"), plot = delta_forest_pool, width = 16, height = 8, unit = "in", dpi = 500, device = "pdf")
-showtext_auto(enable = F)
-
-ggsave(str_c(getwd(), "/results/Figure/Performance_comparison_ASCVD_SCORE2.png"), plot = delta_forest_pool, width = 16, height = 8, unit = "in", dpi = 300, device = "png")
-
-ggsave(str_c(getwd(), "/results/Figure/Performance_comparison_ASCVD_SCORE2.tiff"), plot = delta_forest_pool, width = 16, height = 8, unit = "in", dpi = 300, device = "tiff")
-
-```
-
-------------------------------------------------------------------------------------
-
-# Multiomics vs single omics
+# Supplementary Fig.5: Multiomics vs single omics
 
 ## PRS
 
@@ -6276,7 +5504,7 @@ ggsave(str_c(getwd(), "/results/Figure/Performance_comparison_single_omics.tiff"
 
 ------------------------------------------------------------------------------------
 
-# C-index comparison -- biomarker
+# Supplementary Fig.6: C-index comparison -- biomarker
 
 ## C-index forest plot
 
@@ -8995,7 +8223,7 @@ ggsave(str_c(getwd(), "/results/Figure/Performance_comparison_biomarker.png"), p
 
 ------------------------------------------------------------------------------------
 
-# C-index comparison -- Subgroup
+# Supplementary Fig.7: C-index comparison -- Subgroup
 
 ## Age under 60
 
@@ -15811,1373 +15039,6 @@ ggsave(str_c(getwd(), "/results/Figure/Performance_comparison_subgroup.png"), pl
 
 ```
 
-
-------------------------------------------------------------------------------------
-
-# C-index comparison -- Lasso
-
-## C-index forest plot
-
-### Single omics
-
-```{r}
-
-#### Data preparation ####
-cindex <- read_csv(str_c(getwd(), "/data/lasso_cindex_summary_df.csv"), show_col_types = F)
-
-dat <- cindex %>%
-  filter(outcome != "Major adverse cardiovascular events" & model %in% c("PRS", "Met", "Pro")) %>%
-  mutate(
-    model = factor(model, levels = rev(c("PRS", "Met", "Pro"))),
-    outcome = factor(
-      outcome, 
-      levels = c("Coronary artery diseases", "Stroke", "Heart failure", "Atrial fibrillation", "Ventricular arrhythmias", "Peripheral artery diseases", "Abdominal aortic aneurysm", "Vein thrombosis", "Cardiovascular death"),
-      labels = c("CAD", "Stroke", "HF", "AF", "VA", "PAD", "AAA", "VTE", "CVDeath")
-      )
-  )
-
-# color
-pal_npg("nrc", alpha = 0.8)(5)[1]
-
-#### Plotting ####
-f1_omics <- ggplot(
-  dat %>% filter(outcome == "CAD"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#E64B35CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#E64B35CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_text(size = 12, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    # axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "CAD"
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.45, 0.81), breaks = c(0.5, 0.6, 0.7, 0.8)) +
-  coord_flip()
-
-f2_omics <- ggplot(
-  dat %>% filter(outcome == "Stroke"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#E64B35CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#E64B35CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "Stroke"
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.39, 0.82), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f3_omics <- ggplot(
-  dat %>% filter(outcome == "HF"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#E64B35CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#E64B35CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "HF"
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.38, 0.86), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f4_omics <- ggplot(
-  dat %>% filter(outcome == "AF"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#E64B35CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#E64B35CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "AF"
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.49, 0.85), breaks = c(0.5, 0.6, 0.7, 0.8)) +
-  coord_flip()
-
-f5_omics <- ggplot(
-  dat %>% filter(outcome == "VA"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#E64B35CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#E64B35CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "VA"
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.34, 0.88), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f6_omics <- ggplot(
-  dat %>% filter(outcome == "PAD"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#E64B35CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#E64B35CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "PAD"
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.38, 0.92), breaks = c(0.5, 0.7, 0.9)) +
-  coord_flip()
-
-f7_omics <- ggplot(
-  dat %>% filter(outcome == "AAA"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#E64B35CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#E64B35CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "AAA"
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.36, 1.02), breaks = c(0.4, 0.6, 0.8, 1.0)) +
-  coord_flip()
-
-f8_omics <- ggplot(
-  dat %>% filter(outcome == "VTE"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#E64B35CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#E64B35CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "VTE"
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.43, 0.78), breaks = c(0.5, 0.6, 0.7)) +
-  coord_flip()
-
-f9_omics <- ggplot(
-  dat %>% filter(outcome == "CVDeath"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#E64B35CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#E64B35CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "CVDeath"
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.40, 0.91), breaks = c(0.5, 0.7, 0.9)) +
-  coord_flip()
-
-```
-
-### AgeSex-based
-
-```{r}
-
-#### Data preparation ####
-cindex <- read_csv(str_c(getwd(), "/data/lasso_cindex_summary_df.csv"), show_col_types = F)
-
-models <- c(
-  "AgeSex", "AgeSexPRS", "AgeSexMet", "AgeSexPro", 
-  "AgeSexPRSMet", "AgeSexPRSPro", "AgeSexMetPro", "AgeSexPRSMetPro")
-
-dat <- cindex %>%
-  filter(outcome != "Major adverse cardiovascular events" & model %in% models) %>%
-  mutate(
-    model = factor(
-      model, levels = rev(models),
-      labels = rev(c("AgeSex", "+PRS", "+MetScore", "+ProScore", "+PRS +MetScore", "+PRS +ProScore", "+MetScore +ProScore", "+PRS +MetScore +ProScore"))),
-    model_italic = ifelse(model != "AgeSex", glue("*{model}*"), glue("{model}")),
-    model_italic = factor(model_italic, levels = rev(c("AgeSex", "*+PRS*", "*+MetScore*", "*+ProScore*", "*+PRS +MetScore*", "*+PRS +ProScore*", "*+MetScore +ProScore*", "*+PRS +MetScore +ProScore*"))),
-    outcome = factor(
-      outcome, 
-      levels = c("Coronary artery diseases", "Stroke", "Heart failure", "Atrial fibrillation", "Ventricular arrhythmias", "Peripheral artery diseases", "Abdominal aortic aneurysm", "Vein thrombosis", "Cardiovascular death"),
-      labels = c("CAD", "Stroke", "HF", "AF", "VA", "PAD", "AAA", "VTE", "CVDeath")
-      )
-  )
-
-# color
-pal_npg("nrc", alpha = 0.8)(5)[3]
-
-
-#### Plotting ####
-f1_agesex <- ggplot(
-  dat %>% filter(outcome == "CAD"), 
-  aes(x = model_italic, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#00A087CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#00A087CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_markdown(size = 12, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    # axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    # panel.grid.major.y = element_line(color = "#DCDCDC", linetype = "solid"),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.45, 0.81), breaks = c(0.5, 0.6, 0.7, 0.8)) +
-  coord_flip()
-
-f2_agesex <- ggplot(
-  dat %>% filter(outcome == "Stroke"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#00A087CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#00A087CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.39, 0.82), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f3_agesex <- ggplot(
-  dat %>% filter(outcome == "HF"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#00A087CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#00A087CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.38, 0.86), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f4_agesex <- ggplot(
-  dat %>% filter(outcome == "AF"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#00A087CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#00A087CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.49, 0.85), breaks = c(0.5, 0.6, 0.7, 0.8)) +
-  coord_flip()
-
-f5_agesex <- ggplot(
-  dat %>% filter(outcome == "VA"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#00A087CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#00A087CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.34, 0.88), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f6_agesex <- ggplot(
-  dat %>% filter(outcome == "PAD"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#00A087CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#00A087CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.38, 0.92), breaks = c(0.5, 0.7, 0.9)) +
-  coord_flip()
-
-f7_agesex <- ggplot(
-  dat %>% filter(outcome == "AAA"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#00A087CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#00A087CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.36, 1.02), breaks = c(0.4, 0.6, 0.8, 1.0)) +
-  coord_flip()
-
-f8_agesex <- ggplot(
-  dat %>% filter(outcome == "VTE"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#00A087CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#00A087CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.43, 0.78), breaks = c(0.5, 0.6, 0.7)) +
-  coord_flip()
-
-f9_agesex <- ggplot(
-  dat %>% filter(outcome == "CVDeath"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#00A087CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#00A087CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.40, 0.91), breaks = c(0.5, 0.7, 0.9)) +
-  coord_flip()
-
-```
-
-
-### Clinical-based
-
-```{r}
-
-#### Data preparation ####
-cindex <- read_csv(str_c(getwd(), "/data/lasso_cindex_summary_df.csv"), show_col_types = F)
-
-models <- c(
-  "Clin", "ClinPRS", "ClinMet", "ClinPro", 
-  "ClinPRSMet", "ClinPRSPro", "ClinMetPro", "ClinPRSMetPro")
-
-dat <- cindex %>%
-  filter(outcome != "Major adverse cardiovascular events" & model %in% models) %>%
-  mutate(
-    model = factor(
-      model, levels = rev(models),
-      labels = rev(c("Clin", "+PRS", "+MetScore", "+ProScore", "+PRS +MetScore", "+PRS +ProScore", "+MetScore +ProScore", "+PRS +MetScore +ProScore"))),
-    model_italic = ifelse(model != "Clin", glue("*{model}*"), glue("{model}")),
-    model_italic = factor(model_italic, levels = rev(c("Clin", "*+PRS*", "*+MetScore*", "*+ProScore*", "*+PRS +MetScore*", "*+PRS +ProScore*", "*+MetScore +ProScore*", "*+PRS +MetScore +ProScore*"))),
-    outcome = factor(
-      outcome, 
-      levels = c("Coronary artery diseases", "Stroke", "Heart failure", "Atrial fibrillation", "Ventricular arrhythmias", "Peripheral artery diseases", "Abdominal aortic aneurysm", "Vein thrombosis", "Cardiovascular death"),
-      labels = c("CAD", "Stroke", "HF", "AF", "VA", "PAD", "AAA", "VTE", "CVDeath")
-      )
-  )
-
-# color
-pal_npg("nrc", alpha = 0.8)(5)[4]
-
-
-#### Plotting ####
-f1_clin <- ggplot(
-  dat %>% filter(outcome == "CAD"), 
-  aes(x = model_italic, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#3C5488CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#3C5488CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_markdown(size = 12, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    # axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.45, 0.81), breaks = c(0.5, 0.6, 0.7, 0.8)) +
-  coord_flip()
-
-f2_clin <- ggplot(
-  dat %>% filter(outcome == "Stroke"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#3C5488CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#3C5488CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.39, 0.82), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f3_clin <- ggplot(
-  dat %>% filter(outcome == "HF"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#3C5488CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#3C5488CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.38, 0.86), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f4_clin <- ggplot(
-  dat %>% filter(outcome == "AF"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#3C5488CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#3C5488CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.49, 0.85), breaks = c(0.5, 0.6, 0.7, 0.8)) +
-  coord_flip()
-
-f5_clin <- ggplot(
-  dat %>% filter(outcome == "VA"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#3C5488CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#3C5488CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.34, 0.88), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f6_clin <- ggplot(
-  dat %>% filter(outcome == "PAD"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#3C5488CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#3C5488CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.38, 0.92), breaks = c(0.5, 0.7, 0.9)) +
-  coord_flip()
-
-f7_clin <- ggplot(
-  dat %>% filter(outcome == "AAA"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#3C5488CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#3C5488CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.36, 1.02), breaks = c(0.4, 0.6, 0.8, 1.0)) +
-  coord_flip()
-
-f8_clin <- ggplot(
-  dat %>% filter(outcome == "VTE"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#3C5488CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#3C5488CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.43, 0.78), breaks = c(0.5, 0.6, 0.7)) +
-  coord_flip()
-
-f9_clin <- ggplot(
-  dat %>% filter(outcome == "CVDeath"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#3C5488CC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#3C5488CC") + 
-  theme_bw() +
-  theme(
-    # axis.text.x = element_text(size = 10, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.text.x = element_blank(),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 16, vjust = 0, angle = 00, face = "bold"),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.x = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.40, 0.91), breaks = c(0.5, 0.7, 0.9)) +
-  coord_flip()
-
-```
-
-### PANEL-based
-
-```{r}
-
-#### Data preparation ####
-cindex <- read_csv(str_c(getwd(), "/data/lasso_cindex_summary_df.csv"), show_col_types = F)
-
-models <- c(
-  "PANEL", "PANELPRS", "PANELMet", "PANELPro", 
-  "PANELPRSMet", "PANELPRSPro", "PANELMetPro", "PANELPRSMetPro")
-
-dat <- cindex %>%
-  filter(outcome != "Major adverse cardiovascular events" & model %in% models) %>%
-  mutate(
-    model = factor(
-      model, levels = rev(models),
-      labels = rev(c("PANEL", "+PRS", "+MetScore", "+ProScore", "+PRS +MetScore", "+PRS +ProScore", "+MetScore +ProScore", "+PRS +MetScore +ProScore"))),
-    model_italic = ifelse(model != "PANEL", glue("*{model}*"), glue("{model}")),
-    model_italic = factor(model_italic, levels = rev(c("PANEL", "*+PRS*", "*+MetScore*", "*+ProScore*", "*+PRS +MetScore*", "*+PRS +ProScore*", "*+MetScore +ProScore*", "*+PRS +MetScore +ProScore*"))),
-    outcome = factor(
-      outcome, 
-      levels = c("Coronary artery diseases", "Stroke", "Heart failure", "Atrial fibrillation", "Ventricular arrhythmias", "Peripheral artery diseases", "Abdominal aortic aneurysm", "Vein thrombosis", "Cardiovascular death"),
-      labels = c("CAD", "Stroke", "HF", "AF", "VA", "PAD", "AAA", "VTE", "CVDeath")
-      )
-  )
-
-# color
-pal_npg("nrc", alpha = 0.8)(5)[5]
-
-
-#### Plotting ####
-f1_panel <- ggplot(
-  dat %>% filter(outcome == "CAD"), 
-  aes(x = model_italic, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#F39B7FCC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#F39B7FCC") + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 12, colour = "black", angle = 0),
-    axis.text.y = element_markdown(size = 12, colour = "black", hjust = 1, vjust = .5, angle = 0),
-    axis.title.x = element_text(size = 12, vjust = 0, angle = 00),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.45, 0.81), breaks = c(0.5, 0.6, 0.7, 0.8)) +
-  coord_flip()
-
-f2_panel <- ggplot(
-  dat %>% filter(outcome == "Stroke"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#F39B7FCC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#F39B7FCC") + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 12, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 12, vjust = 0, angle = 00),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.39, 0.82), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f3_panel <- ggplot(
-  dat %>% filter(outcome == "HF"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#F39B7FCC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#F39B7FCC") + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 12, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 12, vjust = 0, angle = 00),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.38, 0.86), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f4_panel <- ggplot(
-  dat %>% filter(outcome == "AF"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#F39B7FCC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#F39B7FCC") + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 12, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 12, vjust = 0, angle = 00),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.49, 0.85), breaks = c(0.5, 0.6, 0.7, 0.8)) +
-  coord_flip()
-
-f5_panel <- ggplot(
-  dat %>% filter(outcome == "VA"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#F39B7FCC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#F39B7FCC") + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 12, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 12, vjust = 0, angle = 00),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.34, 0.88), breaks = c(0.4, 0.6, 0.8)) +
-  coord_flip()
-
-f6_panel <- ggplot(
-  dat %>% filter(outcome == "PAD"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#F39B7FCC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#F39B7FCC") + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 12, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 12, vjust = 0, angle = 00),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.38, 0.92), breaks = c(0.5, 0.7, 0.9)) +
-  coord_flip()
-
-f7_panel <- ggplot(
-  dat %>% filter(outcome == "AAA"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#F39B7FCC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#F39B7FCC") + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 12, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 12, vjust = 0, angle = 00),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.36, 1.02), breaks = c(0.4, 0.6, 0.8, 1.0)) +
-  coord_flip()
-
-f8_panel <- ggplot(
-  dat %>% filter(outcome == "VTE"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#F39B7FCC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#F39B7FCC") + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 12, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 12, vjust = 0, angle = 00),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.43, 0.78), breaks = c(0.5, 0.6, 0.7)) +
-  coord_flip()
-
-f9_panel <- ggplot(
-  dat %>% filter(outcome == "CVDeath"), 
-  aes(x = model, y = mean_cindex)
-  ) +
-  geom_point(size = 2, alpha = 1, color = "#F39B7FCC") +
-  geom_linerange(aes(ymin = cindex_2_5, ymax = cindex_97_5), linewidth = 1, color = "#F39B7FCC") + 
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(size = 12, colour = "black", angle = 0),
-    axis.text.y = element_blank(),
-    axis.title.x = element_text(size = 12, vjust = 0, angle = 00),
-    axis.title.y = element_text(size = 12, vjust = 1, angle = 90),
-    axis.ticks.y = element_blank(),
-    panel.grid = element_blank(),
-    legend.title = element_text(size = 12, hjust = 0.1),
-    legend.text = element_text(size = 12),
-    legend.position = "none",
-    plot.title = element_text(size = 12, hjust = .5),
-    plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm")
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = NULL
-  ) +
-  scale_y_continuous(expand = c(0, 0), limit = c(0.40, 0.91), breaks = c(0.5, 0.7, 0.9)) +
-  coord_flip()
-
-```
-
-### Pool
-
-```{r}
-
-# Each column
-col1 <- wrap_elements(
- f1_omics + f1_agesex + f1_clin + f1_panel +
-    plot_layout(nrow = 4, heights = c(3/8, 1, 1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col2 <- wrap_elements(
-  f2_omics + f2_agesex + f2_clin + f2_panel +
-    plot_layout(nrow = 4, heights = c(3/8, 1, 1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col3 <- wrap_elements(
-  f3_omics + f3_agesex + f3_clin + f3_panel + 
-    plot_layout(nrow = 4, heights = c(3/8, 1, 1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col4 <- wrap_elements(
-  f4_omics + f4_agesex + f4_clin + f4_panel +
-    plot_layout(nrow = 4, heights = c(3/8, 1, 1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col5 <- wrap_elements(
-  f5_omics + f5_agesex + f5_clin + f5_panel +
-    plot_layout(nrow = 4, heights = c(3/8, 1, 1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col6 <- wrap_elements(
-  f6_omics + f6_agesex + f6_clin + f6_panel +
-    plot_layout(nrow = 4, heights = c(3/8, 1, 1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col7 <- wrap_elements(
-  f7_omics + f7_agesex + f7_clin + f7_panel +
-    plot_layout(nrow = 4, heights = c(3/8, 1, 1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col8 <- wrap_elements(
-  f8_omics + f8_agesex + f8_clin + f8_panel +
-    plot_layout(nrow = 4, heights = c(3/8, 1, 1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-col9 <- wrap_elements(
-  f9_omics + f9_agesex + f9_clin + f9_panel +
-    plot_layout(nrow = 4, heights = c(3/8, 1, 1, 1))
-  ) + theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-# Overall
-cindex_forest_pool <- wrap_elements(
-  col1 + col2 + col3 + col4 + col5 + col6 + col7 + col8 + col9 +
-    plot_layout(ncol = 9, widths = c(1, rep(0.4, 8)))
-) + 
-  plot_annotation(
-    caption = "C-index",
-    theme = theme(
-      plot.caption = element_text(size = 14, hjust = 0.5, vjust = 1)
-    )
-  ) + 
-  theme(plot.margin = unit(c(t = 0, r = 0, b = 0, l = 0), "cm"))
-
-
-ggsave(str_c(getwd(), "/results/Figure/Performance_comparison_Lasso.tiff"), plot = cindex_forest_pool, width = 16, height = 9, unit = "in", dpi = 300, device = "tiff")
-
-ggsave(str_c(getwd(), "/results/Figure/Performance_comparison_Lasso.pdf"), plot = cindex_forest_pool, width = 16, height = 9, unit = "in", dpi = 300, device = "pdf")
-
-ggsave(str_c(getwd(), "/results/Figure/Performance_comparison_Lasso.png"), plot = cindex_forest_pool, width = 16, height = 9, unit = "in", dpi = 300, device = "png")
-
-
-#### Source data ####
-cindex <- read_csv(str_c(getwd(), "/data/lasso_cindex_summary_df.csv"), show_col_types = F)
-
-cindex_all <- tibble()
-
-# Single omics
-dat <- cindex %>%
-  filter(outcome != "Major adverse cardiovascular events" & model %in% c("PRS", "Met", "Pro")) %>%
-  mutate(
-    model = factor(model, levels = rev(c("PRS", "Met", "Pro"))),
-    outcome = factor(
-      outcome, 
-      levels = c("Coronary artery diseases", "Stroke", "Heart failure", "Atrial fibrillation", "Ventricular arrhythmias", "Peripheral artery diseases", "Abdominal aortic aneurysm", "Vein thrombosis", "Cardiovascular death"),
-      labels = c("CAD", "Stroke", "HF", "AF", "VA", "PAD", "AAA", "VTE", "CVDeath")
-      ),
-    predictor = "Omics"
-  )
-
-cindex_all <- bind_rows(cindex_all, dat)
-
-# AgeSex
-models <- c(
-  "AgeSex", "AgeSexPRS", "AgeSexMet", "AgeSexPro", 
-  "AgeSexPRSMet", "AgeSexPRSPro", "AgeSexMetPro", "AgeSexPRSMetPro")
-
-dat <- cindex %>%
-  filter(outcome != "Major adverse cardiovascular events" & model %in% models) %>%
-  mutate(
-    model = factor(
-      model, levels = rev(models),
-      labels = rev(c("AgeSex", "+PRS", "+MetScore", "+ProScore", "+PRS +MetScore", "+PRS +ProScore", "+MetScore +ProScore", "+PRS +MetScore +ProScore"))),
-    outcome = factor(
-      outcome, 
-      levels = c("Coronary artery diseases", "Stroke", "Heart failure", "Atrial fibrillation", "Ventricular arrhythmias", "Peripheral artery diseases", "Abdominal aortic aneurysm", "Vein thrombosis", "Cardiovascular death"),
-      labels = c("CAD", "Stroke", "HF", "AF", "VA", "PAD", "AAA", "VTE", "CVDeath")
-      ),
-    predictor = "AgeSex"
-  )
-
-cindex_all <- bind_rows(cindex_all, dat)
-
-# Clin
-models <- c(
-  "Clin", "ClinPRS", "ClinMet", "ClinPro", 
-  "ClinPRSMet", "ClinPRSPro", "ClinMetPro", "ClinPRSMetPro")
-
-dat <- cindex %>%
-  filter(outcome != "Major adverse cardiovascular events" & model %in% models) %>%
-  mutate(
-    model = factor(
-      model, levels = rev(models),
-      labels = rev(c("Clin", "+PRS", "+MetScore", "+ProScore", "+PRS +MetScore", "+PRS +ProScore", "+MetScore +ProScore", "+PRS +MetScore +ProScore"))),
-    outcome = factor(
-      outcome, 
-      levels = c("Coronary artery diseases", "Stroke", "Heart failure", "Atrial fibrillation", "Ventricular arrhythmias", "Peripheral artery diseases", "Abdominal aortic aneurysm", "Vein thrombosis", "Cardiovascular death"),
-      labels = c("CAD", "Stroke", "HF", "AF", "VA", "PAD", "AAA", "VTE", "CVDeath")
-      ),
-    predictor = "Clin"
-  )
-
-cindex_all <- bind_rows(cindex_all, dat)
-
-# PANEL
-models <- c(
-  "PANEL", "PANELPRS", "PANELMet", "PANELPro", 
-  "PANELPRSMet", "PANELPRSPro", "PANELMetPro", "PANELPRSMetPro")
-
-dat <- cindex %>%
-  filter(outcome != "Major adverse cardiovascular events" & model %in% models) %>%
-  mutate(
-    model = factor(
-      model, levels = rev(models),
-      labels = rev(c("PANEL", "+PRS", "+MetScore", "+ProScore", "+PRS +MetScore", "+PRS +ProScore", "+MetScore +ProScore", "+PRS +MetScore +ProScore"))),
-    outcome = factor(
-      outcome, 
-      levels = c("Coronary artery diseases", "Stroke", "Heart failure", "Atrial fibrillation", "Ventricular arrhythmias", "Peripheral artery diseases", "Abdominal aortic aneurysm", "Vein thrombosis", "Cardiovascular death"),
-      labels = c("CAD", "Stroke", "HF", "AF", "VA", "PAD", "AAA", "VTE", "CVDeath")
-      ),
-    predictor = "PANEL"
-  )
-
-cindex_all <- bind_rows(cindex_all, dat)
-
-cindex_by_model_lasso <- cindex_all %>%
-  group_by(predictor, model) %>%
-  summarise(mean_cindex = mean(mean_cindex)) 
-
-write_tsv(cindex_all, file = str_c(getwd(), "/results/Table/Source data/cindex_lasso.tsv"))
-
-
-
-cindex_by_model <- cindex_by_model_cph %>%
-  left_join(cindex_by_model_lasso, by = c("predictor", "model"), suffix = c("_cph", "_lasso")) %>%
-  mutate(mean_cindex_diff = mean_cindex_cph - mean_cindex_lasso)
-
-write_csv(cindex_by_model, file = str_c(getwd(), "/results/Table/Comparison_cindex_cph_lasso.csv"))
-
-```
-
 ------------------------------------------------------------------------------------
 
 # Calibration and decision curve analysis
@@ -18083,7 +15944,7 @@ ggsave(str_c(getwd(), "/results/Figure/Model_decision_curve_example.png"), plot 
 
 ## Pool
 
-### AgeSex-based
+### Supplementary Fig.8: AgeSex-based
 
 ```{r}
 
@@ -18162,7 +16023,7 @@ ggsave(str_c(getwd(), "/results/Figure/Model_calibration_decision_curve_AgeSex.p
 
 ```
 
-### Clinical-based
+### Supplementary Fig.9: Clinical-based
 
 ```{r}
 
@@ -18241,7 +16102,7 @@ ggsave(str_c(getwd(), "/results/Figure/Model_calibration_decision_curve_Clin.png
 
 ```
 
-### PANEL-based
+### Fig.4: PANEL-based
 
 ```{r}
 
@@ -18323,7 +16184,7 @@ ggsave(str_c(getwd(), "/results/Figure/Model_calibration_decision_curve_PANEL.pn
 
 ------------------------------------------------------------------------------------
 
-# SHAP importance
+# Supplementary Fig.10-11: SHAP importance
 
 ## Mean absolute SHAP value heatmap
 
@@ -18342,19 +16203,19 @@ outcomes <- c("cad", "stroke", "hf", "af", "va", "pad", "aaa", "vt", "cvd_death"
 for (i in 1:9) {
   shap_data <- read_shap_data(folder_path, outcomes[i])
   
-  # 计算 mean absolute shap value
+  # Compute the mean absolute SHAP value
   mean_abs_shap <- bind_rows(shap_data) %>%
     summarise(across(-c(fold, sample), ~ mean(abs(.))))
   
-  # 将结果转换为所需的格式
+  # Convert the results into the required format
   reshaped_data <- tibble(
     biomarker = names(mean_abs_shap),
     outcome = outcomes[i],
     shap = as.numeric(mean_abs_shap[1, ])
   )
-  
-  # 合并到最终的数据框
-  mean_abs_shap_met <- bind_rows(mean_abs_shap_met, reshaped_data)
+
+  # Merge into the final dataframe
+  mean_abs_shap_pro <- bind_rows(mean_abs_shap_pro, reshaped_data)
   
   rm(shap_data, mean_abs_shap, reshaped_data)
 }
@@ -18443,18 +16304,18 @@ outcomes <- c("cad", "stroke", "hf", "af", "va", "pad", "aaa", "vt", "cvd_death"
 for (i in 1:9) {
   shap_data <- read_shap_data(folder_path, outcomes[i])
   
-  # 计算 mean absolute shap value
+  # Compute the mean absolute SHAP value
   mean_abs_shap <- bind_rows(shap_data) %>%
     summarise(across(-c(fold, sample), ~ mean(abs(.))))
   
-  # 将结果转换为所需的格式
+  # Convert the results into the required format
   reshaped_data <- tibble(
     biomarker = names(mean_abs_shap),
     outcome = outcomes[i],
     shap = as.numeric(mean_abs_shap[1, ])
   )
 
-  # 合并到最终的数据框
+  # Merge into the final dataframe
   mean_abs_shap_pro <- bind_rows(mean_abs_shap_pro, reshaped_data)
 
   rm(shap_data, mean_abs_shap, reshaped_data)
@@ -18665,9 +16526,9 @@ dat_text <- dat_shap %>%
   select(biomarker, Sub.Group) %>%
   arrange(Sub.Group, biomarker) %>%
   group_by(Sub.Group) %>%
-  do(bind_rows(., tibble(biomarker = "", Sub.Group = unique(.$Sub.Group)))) %>% # 使用 add_row() 在每组的最后一个元素后添加空行
+  do(bind_rows(., tibble(biomarker = "", Sub.Group = unique(.$Sub.Group)))) %>% # Use add_row() to insert an empty row after the last element of each group
   ungroup() %>%
-  mutate(id = row_number() + 1) # 添加 id 列
+  mutate(id = row_number() + 1) # Add an id column
 
 dat_text_v1 <- dat_text %>%
   filter(biomarker != "")
@@ -18738,24 +16599,24 @@ beeswarm_met_cad <- ggplot(dat %>% filter(outcome == "cad")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1, 
-    aes(x = id, label = biomarker, y = 0.27), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.27), # ylim maximum*0.3
     color = "black", size = 1.5, 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2, 
-    aes(x = id, label = Sub.Group, y = 0.54), # ylim 最大值*0.6
+    aes(x = id, label = Sub.Group, y = 0.54), # ylim maximum*0.6
     color = "black", size = 2, fontface = "bold", 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.26, yend = 0.26), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.26, yend = 0.26), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.53, yend = 0.53), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.53, yend = 0.53), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -18764,7 +16625,7 @@ beeswarm_met_cad <- ggplot(dat %>% filter(outcome == "cad")) +
     ) +
   geom_hline(
     yintercept = -0.45,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -18789,9 +16650,8 @@ beeswarm_met_cad <- ggplot(dat %>% filter(outcome == "cad")) +
     y = NULL,
     title = NULL
   ) +
-  annotate("text", label = "CAD", x = -Inf, y = -0.9, size = 8, colour = "black") # ylim 最小值
+  annotate("text", label = "CAD", x = -Inf, y = -0.9, size = 8, colour = "black") # ylim minimum
 
-# 减少饼图周围空白：https://stackoverflow.com/questions/38034560/reduce-margins-around-ggplot2-pie-chart
 
 ggsave(str_c(getwd(), "/results/Figure/Beeswarm_Metabolomics_CAD.png"), plot = beeswarm_met_cad, width = 9, height = 9, unit = "in", dpi = 300, device = "png")
 
@@ -18804,24 +16664,24 @@ beeswarm_met_stroke <- ggplot(dat %>% filter(outcome == "stroke")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1, 
-    aes(x = id, label = biomarker, y = 0.27), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.27), # ylim maximum*0.3
     color = "black", size = 1.5, 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2, 
-    aes(x = id, label = Sub.Group, y = 0.54), # ylim 最大值*0.6
+    aes(x = id, label = Sub.Group, y = 0.54), # ylim maximum*0.6
     color = "black", size = 2, fontface = "bold", 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.26, yend = 0.26), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.26, yend = 0.26), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.53, yend = 0.53), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.53, yend = 0.53), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -18830,7 +16690,7 @@ beeswarm_met_stroke <- ggplot(dat %>% filter(outcome == "stroke")) +
     ) +
   geom_hline(
     yintercept = -0.45,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -18865,24 +16725,24 @@ beeswarm_met_hf <- ggplot(dat %>% filter(outcome == "hf")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1, 
-    aes(x = id, label = biomarker, y = 0.36), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.36), # ylim maximum*0.3
     color = "black", size = 1.5, 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2, 
-    aes(x = id, label = Sub.Group, y = 0.72), # ylim 最大值*0.6
+    aes(x = id, label = Sub.Group, y = 0.72), # ylim maximum*0.6
     color = "black", size = 2, fontface = "bold", 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.35, yend = 0.35), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.35, yend = 0.35), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.71, yend = 0.71), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.71, yend = 0.71), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -18891,7 +16751,7 @@ beeswarm_met_hf <- ggplot(dat %>% filter(outcome == "hf")) +
     ) +
   geom_hline(
     yintercept = -0.6,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -18926,24 +16786,24 @@ beeswarm_met_af <- ggplot(dat %>% filter(outcome == "af")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1, 
-    aes(x = id, label = biomarker, y = 0.27), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.27), # ylim maximum*0.3
     color = "black", size = 1.5, 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2, 
-    aes(x = id, label = Sub.Group, y = 0.54), # ylim 最大值*0.6
+    aes(x = id, label = Sub.Group, y = 0.54), # ylim maximum*0.6
     color = "black", size = 2, fontface = "bold", 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.26, yend = 0.26), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.26, yend = 0.26), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.53, yend = 0.53), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.53, yend = 0.53), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -18952,7 +16812,7 @@ beeswarm_met_af <- ggplot(dat %>% filter(outcome == "af")) +
     ) +
   geom_hline(
     yintercept = -0.45,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -18987,24 +16847,24 @@ beeswarm_met_va <- ggplot(dat %>% filter(outcome == "va")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1, 
-    aes(x = id, label = biomarker, y = 0.42), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.42), # ylim maximum*0.3
     color = "black", size = 1.5, 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2, 
-    aes(x = id, label = Sub.Group, y = 0.84), # ylim 最大值*0.6
+    aes(x = id, label = Sub.Group, y = 0.84), # ylim maximum*0.6
     color = "black", size = 2, fontface = "bold", 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.41, yend = 0.41), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.41, yend = 0.41), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.83, yend = 0.83), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.83, yend = 0.83), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19013,7 +16873,7 @@ beeswarm_met_va <- ggplot(dat %>% filter(outcome == "va")) +
     ) +
   geom_hline(
     yintercept = -0.7,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19048,24 +16908,24 @@ beeswarm_met_pad <- ggplot(dat %>% filter(outcome == "pad")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1, 
-    aes(x = id, label = biomarker, y = 0.45), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.45), # ylim maximum*0.3
     color = "black", size = 1.5, 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2, 
-    aes(x = id, label = Sub.Group, y = 0.9), # ylim 最大值*0.6
+    aes(x = id, label = Sub.Group, y = 0.9), # ylim maximum*0.6
     color = "black", size = 2, fontface = "bold", 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.44, yend = 0.44), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.44, yend = 0.44), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.89, yend = 0.89), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.89, yend = 0.89), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19074,7 +16934,7 @@ beeswarm_met_pad <- ggplot(dat %>% filter(outcome == "pad")) +
     ) +
   geom_hline(
     yintercept = -0.75,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19109,24 +16969,24 @@ beeswarm_met_aaa <- ggplot(dat %>% filter(outcome == "aaa")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1, 
-    aes(x = id, label = biomarker, y = 0.66), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.66), # ylim maximum*0.3
     color = "black", size = 1.5, 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2, 
-    aes(x = id, label = Sub.Group, y = 1.32), # ylim 最大值*0.6
+    aes(x = id, label = Sub.Group, y = 1.32), # ylim maximum*0.6
     color = "black", size = 2, fontface = "bold", 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.65, yend = 0.65), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.65, yend = 0.65), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 1.31, yend = 1.31), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 1.31, yend = 1.31), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19135,7 +16995,7 @@ beeswarm_met_aaa <- ggplot(dat %>% filter(outcome == "aaa")) +
     ) +
   geom_hline(
     yintercept = -1.1,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19170,24 +17030,24 @@ beeswarm_met_vte <- ggplot(dat %>% filter(outcome == "vt")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1, 
-    aes(x = id, label = biomarker, y = 0.27), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.27), # ylim maximum*0.3
     color = "black", size = 1.5, 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2, 
-    aes(x = id, label = Sub.Group, y = 0.54), # ylim 最大值*0.6
+    aes(x = id, label = Sub.Group, y = 0.54), # ylim maximum*0.6
     color = "black", size = 2, fontface = "bold", 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.26, yend = 0.26), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.26, yend = 0.26), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.53, yend = 0.53), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.53, yend = 0.53), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19196,7 +17056,7 @@ beeswarm_met_vte <- ggplot(dat %>% filter(outcome == "vt")) +
     ) +
   geom_hline(
     yintercept = -0.45,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19231,24 +17091,24 @@ beeswarm_met_cvdeath <- ggplot(dat %>% filter(outcome == "cvd_death")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1, 
-    aes(x = id, label = biomarker, y = 0.42), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.42), # ylim maximum*0.3
     color = "black", size = 1.5, 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2, 
-    aes(x = id, label = Sub.Group, y = 0.84), # ylim 最大值*0.6
+    aes(x = id, label = Sub.Group, y = 0.84), # ylim maximum*0.6
     color = "black", size = 2, fontface = "bold", 
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.41, yend = 0.41), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.41, yend = 0.41), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.83, yend = 0.83), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.83, yend = 0.83), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19257,7 +17117,7 @@ beeswarm_met_cvdeath <- ggplot(dat %>% filter(outcome == "cvd_death")) +
     ) +
   geom_hline(
     yintercept = -0.7,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19358,9 +17218,10 @@ dat_text <- dat_shap %>%
   select(biomarker, Panel) %>%
   arrange(Panel, biomarker) %>%
   group_by(Panel) %>%
-  do(bind_rows(., tibble(biomarker = "", Panel = unique(.$Panel)))) %>% # 使用 add_row() 在每组的最后一个元素后添加空行
+  do(bind_rows(., tibble(biomarker = "", Panel = unique(.$Panel)))) %>% # Use add_row() to insert an empty row after the last element of each group
   ungroup() %>%
-  mutate(id = row_number() + 1) # 添加 id 列
+  mutate(id = row_number() + 1) # Add an id column
+
 
 dat_text_v1 <- dat_text %>%
   filter(biomarker != "")
@@ -19413,24 +17274,24 @@ beeswarm_pro_cad <- ggplot(dat %>% filter(outcome == "cad")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1,
-    aes(x = id, label = biomarker, y = 0.09), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.09), # ylim maximum*0.3
     color = "black", size = 1.5,
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2,
-    aes(x = id, label = Panel, y = 0.18), # ylim 最大值*0.6 
+    aes(x = id, label = Panel, y = 0.18), # ylim maximum*0.6 
     color = "black", size = 2, fontface = "bold",
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19439,7 +17300,7 @@ beeswarm_pro_cad <- ggplot(dat %>% filter(outcome == "cad")) +
     ) +
   geom_hline(
     yintercept = -0.15,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19464,7 +17325,7 @@ beeswarm_pro_cad <- ggplot(dat %>% filter(outcome == "cad")) +
     y = NULL,
     title = NULL
   ) +
-  annotate("text", label = "CAD", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim 最小值
+  annotate("text", label = "CAD", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim minimum
 
 # Stroke
 beeswarm_pro_stroke <- ggplot(dat %>% filter(outcome == "stroke")) +
@@ -19474,24 +17335,24 @@ beeswarm_pro_stroke <- ggplot(dat %>% filter(outcome == "stroke")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1,
-    aes(x = id, label = biomarker, y = 0.09), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.09), # ylim maximum*0.3
     color = "black", size = 1.5,
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2,
-    aes(x = id, label = Panel, y = 0.18), # ylim 最大值*0.6 
+    aes(x = id, label = Panel, y = 0.18), # ylim maximum*0.6 
     color = "black", size = 2, fontface = "bold",
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19500,7 +17361,7 @@ beeswarm_pro_stroke <- ggplot(dat %>% filter(outcome == "stroke")) +
     ) +
   geom_hline(
     yintercept = -0.15,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19525,7 +17386,7 @@ beeswarm_pro_stroke <- ggplot(dat %>% filter(outcome == "stroke")) +
     y = NULL,
     title = NULL
   ) +
-  annotate("text", label = "Stroke", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim 最小值
+  annotate("text", label = "Stroke", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim minimum
 
 # HF
 beeswarm_pro_hf <- ggplot(dat %>% filter(outcome == "hf")) +
@@ -19535,24 +17396,24 @@ beeswarm_pro_hf <- ggplot(dat %>% filter(outcome == "hf")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1,
-    aes(x = id, label = biomarker, y = 0.09), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.09), # ylim maximum*0.3
     color = "black", size = 1.5,
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2,
-    aes(x = id, label = Panel, y = 0.18), # ylim 最大值*0.6 
+    aes(x = id, label = Panel, y = 0.18), # ylim maximum*0.6 
     color = "black", size = 2, fontface = "bold",
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19561,7 +17422,7 @@ beeswarm_pro_hf <- ggplot(dat %>% filter(outcome == "hf")) +
     ) +
   geom_hline(
     yintercept = -0.15,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19586,7 +17447,7 @@ beeswarm_pro_hf <- ggplot(dat %>% filter(outcome == "hf")) +
     y = NULL,
     title = NULL
   ) +
-  annotate("text", label = "HF", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim 最小值
+  annotate("text", label = "HF", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim minimum
 
 # AF
 beeswarm_pro_af <- ggplot(dat %>% filter(outcome == "af")) +
@@ -19596,24 +17457,24 @@ beeswarm_pro_af <- ggplot(dat %>% filter(outcome == "af")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1,
-    aes(x = id, label = biomarker, y = 0.09), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.09), # ylim maximum*0.3
     color = "black", size = 1.5,
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2,
-    aes(x = id, label = Panel, y = 0.18), # ylim 最大值*0.6 
+    aes(x = id, label = Panel, y = 0.18), # ylim maximum*0.6 
     color = "black", size = 2, fontface = "bold",
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19622,7 +17483,7 @@ beeswarm_pro_af <- ggplot(dat %>% filter(outcome == "af")) +
     ) +
   geom_hline(
     yintercept = -0.15,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19647,7 +17508,7 @@ beeswarm_pro_af <- ggplot(dat %>% filter(outcome == "af")) +
     y = NULL,
     title = NULL
   ) +
-  annotate("text", label = "AF", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim 最小值
+  annotate("text", label = "AF", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim minimum
 
 # VA
 beeswarm_pro_va <- ggplot(dat %>% filter(outcome == "va")) +
@@ -19657,24 +17518,24 @@ beeswarm_pro_va <- ggplot(dat %>% filter(outcome == "va")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1,
-    aes(x = id, label = biomarker, y = 0.09), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.09), # ylim maximum*0.3
     color = "black", size = 1.5,
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2,
-    aes(x = id, label = Panel, y = 0.18), # ylim 最大值*0.6 
+    aes(x = id, label = Panel, y = 0.18), # ylim maximum*0.6 
     color = "black", size = 2, fontface = "bold",
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19683,7 +17544,7 @@ beeswarm_pro_va <- ggplot(dat %>% filter(outcome == "va")) +
     ) +
   geom_hline(
     yintercept = -0.15,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19708,7 +17569,7 @@ beeswarm_pro_va <- ggplot(dat %>% filter(outcome == "va")) +
     y = NULL,
     title = NULL
   ) +
-  annotate("text", label = "VA", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim 最小值
+  annotate("text", label = "VA", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim minimum
 
 # PAD
 beeswarm_pro_pad <- ggplot(dat %>% filter(outcome == "pad")) +
@@ -19718,24 +17579,24 @@ beeswarm_pro_pad <- ggplot(dat %>% filter(outcome == "pad")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1,
-    aes(x = id, label = biomarker, y = 0.09), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.09), # ylim maximum*0.3
     color = "black", size = 1.5,
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2,
-    aes(x = id, label = Panel, y = 0.18), # ylim 最大值*0.6 
+    aes(x = id, label = Panel, y = 0.18), # ylim maximum*0.6 
     color = "black", size = 2, fontface = "bold",
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19744,7 +17605,7 @@ beeswarm_pro_pad <- ggplot(dat %>% filter(outcome == "pad")) +
     ) +
   geom_hline(
     yintercept = -0.15,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19769,7 +17630,7 @@ beeswarm_pro_pad <- ggplot(dat %>% filter(outcome == "pad")) +
     y = NULL,
     title = NULL
   ) +
-  annotate("text", label = "PAD", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim 最小值
+  annotate("text", label = "PAD", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim minimum
 
 # AAA
 beeswarm_pro_aaa <- ggplot(dat %>% filter(outcome == "aaa")) +
@@ -19779,24 +17640,24 @@ beeswarm_pro_aaa <- ggplot(dat %>% filter(outcome == "aaa")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1,
-    aes(x = id, label = biomarker, y = 0.09), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.09), # ylim maximum*0.3
     color = "black", size = 1.5,
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2,
-    aes(x = id, label = Panel, y = 0.18), # ylim 最大值*0.6 
+    aes(x = id, label = Panel, y = 0.18), # ylim maximum*0.6 
     color = "black", size = 2, fontface = "bold",
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19805,7 +17666,7 @@ beeswarm_pro_aaa <- ggplot(dat %>% filter(outcome == "aaa")) +
     ) +
   geom_hline(
     yintercept = -0.15,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19830,7 +17691,7 @@ beeswarm_pro_aaa <- ggplot(dat %>% filter(outcome == "aaa")) +
     y = NULL,
     title = NULL
   ) +
-  annotate("text", label = "AAA", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim 最小值
+  annotate("text", label = "AAA", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim minimum
 
 # VTE
 beeswarm_pro_vte <- ggplot(dat %>% filter(outcome == "vt")) +
@@ -19840,24 +17701,24 @@ beeswarm_pro_vte <- ggplot(dat %>% filter(outcome == "vt")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1,
-    aes(x = id, label = biomarker, y = 0.09), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.09), # ylim maximum*0.3
     color = "black", size = 1.5,
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2,
-    aes(x = id, label = Panel, y = 0.18), # ylim 最大值*0.6 
+    aes(x = id, label = Panel, y = 0.18), # ylim maximum*0.6 
     color = "black", size = 2, fontface = "bold",
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19866,7 +17727,7 @@ beeswarm_pro_vte <- ggplot(dat %>% filter(outcome == "vt")) +
     ) +
   geom_hline(
     yintercept = -0.15,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19891,7 +17752,7 @@ beeswarm_pro_vte <- ggplot(dat %>% filter(outcome == "vt")) +
     y = NULL,
     title = NULL
   ) +
-  annotate("text", label = "VTE", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim 最小值
+  annotate("text", label = "VTE", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim minimum
 
 # CVDeath
 beeswarm_pro_cvdeath <- ggplot(dat %>% filter(outcome == "cvd_death")) +
@@ -19901,24 +17762,24 @@ beeswarm_pro_cvdeath <- ggplot(dat %>% filter(outcome == "cvd_death")) +
   ) +
   geom_textpath( # Biomarker labels
     data = dat_text_v1,
-    aes(x = id, label = biomarker, y = 0.09), # ylim 最大值*0.3
+    aes(x = id, label = biomarker, y = 0.09), # ylim maximum*0.3
     color = "black", size = 1.5,
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_textpath( # Subgroup labels
     data = dat_text_v2,
-    aes(x = id, label = Panel, y = 0.18), # ylim 最大值*0.6 
+    aes(x = id, label = Panel, y = 0.18), # ylim maximum*0.6 
     color = "black", size = 2, fontface = "bold",
     angle = 90, hjust = 0, vjust = 0.5
     ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim 最大值*0.3-0.1
+    aes(x = start_id, xend = end_id, y = 0.08, yend = 0.08), # ylim maximum*0.3-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_segment(
     data = dat_subgroup_lines,
-    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim 最大值*0.6-0.1
+    aes(x = start_id, xend = end_id, y = 0.17, yend = 0.17), # ylim maximum*0.6-0.1
     color = "grey50", linewidth = 0.25
   ) +
   geom_hline(
@@ -19927,7 +17788,7 @@ beeswarm_pro_cvdeath <- ggplot(dat %>% filter(outcome == "cvd_death")) +
     ) +
   geom_hline(
     yintercept = -0.15,
-    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim 最小值*0.5
+    color = "grey50", linetype = "dashed", linewidth = 0.5 # ylim minimum*0.5
     ) +
   coord_polar(clip = "off") +
   theme_classic() +
@@ -19952,7 +17813,7 @@ beeswarm_pro_cvdeath <- ggplot(dat %>% filter(outcome == "cvd_death")) +
     y = NULL,
     title = NULL
   ) +
-  annotate("text", label = "CVDeath", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim 最小值
+  annotate("text", label = "CVDeath", x = -Inf, y = -0.3, size = 8, colour = "black") # ylim minimum
 
 ```
 
@@ -19976,9 +17837,6 @@ legend_1 <- ggplot(dat_legend %>% filter(outcome == "cad")) +
   ) +
   scale_colour_gradientn( # Biomarker levels (truncated)
     colors = rev(c("#A90C38FF", "#DB4446FF", "#F78171FF", "#FFBFB2FF", "#FFFFFFFF", "#B4D2E9FF", "#7BA8CCFF", "#5180ACFF", "#2E5A87FF")),
-    # colors = rev(c("#001889FF", "#5F008CFF", "#91008DFF", "#B62485FF", "#D24E71FF", "#E4774DFF", "#EDA200FF", "#E9CF00FF", "#DAFF47FF")),
-    # colors = c("#2E4F79FF", "#1A6886FF", "#028190FF", "#1D9997FF", "#46B09BFF", "#70C69EFF", "#9CDAA1FF", "#CAEDA7FF", "#F9FFAFFF"),
-    # colors = c("#704D9EFF", "#9A51A7FF", "#BC5AA9FF", "#D868A3FF", "#ED7C97FF", "#F6978AFF", "#F9B282FF", "#F8CD86FF", "#F3E79AFF"),
     values = rescale(c(-4, -1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1, 4)),
     breaks = c(-4, 4),
     labels = c("Low", "High"),
