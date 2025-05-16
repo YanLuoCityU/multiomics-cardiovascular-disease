@@ -250,40 +250,39 @@ def load_module_from_path(module_name, file_path):
     return module
 
 # Load the util module
-util_path = '/home/luoyan/phd_project/MultiomicsCVD/utils/util.py'
+util_path = '/your path/multiomics-cardiovascular-disease/utils/util.py'
 util_module = load_module_from_path('util', util_path)
 setup_logger = util_module.setup_logger
 
 
 if __name__ == '__main__':
     # Define directories and parameters
-    data_dir = '/home/luoyan/phd_project/MultiomicsCVD/data/'
-    results_dir = '/home/luoyan/phd_project/MultiomicsCVD/saved/results/Cindex/XGBoostCox/'
-    log_dir = '/home/luoyan/phd_project/MultiomicsCVD/saved/log'
+    data_dir = '/your path/multiomics-cardiovascular-disease/data/'
+    results_dir = '/your path/multiomics-cardiovascular-disease/saved/results/Cindex/XGBoostCox/'
+    log_dir = '/your path/multiomics-cardiovascular-disease/saved/log'
     split_times = 10
     seed_to_split = 241104
     num_workers = 16
     
-    # Without proteomics
-    # predictor_sets = [
-    #     ['AgeSex'],
-    #     ['AgeSex', 'Genomics'],
-    #     ['AgeSex', 'Metabolomics'],
-    #     ['AgeSex', 'Genomics', 'Metabolomics'],
-    #     ['Clinical'],
-    #     ['Clinical', 'Genomics'],
-    #     ['Clinical', 'Metabolomics'],
-    #     ['Clinical', 'Genomics', 'Metabolomics'],
-    #     ['PANEL'],
-    #     ['PANEL', 'Genomics'],
-    #     ['PANEL', 'Metabolomics'],
-    #     ['PANEL', 'Genomics', 'Metabolomics'],
-    #     ['Genomics'],
-    #     ['Metabolomics']
-    # ]
-
-    # With proteomics
     predictor_sets = [
+        # Without proteomics
+        ['AgeSex'],
+        ['AgeSex', 'Genomics'],
+        ['AgeSex', 'Metabolomics'],
+        ['AgeSex', 'Genomics', 'Metabolomics'],
+        ['Clinical'],
+        ['Clinical', 'Genomics'],
+        ['Clinical', 'Metabolomics'],
+        ['Clinical', 'Genomics', 'Metabolomics'],
+        ['PANEL'],
+        ['PANEL', 'Genomics'],
+        ['PANEL', 'Metabolomics'],
+        ['PANEL', 'Genomics', 'Metabolomics'],
+        ['Genomics'],
+        ['Metabolomics'],
+        ['Genomics', 'Metabolomics'],
+
+        # With proteomics
         ['AgeSex', 'Proteomics'],
         ['AgeSex', 'Genomics', 'Proteomics'],
         ['AgeSex', 'Metabolomics', 'Proteomics'],
@@ -296,7 +295,10 @@ if __name__ == '__main__':
         ['PANEL', 'Genomics', 'Proteomics'],
         ['PANEL', 'Metabolomics', 'Proteomics'],
         ['PANEL', 'Genomics', 'Metabolomics', 'Proteomics'],
-        ['Proteomics']
+        ['Proteomics'],
+        ['Genomics', 'Proteomics'],
+        ['Metabolomics', 'Proteomics'],
+        ['Genomics', 'Metabolomics', 'Proteomics']
     ]
     
     for predictor_set in predictor_sets:
