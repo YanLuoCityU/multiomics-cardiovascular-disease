@@ -73,16 +73,17 @@ class CoxPHSubgroup():
             '>=60': 'Age_over_60',
             'male': 'Male',
             'female': 'Female',
-            'white': 'White'
+            'white': 'White',
+            'lipid_lowering': 'Lipid_lowering_therapy',
+            'no_lipid_lowering': 'No_lipid_lowering_therapy',
+            'antihypertensive': 'Antihypertensive_therapy',
+            'no_antihypertensive': 'No_antihypertensive_therapy'
         }
         subgroup_folder = subgroup_mapping.get(self.subgroup, 'Unknown')
         output_dir = os.path.join(self.results_dir, 'Cindex', subgroup_folder)
         os.makedirs(output_dir, exist_ok=True)
         output_filename = f"{'_'.join(self.predictor_set)} (CoxPH)_test_cindex.csv"
         self.test_cindex_df.to_csv(os.path.join(output_dir, output_filename), index=False)
-        # output_filename = f"Cindex/{subgroup_folder}/{'_'.join(self.predictor_set)} (CoxPH)_test_cindex.csv"
-        # os.makedirs(self.results_dir, exist_ok=True)
-        # self.test_cindex_df.to_csv(os.path.join(self.results_dir, output_filename), index=False)
     
         end_time = time.time()
         elapsed_time = end_time - start_time
@@ -91,7 +92,7 @@ class CoxPHSubgroup():
     def _process_fold(self, outcome, fold, subgroup):
         fold_start_time = time.time()
         
-        # Read adn merge train data
+        # Read and merge train data
         prefix = 'train'
         X_train = self.__load_predictors(prefix, outcome, fold, subgroup)
         y_train = pd.read_feather(os.path.join(self.split_seed_dir + f"y_{prefix}_K{fold}.feather"))
@@ -109,7 +110,7 @@ class CoxPHSubgroup():
         cox = CoxPHFitter(penalizer=0.03)
         cox.fit(X_train, duration_col='duration', event_col='event')
         
-        # Read adn merge test data
+        # Read and merge test data
         prefix = 'test'
         X_test = self.__load_predictors(prefix, outcome, fold, subgroup)
         y_test = pd.read_feather(os.path.join(self.split_seed_dir + f"y_{prefix}_K{fold}.feather"))
@@ -144,13 +145,17 @@ class CoxPHSubgroup():
         return [outcome, fold, cindex]
     
     def __load_predictors(self, prefix, outcome, fold, subgroup):
-        age_sex_ethnicity = pd.read_csv('/your path/multiomics-cardiovascular-disease/data/processed/ukb_merged.csv', usecols=['eid', 'age', 'male', 'ethnicity'])
-        age_under_60_eids = age_sex_ethnicity[age_sex_ethnicity['age'] < 60]['eid']
-        age_over_60_eids = age_sex_ethnicity[age_sex_ethnicity['age'] >= 60]['eid']
-        male_eids = age_sex_ethnicity[age_sex_ethnicity['male'] == 1]['eid']
-        female_eids = age_sex_ethnicity[age_sex_ethnicity['male'] == 0]['eid']
-        white_eids = age_sex_ethnicity[age_sex_ethnicity['ethnicity'] == 0]['eid']
-        other_eids = age_sex_ethnicity[age_sex_ethnicity['ethnicity'] != 0]['eid']
+        subgroups = pd.read_csv('/home/luoyan/phd_project/MultiomicsCVD/data/processed/ukb_merged.csv', usecols=['eid', 'age', 'male', 'ethnicity', 'lipidlower', 'antihypt'])
+        age_under_60_eids = subgroups[subgroups['age'] < 60]['eid']
+        age_over_60_eids = subgroups[subgroups['age'] >= 60]['eid']
+        male_eids = subgroups[subgroups['male'] == 1]['eid']
+        female_eids = subgroups[subgroups['male'] == 0]['eid']
+        white_eids = subgroups[subgroups['ethnicity'] == 0]['eid']
+        other_eids = subgroups[subgroups['ethnicity'] != 0]['eid']
+        lipid_lowering_eids = subgroups[subgroups['lipidlower'] == 1]['eid']
+        no_lipid_lowering_eids = subgroups[subgroups['lipidlower'] == 0]['eid']
+        antihypertensive_eids = subgroups[subgroups['antihypt'] == 1]['eid']
+        no_antihypertensive_eids = subgroups[subgroups['antihypt'] == 0]['eid']
         
         # Initialize an empty DataFrame for predictors
         X = pd.DataFrame()
@@ -168,6 +173,10 @@ class CoxPHSubgroup():
             panel = pd.read_feather(os.path.join(self.split_seed_dir + f"X_{prefix}_PANEL_K{fold}.feather"))
             X = panel if X.empty else pd.merge(X, panel, on='eid', how='left')
 
+        if 'PANELBlood' in self.predictor_set:
+            panel = pd.read_feather(os.path.join(self.split_seed_dir + f"X_{prefix}_PANELBlood_K{fold}.feather"))
+            X = panel if X.empty else pd.merge(X, panel, on='eid', how='left')
+            
         if 'ethnicity_1.0' in X.columns and 'ethnicity_4.0' in X.columns:
             X['ethnicity_1.0'] = X['ethnicity_1.0'].astype(int)
             X['ethnicity_4.0'] = X['ethnicity_4.0'].astype(int)
@@ -213,11 +222,6 @@ class CoxPHSubgroup():
             proteomics.rename(columns={outcome: 'proscore'}, inplace=True)
             X = proteomics if X.empty else pd.merge(X, proteomics, on='eid', how='left')
 
-        if 'NTproBNP' in self.predictor_set:
-            ntprobnp = pd.read_feather(os.path.join(self.split_seed_dir + f"X_{prefix}_Proteomics_K{fold}.feather"))
-            ntprobnp = ntprobnp[['eid'] + ['NTproBNP']]
-            X = ntprobnp if X.empty else pd.merge(X, ntprobnp, on='eid', how='left')
-            
         # Check if X is still empty, which means no predictors were loaded
         if X.empty:
             raise ValueError('Predictor set not recognized or empty')
@@ -242,6 +246,22 @@ class CoxPHSubgroup():
             X = X[X['eid'].isin(white_eids)]
             if all(col in X.columns for col in ['ethnicity_1.0', 'ethnicity_2.0', 'ethnicity_3.0']):
                 X.drop(columns=['ethnicity_1.0', 'ethnicity_2.0', 'ethnicity_3.0'], inplace=True)
+        elif subgroup == "lipid_lowering":
+            X = X[X['eid'].isin(lipid_lowering_eids)]
+            if 'lipidlower_1.0' in X.columns:
+                X.drop(columns=['lipidlower_1.0'], inplace=True)
+        elif subgroup == "no_lipid_lowering":
+            X = X[X['eid'].isin(no_lipid_lowering_eids)]
+            if 'lipidlower_1.0' in X.columns:
+                X.drop(columns=['lipidlower_1.0'], inplace=True)
+        elif subgroup == "antihypertensive":
+            X = X[X['eid'].isin(antihypertensive_eids)]
+            if 'antihypt_1.0' in X.columns:
+                X.drop(columns=['antihypt_1.0'], inplace=True)
+        elif subgroup == "no_antihypertensive":
+            X = X[X['eid'].isin(no_antihypertensive_eids)]
+            if 'antihypt_1.0' in X.columns:
+                X.drop(columns=['antihypt_1.0'], inplace=True)
 
         return X
 
@@ -254,16 +274,16 @@ def load_module_from_path(module_name, file_path):
     return module
 
 # Load the util module
-util_path = '/your path/multiomics-cardiovascular-disease/utils/util.py'
+util_path = '/home/luoyan/phd_project/MultiomicsCVD/utils/util.py'
 util_module = load_module_from_path('util', util_path)
 setup_logger = util_module.setup_logger
 
 
 if __name__ == '__main__':
     # Define directories and parameters
-    data_dir = '/your path/multiomics-cardiovascular-disease/data/'
-    results_dir = '/your path/multiomics-cardiovascular-disease/saved/results/'
-    log_dir = '/your path/multiomics-cardiovascular-disease/saved/log'
+    data_dir = '/home/luoyan/phd_project/MultiomicsCVD/data/'
+    results_dir = '/home/luoyan/phd_project/MultiomicsCVD/saved/results/'
+    log_dir = '/home/luoyan/phd_project/MultiomicsCVD/saved/log'
     split_times = 10
     seed_to_split = 241104
     num_workers = 16
@@ -307,46 +327,20 @@ if __name__ == '__main__':
         ['Genomics', 'Metabolomics'],
         ['Genomics', 'Proteomics'],
         ['Metabolomics', 'Proteomics'],
-        ['Genomics', 'Metabolomics', 'Proteomics'],
-        ['NTproBNP'],
-        ['AgeSex', 'NTproBNP'],
-        ['Clinical', 'NTproBNP'],
-        ['PANEL', 'NTproBNP'],
-        ['PANELBlood', 'NTproBNP'],
-        ['NPPB'],
-        ['AgeSex', 'NPPB'],
-        ['Clinical', 'NPPB'],
-        ['PANEL', 'NPPB'],
-        ['PANELBlood', 'NPPB'],
-        ['Creatinine'],
-        ['AgeSex', 'Creatinine'],
-        ['Clinical', 'Creatinine'],
-        ['PANEL', 'Creatinine'],
-        ['PANELBlood', 'Creatinine'],
-        ['Albumin'],
-        ['AgeSex', 'Albumin'],
-        ['Clinical', 'Albumin'],
-        ['PANEL', 'Albumin'],
-        ['PANELBlood', 'Albumin'],
-        ['Gly'],
-        ['AgeSex', 'Gly'],
-        ['Clinical', 'Gly'],
-        ['PANEL', 'Gly'],
-        ['PANELBlood', 'Gly'],
-        ['GlycA'],
-        ['AgeSex', 'GlycA'],
-        ['Clinical', 'GlycA'],
-        ['PANEL', 'GlycA'],
-        ['PANELBlood', 'GlycA']
+        ['Genomics', 'Metabolomics', 'Proteomics']
     ]
 
-    subgroups = ['<60', '>=60', 'male', 'female', 'white']
+    subgroups = ['<60', '>=60', 'male', 'female', 'white', 'lipid_lowering', 'no_lipid_lowering', 'antihypertensive', 'no_antihypertensive']
     subgroup_mapping = {
         '<60': 'Age_under_60',
         '>=60': 'Age_over_60',
         'male': 'Male',
         'female': 'Female',
-        'white': 'White'
+        'white': 'White',
+        'lipid_lowering': 'Lipid_lowering_therapy',
+        'no_lipid_lowering': 'No_lipid_lowering_therapy',
+        'antihypertensive': 'Antihypertensive_therapy',
+        'no_antihypertensive': 'No_antihypertensive_therapy'
     }
     for subgroup in subgroups:
         for predictor_set in predictor_sets:
