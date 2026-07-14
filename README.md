@@ -1,3 +1,16 @@
+Hi James,
+
+I am the owner of the original repository from which this repository was forked.
+
+I recently received a compliance notice from UK Biobank indicating that the original repository inadvertently contained UK Biobank participant data, which must not be publicly shared under the UK Biobank Material Transfer Agreement.
+
+I have already deleted the original repository as requested. Since this fork may still contain the same Git history, I would greatly appreciate it if you could delete this fork if you are no longer using it.
+
+I understand this repository was likely forked some time ago, and I sincerely appreciate your understanding and assistance.
+
+Thank you very much.
+
+
 # AI-based multiomics profiling for personalized prediction of cardiovascular disease: A prospective UK Biobank study"
 
 Code for the paper "AI-based multiomics profiling for personalized prediction of cardiovascular disease: A prospective UK Biobank study". This repository contains Python and R codes for data preprocessing, model training and evaluations, model interpretation, and visualization. Our demo website can be found [here](https://orthodox-binnie-hkuqpteam-9f6dd502.koyeb.app/).
