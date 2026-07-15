@@ -1,3 +1,27 @@
+Hi James,
+
+I am the owner of the original repository from which this repository was forked.
+
+I recently received a compliance notice from UK Biobank indicating that the original repository inadvertently contained UK Biobank participant data, which must not be publicly shared under the UK Biobank Material Transfer Agreement.
+
+I have already deleted the original repository as requested. Since this fork may still contain the same Git history and participant data, I kindly request that you delete this fork as soon as possible to ensure that the data is no longer publicly accessible.
+
+I understand that this repository was likely forked some time ago, and I sincerely appreciate your understanding and assistance in resolving this compliance issue.
+
+Thank you very much for your help.
+
+您好！
+
+我是该仓库原始仓库的作者罗颜。
+
+近日，我收到 UK Biobank 的正式通知，指出原始仓库中由于疏忽包含了 UK Biobank 参与者相关数据。根据 UK Biobank 的数据使用协议，此类数据不得公开共享，因此我已经按照要求删除了原始仓库。
+
+由于该 Fork 仓库可能仍保留相同的 Git 历史记录以及相关参与者数据，为确保相关数据不再公开访问，恳请您尽快删除该 Fork 仓库。
+
+我理解该仓库可能是在较早之前创建的，非常感谢您的理解与帮助，共同解决这一合规问题。
+
+再次感谢您的支持与配合！
+
 # AI-based multiomics profiling for personalized prediction of cardiovascular disease: A prospective UK Biobank study"
 
 Code for the paper "AI-based multiomics profiling for personalized prediction of cardiovascular disease: A prospective UK Biobank study". This repository contains Python and R codes for data preprocessing, model training and evaluations, model interpretation, and visualization. Our demo website can be found [here](https://orthodox-binnie-hkuqpteam-9f6dd502.koyeb.app/).
